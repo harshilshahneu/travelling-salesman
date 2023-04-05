@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travelling Salesman Problem</title>
+
+    <link href="./bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./leaflet.css" rel="stylesheet"> 
+    <link href="./tsp-solver.css" rel="stylesheet"> 
+</head>
+<body>
+    <div class="container-fluid px-4">
+        <div class="row">
+            <div class="col-12 pt-2">
+                <input class="form-control-inline bg-light" type="file" id="formFile">
+
+                <button class="btn btn-info" id="upload-button">
+                    Upload
+                </button>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-12">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./jquery-3.3.1.slim.min.js"></script>
+    <script src="./popper.min.js"></script>
+    <script src="./bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+
+    <script src="./leaflet.js"></script>
+
+    <script src="./tsp-solver.js"></script>
+
+    <script src="./sockjs.min.js"></script>
+    <script src="./stomp.min.js"></script>
+
+    <script>
+        init();
+    </script>
+</body>
+</html>
