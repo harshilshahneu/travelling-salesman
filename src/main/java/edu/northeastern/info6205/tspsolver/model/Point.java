@@ -1,6 +1,6 @@
 package edu.northeastern.info6205.tspsolver.model;
 
-public class Point implements Payload {
+public class Point {
 	private String id;
 	
 	// Real world coordinates

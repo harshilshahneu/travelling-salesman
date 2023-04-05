@@ -1,4 +1,9 @@
+var map;
 var markersGroup;
+
+const CLEAR_MAP = "clear-map";
+const ADD_POINT_LIST_AND_FIT_BOUND = "add-point-list-and-fit-bound";
+const ADD_POLYLINE = "add-polyline";
 
 function callPingApi() {
     const xhttp = new XMLHttpRequest();
@@ -47,14 +52,14 @@ function init() {
 }
 
 function initMap() {
-    var map = L.map('map').setView([51.505, -0.09], 13);
+    map = L.map('map').setView([51.505, -0.09], 13);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    markersGroup = L.layerGroup();
+    markersGroup = L.featureGroup();
 
     map.addLayer(markersGroup);
 }
@@ -83,17 +88,21 @@ function handleWebsocketMessage(message) {
     var action = json.actionType;
     var payload = json.payload;
 
-    if (action === 'add-point') {
-        handleAddPointAction(payload);
-    } else if (action == 'clear-map') {
+    if (action === CLEAR_MAP) {
         handleClearMapAction(payload);
+    } else if (action === ADD_POINT_LIST_AND_FIT_BOUND) {
+        handleAddPointsAndFitBound(payload);
     }
 }
 
-function handleAddPointAction(payload) {
+function handleAddPointsAndFitBound(payload) {
     // var marker = L.marker([payload.latitude, payload.longitude]);
-    var marker = L.circle([payload.latitude, payload.longitude], 10);
-    markersGroup.addLayer(marker);
+    payload.forEach((payload) => {
+        var circle = L.circle([payload.latitude, payload.longitude], 10)
+        markersGroup.addLayer(circle);
+    });
+
+    map.fitBounds(markersGroup.getBounds());
 }
 
 function handleClearMapAction(payload) {

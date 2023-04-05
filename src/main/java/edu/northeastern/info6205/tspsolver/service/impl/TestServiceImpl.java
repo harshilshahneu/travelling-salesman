@@ -34,7 +34,7 @@ public class TestServiceImpl implements TestService {
 			LOGGER.trace("processing point id: {}", point.getId());
 			
 			Action<Point> action = new Action<>();
-			action.setActionType(ActionType.ADD_POINT);
+			action.setActionType(ActionType.ADD_POINT_LIST_AND_FIT_BOUND);
 			action.setPayload(point);
 			
 			template.convertAndSend(destination, action);

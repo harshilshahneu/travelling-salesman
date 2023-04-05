@@ -1,6 +1,6 @@
 package edu.northeastern.info6205.tspsolver.model;
 
-public class Action<T extends Payload> {
+public class Action<T> {
 	private String actionType;
 	private T payload;
 
@@ -17,9 +17,12 @@ public class Action<T extends Payload> {
 		this.payload = payload;
 	}
 	
+	// Commenting it because it can get too verbose for large payloads
+	/*
 	@Override
 	public String toString() {
 		return "Action [actionType=" + actionType + ", payload=" + payload + "]";
 	}
+	*/
 	
 }
