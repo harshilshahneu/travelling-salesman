@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.CSVParserService;
 import edu.northeastern.info6205.tspsolver.service.MapService;
+import edu.northeastern.info6205.tspsolver.service.TSPSolverService;
 
 @RestController
 public class UploadCSVController {
@@ -24,6 +25,9 @@ public class UploadCSVController {
 	@Autowired
 	private MapService mapService;
 	
+	@Autowired
+	private TSPSolverService tspSolverService;
+	
 	@PostMapping("/api/csv")
 	public String uploadCSV(@RequestParam MultipartFile multiPartFile) {
 		LOGGER.debug("Starting to upload the CSV File");
@@ -31,6 +35,8 @@ public class UploadCSVController {
 		mapService.publishClearMap();
 		List<Point> points = csvService.parsePoints(multiPartFile);
 		mapService.publishAddPointsAndFitBound(points);
+		
+		tspSolverService.solveAsync(points);
 		
 		return "OK";
 	}

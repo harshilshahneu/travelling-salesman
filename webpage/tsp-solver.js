@@ -3,6 +3,8 @@ var markersGroup;
 
 const CLEAR_MAP = "clear-map";
 const ADD_POINT_LIST_AND_FIT_BOUND = "add-point-list-and-fit-bound";
+const POINT_RELAXED = "point-relaxed";
+
 const ADD_POLYLINE = "add-polyline";
 
 function callPingApi() {
@@ -59,7 +61,25 @@ function initMap() {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
+    // markersGroup = L.featureGroup.include({
+    //     findById : function(id) {
+    //         for (var i in this._layers) {
+    //             if (this._layers[i].id === id) {
+    //                return this._layers[i];
+    //             }
+    //         }
+    //     }
+    // });
+
     markersGroup = L.featureGroup();
+
+    markersGroup.findById = function(id) {
+        for (var layer of this.getLayers()) {
+            if (layer.id === id) {
+                return layer;
+            }
+        }
+    }
 
     map.addLayer(markersGroup);
 }
@@ -92,19 +112,27 @@ function handleWebsocketMessage(message) {
         handleClearMapAction(payload);
     } else if (action === ADD_POINT_LIST_AND_FIT_BOUND) {
         handleAddPointsAndFitBound(payload);
+    } else if (action === POINT_RELAXED) {
+        handlePointRelaxed(payload);
     }
+}
+
+function handleClearMapAction(payload) {
+    markersGroup.clearLayers();
 }
 
 function handleAddPointsAndFitBound(payload) {
     // var marker = L.marker([payload.latitude, payload.longitude]);
     payload.forEach((payload) => {
         var circle = L.circle([payload.latitude, payload.longitude], 10)
+        circle.id = payload.id;
         markersGroup.addLayer(circle);
     });
 
     map.fitBounds(markersGroup.getBounds());
 }
 
-function handleClearMapAction(payload) {
-    markersGroup.clearLayers();
+function handlePointRelaxed(payload) {
+    const circle = markersGroup.findById(payload);
+    circle.setStyle({color: 'red'});
 }

@@ -39,4 +39,15 @@ public class MapServiceImpl implements MapService {
 		webSocketPublishService.publish(action);
 	}
 
+	@Override
+	public void publishPointRelaxed(String id) {
+		LOGGER.debug("publishing point relax message for id: {}", id);
+		
+		Action<String> action = new Action<>();
+		action.setActionType(ActionType.POINT_RELAXED);
+		action.setPayload(id);
+		
+		webSocketPublishService.publish(action);
+	}
+
 }

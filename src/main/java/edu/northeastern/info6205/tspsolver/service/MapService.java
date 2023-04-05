@@ -22,4 +22,10 @@ public interface MapService {
 	 * */
 	void publishAddPointsAndFitBound(List<Point> points);
 	
+	/**
+	 * Will publish a message in the web socket
+	 * channel to tell the point with the given id
+	 * has been relaxed
+	 * */
+	void publishPointRelaxed(String id);
 }
