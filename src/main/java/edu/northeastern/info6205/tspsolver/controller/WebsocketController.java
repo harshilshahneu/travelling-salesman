@@ -7,10 +7,10 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class WebsocketController {
-    private static final Logger logger = LoggerFactory.getLogger(WebsocketController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebsocketController.class);
 
     @Autowired
     public WebsocketController() {
-    	logger.trace("WebsocketController() constructor called");
+    	LOGGER.trace("WebsocketController() constructor called");
 	}
 }

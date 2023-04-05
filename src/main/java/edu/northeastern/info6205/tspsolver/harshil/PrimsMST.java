@@ -3,9 +3,16 @@ package edu.northeastern.info6205.tspsolver.harshil;
 import java.io.IOException;
 import java.util.List;
 
-import edu.northeastern.info6205.tspsolver.model.Point;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
+import edu.northeastern.info6205.tspsolver.TSPApplicationContext;
+import edu.northeastern.info6205.tspsolver.model.Point;
+import edu.northeastern.info6205.tspsolver.service.MapService;
+
+@Component
 public class PrimsMST {
+	
     //inputs
     private int n;
     private List<Point> nodes;
@@ -78,6 +85,11 @@ public class PrimsMST {
 
         // Add initial set of edges to the priority queue starting at node 0.
         relaxEdgesAtNode(0);
+        
+        ApplicationContext applicationContext = TSPApplicationContext.getContext();
+        MapService mapService = applicationContext.getBean(MapService.class);
+        
+        mapService.publishPointRelaxed(String.valueOf(0));
 
         while(!ipq.isEmpty() && edgeCount != m) {
             int destNodeIndex = ipq.peekMinKeyIndex();
@@ -87,6 +99,8 @@ public class PrimsMST {
             minCostSum += edge.distance;
 
             relaxEdgesAtNode(destNodeIndex);
+            
+            mapService.publishPointRelaxed(String.valueOf(destNodeIndex));
         }
 
         // Verify MST spans entire graph.

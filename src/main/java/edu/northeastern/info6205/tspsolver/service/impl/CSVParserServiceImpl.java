@@ -25,7 +25,7 @@ public class CSVParserServiceImpl implements CSVParserService {
 		try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(multipartFile.getInputStream()))) {
 			String line = bufferedReader.readLine();
 			
-			int index = 1;
+			int index = -1;
 			while ((line = bufferedReader.readLine()) != null) {
 				index++;
 				
@@ -42,7 +42,7 @@ public class CSVParserServiceImpl implements CSVParserService {
 				 * <br><br>
 				 * 
 				 * ID will correspond to the row number of the data
-				 * where first record starts from index 2
+				 * where first record starts from index 0
 				 * */
 //				String id = parts[0];
 				String id = String.valueOf(index);
