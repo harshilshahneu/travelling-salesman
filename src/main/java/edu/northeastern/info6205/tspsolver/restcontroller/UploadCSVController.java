@@ -1,6 +1,5 @@
 package edu.northeastern.info6205.tspsolver.restcontroller;
 
-import java.io.File;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -13,16 +12,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.CSVParserService;
-import edu.northeastern.info6205.tspsolver.service.FileService;
 import edu.northeastern.info6205.tspsolver.service.TestService;
 
 @RestController
 public class UploadCSVController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UploadCSVController.class);
 
-	@Autowired
-	private FileService fileService;
-	
 	@Autowired
 	private CSVParserService csvService;
 	
@@ -32,8 +27,7 @@ public class UploadCSVController {
 	@PostMapping("/api/csv")
 	public String uploadCSV(@RequestParam MultipartFile multiPartFile) {
 		LOGGER.debug("Starting to upload the CSV File");
-		File file = fileService.convertMultiPartToFile(multiPartFile);
-		List<Point> points = csvService.parsePoints(file);
+		List<Point> points = csvService.parsePoints(multiPartFile);
 		testService.testAsync(points);
 		return "OK";
 	}
