@@ -36,7 +36,8 @@ public class UploadCSVController {
 		List<Point> points = csvService.parsePoints(multiPartFile);
 		mapService.publishAddPointsAndFitBound(points);
 		
-		tspSolverService.solveAsync(points);
+		// TODO for now using 0 as starting index, but should be part of API query param
+		tspSolverService.solveAsync(points, 0);
 		
 		return "OK";
 	}

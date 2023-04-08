@@ -11,9 +11,9 @@ public interface TSPSolverService {
 
 	/**
 	 * Will solve the TSP for the given
-	 * list of {@link Point} in an asychronous 
+	 * list of {@link Point} in an asynchronous 
 	 * manner so that the thread does NOT get blocked
 	 * */
-	void solveAsync(List<Point> points);
+	void solveAsync(List<Point> points, int startingPointIndex);
 	
 }
