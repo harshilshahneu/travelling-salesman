@@ -147,7 +147,7 @@ handleAddPointsAndFitBound = (payload) => {
 
 handlePointRelaxed = (payload) => {
     const circle = markersGroup.findById(payload);
-    circle.setStyle({color: 'red'});
+    circle.setStyle({color: 'black'});
 }
 
 handleDrawEdge = (payload) => {
@@ -161,12 +161,12 @@ handleDrawEdge = (payload) => {
             [toPoint.latitude, toPoint.longitude]
         ], 
         {
-            color: 'red',
-            weight: 1,
+            color: 'black',
+            weight: 3,
             smoothFactor: 1,
             // dashArray: '5, 5', 
             // dashOffset: '0',
-            opacity: 0.5
+            // opacity: 0.5
         }
     );
 

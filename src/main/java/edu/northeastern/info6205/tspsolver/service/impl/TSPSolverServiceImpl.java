@@ -37,7 +37,11 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 				}
 			}
 //			primsMST.printMST(edges);
+			
+			LOGGER.info("Cost: {}", primsMST.getMstCost());
 		};
+		
+		
 
 		new Thread(runnable).start();
 	}

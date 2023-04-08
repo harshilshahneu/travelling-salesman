@@ -9,8 +9,8 @@ public class HaversineDistance {
     {
         double lat1 = n1.getLatitude();
         double lat2 = n2.getLatitude();
-        double lon1 = n1.getLatitude();
-        double lon2 = n2.getLatitude();
+        double lon1 = n1.getLongitude();
+        double lon2 = n2.getLongitude();
 
         // distance between latitudes and longitudes
         double dLat = Math.toRadians(lat2 - lat1);
