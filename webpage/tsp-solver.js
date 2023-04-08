@@ -1,15 +1,15 @@
 var map;
 var markersGroup;
+var linesGroup;
 
 const CLEAR_MAP = "clear-map";
 const ADD_POINT_LIST_AND_FIT_BOUND = "add-point-list-and-fit-bound";
 const POINT_RELAXED = "point-relaxed";
+const DRAW_EDGE = "draw-edge"
 
-const ADD_POLYLINE = "add-polyline";
-
-function callPingApi() {
+callPingApi = () => {
     const xhttp = new XMLHttpRequest();
-    xhttp.onload = function() {
+    xhttp.onload = () => {
         if (this.readyState == 4 && this.status == 200) {
             handlePingApiResponse(this.responseText);
         }
@@ -20,9 +20,9 @@ function callPingApi() {
     xhttp.send();
 }
 
-function callUploadCsvApi() {
+callUploadCsvApi = () => {
     const xhttp = new XMLHttpRequest();
-    xhttp.onload = function() {
+    xhttp.onload = () => {
         if (this.readyState == 4 && this.status == 200) {
             handleUploadCsvApiResponse(this.responseText);
         }
@@ -37,15 +37,15 @@ function callUploadCsvApi() {
     xhttp.send(formData);
 }
 
-function handlePingApiResponse(responseText) {
+handlePingApiResponse = (responseText) => {
     console.log(responseText);
 }
 
-function handleUploadCsvApiResponse(responseText) {
+handleUploadCsvApiResponse = (responseText) => {
     console.log(responseText);
 }
 
-function init() {
+init = () => {
     initMap();
 
     document.getElementById('upload-button').addEventListener('click', uploadButtonClicked);
@@ -53,23 +53,13 @@ function init() {
     setupWebsocketConnection();
 }
 
-function initMap() {
+initMap = () => {
     map = L.map('map').setView([51.505, -0.09], 13);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
-
-    // markersGroup = L.featureGroup.include({
-    //     findById : function(id) {
-    //         for (var i in this._layers) {
-    //             if (this._layers[i].id === id) {
-    //                return this._layers[i];
-    //             }
-    //         }
-    //     }
-    // });
 
     markersGroup = L.featureGroup();
 
@@ -82,28 +72,48 @@ function initMap() {
     }
 
     map.addLayer(markersGroup);
+
+    linesGroup = L.featureGroup();
+
+    linesGroup.findById = function(id) {
+        for (var layer of this.getLayers()) {
+            if (layer.id === id) {
+                return layer;
+            }
+        }
+    }
+
+    map.addLayer(linesGroup);
 }
 
-function uploadButtonClicked() {
+uploadButtonClicked = () => {
     // callPingApi();
     callUploadCsvApi();
 }
 
-function setupWebsocketConnection() {
+setupWebsocketConnection = () => {
     console.log('setting up web socket connection');
 
     const url = 'ws://localhost:8080/tsp-websocket';
     
     var stompClient = Stomp.client(url);
-    stompClient.connect({}, function (frame) {
+
+    // Not using arrow function sytax here, caused issues when I worked previously like that
+    var connectionCallback = (frame) => {
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/graph-action', function (greeting) {
             handleWebsocketMessage(greeting.body);
         });
-    });
+    };
+
+    var errorCallback = (error) => {
+        alert(`Socket connection error: ${error?.headers?.message}`);
+    }
+
+    stompClient.connect({}, connectionCallback, errorCallback);
 }
 
-function handleWebsocketMessage(message) {
+handleWebsocketMessage = (message) => {
     var json = JSON.parse(message);
     var action = json.actionType;
     var payload = json.payload;
@@ -114,14 +124,17 @@ function handleWebsocketMessage(message) {
         handleAddPointsAndFitBound(payload);
     } else if (action === POINT_RELAXED) {
         handlePointRelaxed(payload);
+    } else if (action === DRAW_EDGE) {
+        handleDrawEdge(payload);
     }
 }
 
-function handleClearMapAction(payload) {
+handleClearMapAction = (payload) => {
     markersGroup.clearLayers();
+    linesGroup.clearLayers();
 }
 
-function handleAddPointsAndFitBound(payload) {
+handleAddPointsAndFitBound = (payload) => {
     // var marker = L.marker([payload.latitude, payload.longitude]);
     payload.forEach((payload) => {
         var circle = L.circle([payload.latitude, payload.longitude], 10)
@@ -132,7 +145,32 @@ function handleAddPointsAndFitBound(payload) {
     map.fitBounds(markersGroup.getBounds());
 }
 
-function handlePointRelaxed(payload) {
+handlePointRelaxed = (payload) => {
     const circle = markersGroup.findById(payload);
     circle.setStyle({color: 'red'});
+}
+
+handleDrawEdge = (payload) => {
+    const fromPoint = payload.from;
+    const toPoint = payload.to;
+    const id = `${fromPoint.id}-${toPoint.id}`;
+
+    const polyline = new L.Polyline(
+        [
+            [fromPoint.latitude, fromPoint.longitude],
+            [toPoint.latitude, toPoint.longitude]
+        ], 
+        {
+            color: 'red',
+            weight: 1,
+            smoothFactor: 1,
+            // dashArray: '5, 5', 
+            // dashOffset: '0',
+            opacity: 0.5
+        }
+    );
+
+    polyline.id = id;
+
+    linesGroup.addLayer(polyline);
 }

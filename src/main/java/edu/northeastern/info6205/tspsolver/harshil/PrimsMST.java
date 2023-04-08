@@ -4,13 +4,11 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
 
 import edu.northeastern.info6205.tspsolver.TSPApplicationContext;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.MapService;
 
-@Component
 public class PrimsMST {
 	
     //inputs
@@ -98,6 +96,8 @@ public class PrimsMST {
             mstEdges[edgeCount++] = edge;
             minCostSum += edge.distance;
 
+            mapService.publishDrawEdge(edge);
+            
             relaxEdgesAtNode(destNodeIndex);
             
             mapService.publishPointRelaxed(String.valueOf(destNodeIndex));

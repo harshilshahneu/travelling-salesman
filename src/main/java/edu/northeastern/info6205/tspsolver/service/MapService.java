@@ -2,6 +2,7 @@ package edu.northeastern.info6205.tspsolver.service;
 
 import java.util.List;
 
+import edu.northeastern.info6205.tspsolver.harshil.Edge;
 import edu.northeastern.info6205.tspsolver.model.Point;
 
 /**
@@ -28,4 +29,11 @@ public interface MapService {
 	 * has been relaxed
 	 * */
 	void publishPointRelaxed(String id);
+	
+	/**
+	 * Will publish a message in the web socket
+	 * channel to tell that a line has been
+	 * drawn between two points
+	 * */
+	void publishDrawEdge(Edge edge);
 }

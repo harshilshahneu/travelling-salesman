@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.northeastern.info6205.tspsolver.harshil.Edge;
 import edu.northeastern.info6205.tspsolver.model.Action;
 import edu.northeastern.info6205.tspsolver.model.ActionType;
 import edu.northeastern.info6205.tspsolver.model.Point;
@@ -22,7 +23,7 @@ public class MapServiceImpl implements MapService {
 	
 	@Override
 	public void publishClearMap() {
-		LOGGER.debug("publishing clear map message");
+		LOGGER.trace("publishing clear map message");
 		Action<Void> clearAction = new Action<>();
 		clearAction.setActionType(ActionType.CLEAR_MAP);
 		webSocketPublishService.publish(clearAction);
@@ -30,7 +31,7 @@ public class MapServiceImpl implements MapService {
 
 	@Override
 	public void publishAddPointsAndFitBound(List<Point> points) {
-		LOGGER.debug("publishing add points and fit bounds for points size: {}", points.size());
+		LOGGER.trace("publishing add points and fit bounds for points size: {}", points.size());
 		
 		Action<List<Point>> action = new Action<>();
 		action.setActionType(ActionType.ADD_POINT_LIST_AND_FIT_BOUND);
@@ -41,11 +42,22 @@ public class MapServiceImpl implements MapService {
 
 	@Override
 	public void publishPointRelaxed(String id) {
-		LOGGER.debug("publishing point relax message for id: {}", id);
+		LOGGER.trace("publishing point relax message for id: {}", id);
 		
 		Action<String> action = new Action<>();
 		action.setActionType(ActionType.POINT_RELAXED);
 		action.setPayload(id);
+		
+		webSocketPublishService.publish(action);
+	}
+
+	@Override
+	public void publishDrawEdge(Edge edge) {
+		LOGGER.trace("publishing draw edge message");
+		
+		Action<Edge> action = new Action<>();
+		action.setActionType(ActionType.DRAW_EDGE);
+		action.setPayload(edge);
 		
 		webSocketPublishService.publish(action);
 	}
