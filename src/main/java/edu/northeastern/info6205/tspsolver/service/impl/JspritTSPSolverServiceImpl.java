@@ -115,6 +115,9 @@ public class JspritTSPSolverServiceImpl implements JspritTSPSolverService {
 		Point prevPoint = null;
 
 		for (VehicleRoute route : routes) {
+			// Verbose log to analyze the loop iterations
+			LOGGER.trace("Start a route");
+			
 			Collection<Job> shipments = route.getTourActivities().getJobs();
 			
 			for (Job shipment : shipments) {

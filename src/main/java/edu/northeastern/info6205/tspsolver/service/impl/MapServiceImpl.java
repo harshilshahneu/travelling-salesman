@@ -20,7 +20,7 @@ public class MapServiceImpl implements MapService {
 
 	@Autowired
 	private WebSocketPublishService webSocketPublishService;
-	
+
 	@Override
 	public void publishClearMap() {
 		LOGGER.trace("publishing clear map message");
