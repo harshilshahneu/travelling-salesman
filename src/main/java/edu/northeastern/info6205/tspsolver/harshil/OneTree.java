@@ -10,6 +10,7 @@ import static java.lang.Math.max;
 
 public class OneTree {
     private Edge[] oneTree;
+    private static Edge[] maxOneTree;
     private long oneTreeCost;
     private MinIndexedDHeap<Edge> ipq;
     private static long maxOneTreeCost = 0;
@@ -37,6 +38,7 @@ public class OneTree {
         //update the maxOneTreeCost
         if(this.oneTreeCost > maxOneTreeCost) {
             maxOneTreeCost = this.oneTreeCost;
+            maxOneTree = this.oneTree;
         }
     }
 
