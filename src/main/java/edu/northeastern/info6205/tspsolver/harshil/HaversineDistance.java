@@ -23,7 +23,7 @@ public class HaversineDistance {
 		double a = Math.pow(Math.sin(dLat / 2), 2) + Math.pow(Math.sin(dLon / 2), 2) * Math.cos(lat1) * Math.cos(lat2);
 
 		// currently the return type is miles (depends on the value of rad)
-		double rad = 6371000;
+		double rad = 3958.756;
 		double c = 2 * Math.asin(Math.sqrt(a));
 		return rad * c;
 	}

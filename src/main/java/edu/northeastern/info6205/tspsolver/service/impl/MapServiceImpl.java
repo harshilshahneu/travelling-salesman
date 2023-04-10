@@ -23,7 +23,7 @@ public class MapServiceImpl implements MapService {
 
 	@Override
 	public void publishClearMap() {
-		LOGGER.trace("publishing clear map message");
+//		LOGGER.trace("publishing clear map message");
 		Action<Void> clearAction = new Action<>();
 		clearAction.setActionType(ActionType.CLEAR_MAP);
 		webSocketPublishService.publish(clearAction);
@@ -31,7 +31,7 @@ public class MapServiceImpl implements MapService {
 
 	@Override
 	public void publishAddPointsAndFitBound(List<Point> points) {
-		LOGGER.trace("publishing add points and fit bounds for points size: {}", points.size());
+//		LOGGER.trace("publishing add points and fit bounds for points size: {}", points.size());
 		
 		Action<List<Point>> action = new Action<>();
 		action.setActionType(ActionType.ADD_POINT_LIST_AND_FIT_BOUND);
@@ -42,7 +42,7 @@ public class MapServiceImpl implements MapService {
 
 	@Override
 	public void publishPointRelaxed(String id) {
-		LOGGER.trace("publishing point relax message for id: {}", id);
+//		LOGGER.trace("publishing point relax message for id: {}", id);
 		
 		Action<String> action = new Action<>();
 		action.setActionType(ActionType.POINT_RELAXED);
@@ -53,7 +53,7 @@ public class MapServiceImpl implements MapService {
 
 	@Override
 	public void publishDrawEdge(Edge edge) {
-		LOGGER.trace("publishing draw edge message");
+//		LOGGER.trace("publishing draw edge message");
 		
 		Action<Edge> action = new Action<>();
 		action.setActionType(ActionType.DRAW_EDGE);
@@ -64,7 +64,7 @@ public class MapServiceImpl implements MapService {
 
 	@Override
 	public void publishChangePointColorRed(String id) {
-		LOGGER.trace("publishing point color change red for id: {}", id);
+//		LOGGER.trace("publishing point color change red for id: {}", id);
 		
 		Action<String> action = new Action<>();
 		action.setActionType(ActionType.CHANGE_POINT_COLOR_RED);
@@ -76,7 +76,7 @@ public class MapServiceImpl implements MapService {
 
 	@Override
 	public void publishChangePointColorGreen(String id) {
-		LOGGER.trace("publishing point color change green for id: {}", id);
+//		LOGGER.trace("publishing point color change green for id: {}", id);
 		
 		Action<String> action = new Action<>();
 		action.setActionType(ActionType.CHANGE_POINT_COLOR_GREEN);
@@ -87,7 +87,7 @@ public class MapServiceImpl implements MapService {
 
 	@Override
 	public void publishAddGreenLine(Edge edge) {
-		LOGGER.trace("publishing add green line message");
+//		LOGGER.trace("publishing add green line message");
 		
 		Action<Edge> action = new Action<>();
 		action.setActionType(ActionType.DRAW_EDGE_COLOR_GREEN);

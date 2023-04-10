@@ -20,7 +20,7 @@ public class WebSocketPublishServiceImpl implements WebSocketPublishService {
 	
 	@Override
 	public void publish(Action<?> action) {
-		LOGGER.trace("publishing action: {}", action);
+//		LOGGER.trace("publishing action: {}", action);
 		template.convertAndSend(TOPIC_DESITINATION, action);
 	}
 

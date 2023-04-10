@@ -84,14 +84,15 @@ public class PerfectMatchingSolverServiceImpl implements PerfectMatchingSolverSe
 			graph.addVertex(point.getId());
 			map.put(point.getId(), point);
 		}
-		
-		// TODO Kept here for debuggig, should not be kept logs get to verbose
+
+		/*
+		// Kept here for debuggig, should not be kept logs or else will get verbose
 		Set<String> vertexSet = graph.vertexSet();
 		LOGGER.trace("vertexSet size: {}", vertexSet.size());
 		for (String vertex : vertexSet) {
 			LOGGER.trace("vertex: {}", vertex);
 		}
-		// TODO Kept here for debuggig, should not be kept logs get to verbose
+		*/
 		
 		for (int i = 0; i < points.size(); i++) {
 			Point source = points.get(i);
@@ -115,6 +116,7 @@ public class PerfectMatchingSolverServiceImpl implements PerfectMatchingSolverSe
 		
 	    MatchingAlgorithm.Matching<String, DefaultWeightedEdge> matching = algorithm.getMatching();
 	    Set<DefaultWeightedEdge> edges = matching.getEdges();
+	    matching.getWeight();
 	    LOGGER.trace("edges size: {}", edges.size());
 
 	    // This should never happen, logging for debugging

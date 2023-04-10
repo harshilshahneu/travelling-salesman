@@ -24,4 +24,8 @@ public class Edge implements Comparable<Edge> {
         }
     }
 
+	public double getDistance() {
+		return distance;
+	}
+
 }

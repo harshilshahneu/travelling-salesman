@@ -40,6 +40,10 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 			PrimsMST primsMST = new PrimsMST(points);
 			primsMST.solve();
 			Edge[] edges = primsMST.getMst();
+			
+			/*
+			 * 
+			 * TOO verbose
 			for(Edge edge : edges) {
 				if(edge == null) {
 					// TODO THis should not even print!!
@@ -53,6 +57,7 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 							edge.distance);	
 				}
 			}
+			*/
 			
 			LOGGER.info("MST Cost: {}", primsMST.getMstCost());
 			
@@ -61,6 +66,11 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 			
 			List<Edge> newEdges = perfectMatchingSolverService.kolmogorovMatching(oddDegreePoints);
 			LOGGER.trace("newEdges size: {}", newEdges.size());
+			
+			double totalCost = newEdges.stream()
+                    .mapToDouble(Edge::getDistance)
+                    .sum();
+			LOGGER.trace("totalCost: {}", totalCost);
 		};
 		
 		
