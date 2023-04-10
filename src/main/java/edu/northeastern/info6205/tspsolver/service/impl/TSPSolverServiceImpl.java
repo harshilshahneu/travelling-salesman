@@ -3,8 +3,11 @@ package edu.northeastern.info6205.tspsolver.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
 import java.util.function.Function;
 
 import org.slf4j.Logger;
@@ -13,9 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.northeastern.info6205.tspsolver.harshil.Edge;
+import edu.northeastern.info6205.tspsolver.harshil.OneTree;
 import edu.northeastern.info6205.tspsolver.harshil.PrimsMST;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.JspritTSPSolverService;
+import edu.northeastern.info6205.tspsolver.service.MapService;
 import edu.northeastern.info6205.tspsolver.service.PerfectMatchingSolverService;
 import edu.northeastern.info6205.tspsolver.service.TSPSolverService;
 
@@ -29,6 +34,9 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 	@Autowired
 	private PerfectMatchingSolverService perfectMatchingSolverService;
 	
+	@Autowired
+	private MapService mapService;
+	
 	@Override
 	public void solveAsync(List<Point> points, int startingPointIndex) {
 		LOGGER.info(
@@ -37,42 +45,123 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 				startingPointIndex);
 		
 		Runnable runnable = () -> {
+			mapService.publishClearMap();
+			mapService.publishAddPointsAndFitBound(points);
+			
+			OneTree oneTree = new OneTree(points.size());
+			Edge[] oneTreeEdges = oneTree.getMaxOneTree(points);
+			List<Edge> oneTreeEdgeList = Arrays.asList(oneTreeEdges);
+			
+			double oneTreeEdgeListCost = getTourDistance(oneTreeEdgeList);
+			LOGGER.info("oneTreeEdgeListCost: {}", oneTreeEdgeListCost);
+
+			mapService.publishClearMap();
+			
+			for (Edge edge : oneTreeEdgeList) {
+				mapService.publishDrawEdge(edge);	
+			}
+			
+			/*
 			PrimsMST primsMST = new PrimsMST(points);
 			primsMST.solve();
 			Edge[] edges = primsMST.getMst();
 			
-			/*
-			 * 
-			 * TOO verbose
-			for(Edge edge : edges) {
-				if(edge == null) {
-					// TODO THis should not even print!!
-					// Keeping it here for now, so that can debug later
-					LOGGER.trace("NULL EDGE");
-				} else {
-					LOGGER.trace(
-							"{}, to {} Distance: {}",
-							edge.from != null ? edge.from.getId() : "NULL",
-							edge.to != null ? edge.to.getId() : "NULL",
-							edge.distance);	
-				}
-			}
-			*/
-			
 			LOGGER.info("MST Cost: {}", primsMST.getMstCost());
 			
-			List<Edge> edgeList = Arrays.asList(edges);
-			List<Point> oddDegreePoints = findOddDegreeVertices(points, edgeList);
+			List<Edge> mstEdgeList = Arrays.asList(edges);
+            
+			double mstCost = getTourDistance(mstEdgeList);
+			LOGGER.info("mstCost: {}", mstCost);
 			
-			List<Edge> newEdges = perfectMatchingSolverService.kolmogorovMatching(oddDegreePoints);
-			LOGGER.trace("newEdges size: {}", newEdges.size());
+			List<Point> oddDegreePoints = findOddDegreeVertices(points, mstEdgeList);
 			
-			double totalCost = newEdges.stream()
+			List<Edge> matchingEdges = perfectMatchingSolverService.kolmogorovMatching(oddDegreePoints);
+			LOGGER.trace("matchingEdges size: {}", matchingEdges.size());
+			
+			double totalCost = matchingEdges.stream()
                     .mapToDouble(Edge::getDistance)
                     .sum();
-			LOGGER.trace("totalCost: {}", totalCost);
+			LOGGER.trace("totalCost of matching edges: {}", totalCost);
+			
+			Map<Point, List<Edge>> multigraph = new HashMap<>();
+			
+			for (Point point : points) {
+				multigraph.put(point, new ArrayList<>());
+			}
+			
+			for (Edge edge : mstEdgeList) {
+				Point source = edge.from;
+			    Point target = edge.to;
+			    
+			    multigraph.get(source).add(new Edge(source, target));
+			    multigraph.get(target).add(new Edge(target, source));
+			}
+			
+			for (Edge edge : matchingEdges) {
+				Point source = edge.from;
+			    Point target = edge.to;
+			    
+			    multigraph.get(source).add(new Edge(source, target));
+			    multigraph.get(target).add(new Edge(target, source));
+			}
+			
+			List<Edge> eulerianTour = findEulerianTour(multigraph);
+			
+			List<Point> hamiltonianCycle = new ArrayList<>();
+			Set<Point> visited = new HashSet<>();
+			for (Edge edge : eulerianTour) {
+				Point source = edge.from;
+				Point target = edge.to;
+				
+				if (visited.add(source)) {
+					hamiltonianCycle.add(source);
+				}
+				
+				if (visited.add(target)) {
+					hamiltonianCycle.add(target);
+				}
+			}
+			
+			LOGGER.trace("hamiltonianCycle size: {}", hamiltonianCycle.size());
+			
+			mapService.publishClearMap();
+			
+			mapService.publishAddPointsAndFitBound(hamiltonianCycle);
+			
+			List<Edge> initialTSPTour = new ArrayList<>();
+			for (int i = 0; i < hamiltonianCycle.size() - 1; i++) {
+				Point source = hamiltonianCycle.get(i);
+				Point destination = hamiltonianCycle.get(i + 1);
+				Edge edge = new Edge(source, destination);
+				initialTSPTour.add(edge);
+			}
+			
+			// To complete last edge of cycle where we come back to the source
+			Point source = hamiltonianCycle.get(hamiltonianCycle.size()  - 1);
+			Point destination = hamiltonianCycle.get(0);
+			Edge lastEdge = new Edge(source, destination);
+			initialTSPTour.add(lastEdge);
+			
+			LOGGER.trace("initial tspTour size: {}", initialTSPTour.size());
+
+			double totalTSPCost = getTourDistance(initialTSPTour);
+			LOGGER.trace("totalCost of initial TSP Tour: {}", totalTSPCost);
+			
+			for (Edge edge : initialTSPTour) {
+				mapService.publishDrawEdge(edge);
+			}
+			
+			List<Edge> improved2OptTSPTour = improve2OPT(initialTSPTour);
+			mapService.publishClearMap();
+			for (Edge edge : improved2OptTSPTour) {
+				mapService.publishDrawEdge(edge);
+			}
+			
+			double improved2OptTSPTourCost = getTourDistance(improved2OptTSPTour);
+			LOGGER.trace("totalCost of improved2OptTSPTour: {}", improved2OptTSPTourCost);
+			
+			*/
 		};
-		
 		
 		/*
 		Runnable runnable = () -> {
@@ -85,6 +174,72 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 		new Thread(runnable).start();
 	}
 	
+	private List<Edge> improve2OPT(List<Edge> initialTSPTour) {
+		List<Edge> tspTour = initialTSPTour;
+				
+		boolean improved = true;
+
+		while (improved) {
+			improved = false;
+			for (int i = 0; i < initialTSPTour.size() - 1; i++) {
+				for (int j = i + 1; j < initialTSPTour.size(); j++) {
+					List<Edge> newTour = twoOptSwap(initialTSPTour, i, j);
+					if (getTourDistance(newTour) < getTourDistance(initialTSPTour)) {
+						LOGGER.trace("tour improved when swapping edge at {} with {}", i, j);
+						tspTour = newTour;
+						improved = true;
+					}
+				}
+			}
+		}
+		
+		return tspTour;
+	}
+
+	private List<Edge> twoOptSwap(List<Edge> initialTSPTour, int i, int j) {
+		List<Edge> newTour = new ArrayList<>(initialTSPTour);
+
+	    for (int k = i + 1, l = j; k < l; k++, l--) {
+	        Edge temp = newTour.get(k);
+	        newTour.set(k, newTour.get(l));
+	        newTour.set(l, temp);
+	    }
+
+	    return newTour;
+	}
+
+	private double getTourDistance(List<Edge> tour) {
+		double totalTSPCost = tour.stream()
+                .mapToDouble(Edge::getDistance)
+                .sum();
+		return totalTSPCost;
+	}
+
+	private List<Edge> findEulerianTour(Map<Point, List<Edge>> multigraph) {
+		List<Edge> tour = new ArrayList<>();
+		Stack<Point> stack = new Stack<>();
+		stack.push(multigraph.keySet().iterator().next());
+
+		while (!stack.isEmpty()) {
+			Point vertex = stack.peek();
+			List<Edge> edges = multigraph.get(vertex);
+
+			if (edges.isEmpty()) {
+				stack.pop();
+				if (!stack.isEmpty()) {
+					Point prev = stack.peek();
+					tour.add(new Edge(prev, vertex));
+				}
+			} else {
+				Edge edge = edges.remove(0);
+				stack.push(edge.to);
+				tour.add(edge);
+			}
+		}
+
+		return tour;
+	}
+
 	private List<Point> findOddDegreeVertices(List<Point> points, List<Edge> edges) {
 	    Map<Point, Integer> vertexDegrees = new HashMap<>();
 	    for (Point point : points) {
@@ -96,7 +251,6 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 	        vertexDegrees.put(edge.to, vertexDegrees.get(edge.to) + 1);
 	    }
 
-	    // Find all odd degree vertices
 	    List<Point> oddDegreeVertices = new ArrayList<>();
 	    for (Map.Entry<Point, Integer> entry : vertexDegrees.entrySet()) {
 	        if (entry.getValue() % 2 == 1) {

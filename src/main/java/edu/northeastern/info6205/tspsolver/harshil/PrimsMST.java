@@ -73,7 +73,7 @@ public class PrimsMST {
         int m = n - 1, edgeCount = 0;
         visited = new boolean[n];
         //m + 2 to keep space for 2 extra edges from one tree
-        mstEdges = new Edge[m];
+        mstEdges = new Edge[m + 2];
 
         // The degree of the d-ary heap supporting the IPQ can greatly impact performance, especially
         // on dense graphs. The base 2 logarithm of n is a decent value based on my quick experiments

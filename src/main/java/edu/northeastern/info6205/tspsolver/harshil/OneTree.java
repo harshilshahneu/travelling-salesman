@@ -1,14 +1,19 @@
 package edu.northeastern.info6205.tspsolver.harshil;
 
 import edu.northeastern.info6205.tspsolver.model.Point;
+import edu.northeastern.info6205.tspsolver.service.impl.TSPSolverServiceImpl;
 
 import java.io.IOException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static java.lang.Math.max;
 
 public class OneTree {
+	private static final Logger LOGGER = LoggerFactory.getLogger(OneTree.class);
+
     private Edge[] oneTree;
     private static Edge[] maxOneTree;
     private long oneTreeCost;
@@ -52,7 +57,7 @@ public class OneTree {
         return this.oneTreeCost;
     }
 
-    public Edge[] getMaxOneTree(List<Point> nodes) throws IOException{
+    public Edge[] getMaxOneTree(List<Point> nodes) {
 
         for(int i = 0; i < nodes.size(); i++) {
             //exclue first node
@@ -69,9 +74,9 @@ public class OneTree {
             oneTreeSolver.buildOneTree(mst, excludedNode, mstSolver.getMstCost(), nodes);
 
             //One tree cost
-            System.out.println("One Tree Cost: " + oneTreeSolver.getOnetreeCost());
+            LOGGER.trace("One Tree Cost: " + oneTreeSolver.getOnetreeCost());
         }
-        System.out.println("Lower bound using one-tree: " + OneTree.maxOneTreeCost);
+        LOGGER.trace("Lower bound using one-tree: " + OneTree.maxOneTreeCost);
 
         return maxOneTree;
     }
