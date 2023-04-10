@@ -52,8 +52,7 @@ public class OneTree {
         return this.oneTreeCost;
     }
 
-    public static void main(String args[]) throws IOException {
-
+    public Edge[] getMaxOneTree() throws IOException{
         List<Point> nodes = CSVLoader.loadNodesFromCleanData("src/main/resources/sample-data/crimeSample.csv");
 
         for(int i = 0; i < nodes.size(); i++) {
@@ -74,5 +73,7 @@ public class OneTree {
             System.out.println("One Tree Cost: " + oneTreeSolver.getOnetreeCost());
         }
         System.out.println("Lower bound using one-tree: " + OneTree.maxOneTreeCost);
+
+        return maxOneTree;
     }
 }
