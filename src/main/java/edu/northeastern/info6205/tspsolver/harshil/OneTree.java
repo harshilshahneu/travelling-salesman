@@ -52,8 +52,7 @@ public class OneTree {
         return this.oneTreeCost;
     }
 
-    public Edge[] getMaxOneTree() throws IOException{
-        List<Point> nodes = CSVLoader.loadNodesFromCleanData("src/main/resources/sample-data/crimeSample.csv");
+    public Edge[] getMaxOneTree(List<Point> nodes) throws IOException{
 
         for(int i = 0; i < nodes.size(); i++) {
             //exclue first node
