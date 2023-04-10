@@ -18,4 +18,10 @@ public interface PerfectMatchingSolverService {
 	 * */
 	List<Edge> edmondAlgorithm(List<Point> points);
 	
+	/**
+	 * Will use the KolmogorovWeightedMatching
+	 * in jgrapht-core library
+	 * */
+	List<Edge> kolmogorovMatching(List<Point> points);
+	
 }

@@ -36,4 +36,25 @@ public interface MapService {
 	 * drawn between two points
 	 * */
 	void publishDrawEdge(Edge edge);
+	
+	/**
+	 * Will publish a message in the web socket
+	 * channel to tell that a point color
+	 * has to be changed to Red for given id
+	 * */
+	void publishChangePointColorRed(String id);
+	
+	/**
+	 * Will publish a message in the web socket
+	 * channel to tell that a point color
+	 * has to be changed to Green for given id
+	 * */
+	void publishChangePointColorGreen(String id);
+	
+	/**
+	 * Will publish a message in the web socket
+	 * channel to tell that a line has to be added with
+	 * a color Green
+	 * */
+	void publishAddGreenLine(Edge edge);
 }

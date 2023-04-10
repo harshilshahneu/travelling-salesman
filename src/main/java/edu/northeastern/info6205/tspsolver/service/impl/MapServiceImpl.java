@@ -62,4 +62,40 @@ public class MapServiceImpl implements MapService {
 		webSocketPublishService.publish(action);
 	}
 
+	@Override
+	public void publishChangePointColorRed(String id) {
+		LOGGER.trace("publishing point color change red for id: {}", id);
+		
+		Action<String> action = new Action<>();
+		action.setActionType(ActionType.CHANGE_POINT_COLOR_RED);
+		action.setPayload(id);
+		
+		webSocketPublishService.publish(action);
+		
+	}
+
+	@Override
+	public void publishChangePointColorGreen(String id) {
+		LOGGER.trace("publishing point color change green for id: {}", id);
+		
+		Action<String> action = new Action<>();
+		action.setActionType(ActionType.CHANGE_POINT_COLOR_GREEN);
+		action.setPayload(id);
+		
+		webSocketPublishService.publish(action);
+	}
+
+	@Override
+	public void publishAddGreenLine(Edge edge) {
+		LOGGER.trace("publishing add green line message");
+		
+		Action<Edge> action = new Action<>();
+		action.setActionType(ActionType.DRAW_EDGE_COLOR_GREEN);
+		action.setPayload(edge);
+		
+		webSocketPublishService.publish(action);
+	}
+
+	
+
 }

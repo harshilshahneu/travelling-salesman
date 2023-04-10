@@ -6,6 +6,9 @@ const CLEAR_MAP = "clear-map";
 const ADD_POINT_LIST_AND_FIT_BOUND = "add-point-list-and-fit-bound";
 const POINT_RELAXED = "point-relaxed";
 const DRAW_EDGE = "draw-edge"
+const CHANGE_POINT_COLOR_RED = "change-point-color-red";
+const CHANGE_POINT_COLOR_GREEN = "change-point-color-green";
+const DRAW_EDGE_COLOR_GREEN = "draw-edge-color-green";
 
 callPingApi = () => {
     const xhttp = new XMLHttpRequest();
@@ -126,6 +129,12 @@ handleWebsocketMessage = (message) => {
         handlePointRelaxed(payload);
     } else if (action === DRAW_EDGE) {
         handleDrawEdge(payload);
+    } else if (action === CHANGE_POINT_COLOR_RED) {
+        handleChangePointColorRed(payload);
+    } else if (action === CHANGE_POINT_COLOR_GREEN) {
+        handleChangePointColorGreen(payload);
+    } else if (action === DRAW_EDGE_COLOR_GREEN) {
+        handleDrawEdgeColorGreen(payload);
     }
 }
 
@@ -162,6 +171,41 @@ handleDrawEdge = (payload) => {
         ], 
         {
             color: 'black',
+            weight: 3,
+            smoothFactor: 1,
+            // dashArray: '5, 5', 
+            // dashOffset: '0',
+            // opacity: 0.5
+        }
+    );
+
+    polyline.id = id;
+
+    linesGroup.addLayer(polyline);
+}
+
+handleChangePointColorRed = (payload) => {
+    const circle = markersGroup.findById(payload);
+    circle.setStyle({color: 'red'});
+}
+
+handleChangePointColorGreen = (payload) => {
+    const circle = markersGroup.findById(payload);
+    circle.setStyle({color: 'green'});
+}
+
+handleDrawEdgeColorGreen = (payload) => {
+    const fromPoint = payload.from;
+    const toPoint = payload.to;
+    const id = `${fromPoint.id}-${toPoint.id}`;
+
+    const polyline = new L.Polyline(
+        [
+            [fromPoint.latitude, fromPoint.longitude],
+            [toPoint.latitude, toPoint.longitude]
+        ], 
+        {
+            color: 'green',
             weight: 3,
             smoothFactor: 1,
             // dashArray: '5, 5', 

@@ -33,6 +33,7 @@ public class MinimumWeightPerfectMatching {
 			throw new IllegalArgumentException(
 					"Matrix too large! A matrix that size for the MWPM problem with a time complexity of"
 							+ "O(n^2*2^n) requires way too much computation and memory for a modern home computer.");
+		
 		END_STATE = (1 << n) - 1;
 		this.cost = cost;
 	}

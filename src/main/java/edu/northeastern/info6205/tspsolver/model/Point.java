@@ -1,5 +1,7 @@
 package edu.northeastern.info6205.tspsolver.model;
 
+import java.util.Objects;
+
 public class Point {
 	private String id;
 	
@@ -35,5 +37,29 @@ public class Point {
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, latitude, longitude);
+	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Point other = (Point) obj;
+		return Objects.equals(id, other.id)
+				&& Double.doubleToLongBits(latitude) == Double.doubleToLongBits(other.latitude)
+				&& Double.doubleToLongBits(longitude) == Double.doubleToLongBits(other.longitude);
+	}
+
+	@Override
+	public String toString() {
+		return "Point [id=" + id + ", latitude=" + latitude + ", longitude=" + longitude + "]";
+	}
+	
 }
