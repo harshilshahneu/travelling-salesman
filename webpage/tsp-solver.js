@@ -59,6 +59,16 @@ init = () => {
 initMap = () => {
     map = L.map('map').setView([51.505, -0.09], 13);
 
+    map.on('click', (e) => {
+        const latitude = e.latlng.lat.toFixed(6);
+        const longitude = e.latlng.lng.toFixed(6);
+        
+        L.popup()
+            .setLatLng(e.latlng)
+            .setContent(`${latitude} ${longitude}`)
+            .openOn(map);
+    });
+
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -146,7 +156,7 @@ handleClearMapAction = (payload) => {
 handleAddPointsAndFitBound = (payload) => {
     // var marker = L.marker([payload.latitude, payload.longitude]);
     payload.forEach((payload) => {
-        var circle = L.circle([payload.latitude, payload.longitude], 10)
+        var circle = L.circle([payload.latitude, payload.longitude], 100)
         circle.id = payload.id;
         markersGroup.addLayer(circle);
     });

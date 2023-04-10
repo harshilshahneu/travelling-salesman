@@ -45,31 +45,16 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 				startingPointIndex);
 		
 		Runnable runnable = () -> {
-			mapService.publishClearMap();
-			mapService.publishAddPointsAndFitBound(points);
-			
-			OneTree oneTree = new OneTree(points.size());
-			Edge[] oneTreeEdges = oneTree.getMaxOneTree(points);
-			List<Edge> oneTreeEdgeList = Arrays.asList(oneTreeEdges);
-			
-			double oneTreeEdgeListCost = getTourDistance(oneTreeEdgeList);
-			LOGGER.info("oneTreeEdgeListCost: {}", oneTreeEdgeListCost);
-
-			mapService.publishClearMap();
-			
-			for (Edge edge : oneTreeEdgeList) {
-				mapService.publishDrawEdge(edge);	
-			}
-			
-			/*
 			PrimsMST primsMST = new PrimsMST(points);
 			primsMST.solve();
 			Edge[] edges = primsMST.getMst();
 			
 			LOGGER.info("MST Cost: {}", primsMST.getMstCost());
 			
-			List<Edge> mstEdgeList = Arrays.asList(edges);
-            
+			List<Edge> mstEdgeList = new ArrayList<>(Arrays.asList(edges));
+			while (mstEdgeList.remove(null));
+			LOGGER.info("mstEdgeList size: {}", mstEdgeList.size());
+
 			double mstCost = getTourDistance(mstEdgeList);
 			LOGGER.info("mstCost: {}", mstCost);
 			
@@ -159,8 +144,6 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 			
 			double improved2OptTSPTourCost = getTourDistance(improved2OptTSPTour);
 			LOGGER.trace("totalCost of improved2OptTSPTour: {}", improved2OptTSPTourCost);
-			
-			*/
 		};
 		
 		/*
