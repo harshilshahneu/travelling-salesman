@@ -1,9 +1,7 @@
 package edu.northeastern.info6205.tspsolver.harshil;
 
 import edu.northeastern.info6205.tspsolver.model.Point;
-import edu.northeastern.info6205.tspsolver.service.impl.TSPSolverServiceImpl;
-
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -16,9 +14,9 @@ public class OneTree {
 
     private Edge[] oneTree;
     private static Edge[] maxOneTree;
-    private long oneTreeCost;
+    private double oneTreeCost;
     private MinIndexedDHeap<Edge> ipq;
-    private static long maxOneTreeCost = 0;
+    private static double maxOneTreeCost = 0;
 
     public OneTree(int n) {
         int degree = (int) Math.ceil(Math.log(n) / Math.log(2));
@@ -27,24 +25,16 @@ public class OneTree {
         this.oneTree = null;
     }
 
-    public void buildOneTree(Edge[] mst, Point excludedNode, long mstCost, List<Point> nodes) {
+    public void buildOneTree(Edge[] mst, Point excludedNode, double mstCost, List<Point> nodes) {
         this.oneTreeCost = mstCost;
         for(int i = 0; i < nodes.size(); i++) {
-            if(!excludedNode.getId().equals(nodes.get(i).getId())) {
-                ipq.insert(i, new Edge(excludedNode, nodes.get(i)));
-            }
+            ipq.insert(i, new Edge(excludedNode, nodes.get(i)));
         }
         mst[mst.length - 2] = ipq.pollMinValue();
         mst[mst.length - 1] = ipq.pollMinValue();
 
         this.oneTree = mst;
         this.oneTreeCost += mst[mst.length - 2].distance + mst[mst.length - 1].distance;
-
-        //update the maxOneTreeCost
-        if(this.oneTreeCost > maxOneTreeCost) {
-            maxOneTreeCost = this.oneTreeCost;
-            maxOneTree = this.oneTree;
-        }
     }
 
     public void printOneTree() {
@@ -53,31 +43,37 @@ public class OneTree {
         }
     }
 
-    public long getOnetreeCost() {
+    public double getOnetreeCost() {
         return this.oneTreeCost;
     }
 
-    public Edge[] getMaxOneTree(List<Point> nodes) {
-
+    public static Edge[] getMaxOneTree(List<Point> nodes) {
         for(int i = 0; i < nodes.size(); i++) {
             //exclue first node
+            List<Point> temp = new ArrayList<>(nodes);
             Point excludedNode = nodes.get(i);
-            nodes.remove(i);
-
+            temp.remove(i);
             //build MST
-            PrimsMST mstSolver = new PrimsMST(nodes);
+            PrimsMST mstSolver = new PrimsMST(temp);
             mstSolver.solve();
-            Edge[] mst = mstSolver.getMst();
+            Edge[] mst = new Edge[mstSolver.getMst().length + 2];
+            for(int j = 0; j < mstSolver.getMst().length; j++) {
+                mst[j] = mstSolver.getMst()[j];
+            }
 
             //build one tree
-            OneTree oneTreeSolver = new OneTree(nodes.size());
-            oneTreeSolver.buildOneTree(mst, excludedNode, mstSolver.getMstCost(), nodes);
+            OneTree oneTreeSolver = new OneTree(temp.size());
+            oneTreeSolver.buildOneTree(mst, excludedNode, mstSolver.getMstCost(), temp);
 
             //One tree cost
-            LOGGER.trace("One Tree Cost: " + oneTreeSolver.getOnetreeCost());
+            //LOGGER.trace("One Tree Cost: " + oneTreeSolver.getOnetreeCost());
+             //update the maxOneTreeCost
+            if(oneTreeSolver.oneTreeCost > OneTree.maxOneTreeCost) {
+                OneTree.maxOneTreeCost = oneTreeSolver.oneTreeCost;
+                OneTree.maxOneTree = oneTreeSolver.oneTree;
+            }
         }
         LOGGER.trace("Lower bound using one-tree: " + OneTree.maxOneTreeCost);
-
-        return maxOneTree;
+        return OneTree.maxOneTree;
     }
 }

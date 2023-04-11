@@ -22,7 +22,7 @@ public class PrimsMST {
     private MinIndexedDHeap<Edge> ipq;
 
     //Outputs
-    private long minCostSum;
+    private double minCostSum;
     private Edge[] mstEdges;
 
 
@@ -39,7 +39,7 @@ public class PrimsMST {
         return mstExists ? mstEdges : null;
     }
 
-    public Long getMstCost() {
+    public double getMstCost() {
         solve();
         return mstExists ? minCostSum : null;
     }
@@ -73,7 +73,7 @@ public class PrimsMST {
         int m = n - 1, edgeCount = 0;
         visited = new boolean[n];
         //m + 2 to keep space for 2 extra edges from one tree
-        mstEdges = new Edge[m + 2];
+        mstEdges = new Edge[m];
 
         // The degree of the d-ary heap supporting the IPQ can greatly impact performance, especially
         // on dense graphs. The base 2 logarithm of n is a decent value based on my quick experiments
@@ -84,10 +84,10 @@ public class PrimsMST {
         // Add initial set of edges to the priority queue starting at node 0.
         relaxEdgesAtNode(0);
         
-        ApplicationContext applicationContext = TSPApplicationContext.getContext();
-        MapService mapService = applicationContext.getBean(MapService.class);
+        // ApplicationContext applicationContext = TSPApplicationContext.getContext();
+        // MapService mapService = applicationContext.getBean(MapService.class);
         
-        mapService.publishPointRelaxed(String.valueOf(0));
+       // mapService.publishPointRelaxed(String.valueOf(0));
 
         while(!ipq.isEmpty() && edgeCount != m) {
             int destNodeIndex = ipq.peekMinKeyIndex();
@@ -96,11 +96,11 @@ public class PrimsMST {
             mstEdges[edgeCount++] = edge;
             minCostSum += edge.distance;
 
-            mapService.publishDrawEdge(edge);
+         //   mapService.publishDrawEdge(edge);
             
             relaxEdgesAtNode(destNodeIndex);
             
-            mapService.publishPointRelaxed(String.valueOf(destNodeIndex));
+          //  mapService.publishPointRelaxed(String.valueOf(destNodeIndex));
         }
 
         // Verify MST spans entire graph.
