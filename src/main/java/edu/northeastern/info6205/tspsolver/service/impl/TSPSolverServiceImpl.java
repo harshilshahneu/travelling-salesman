@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import edu.northeastern.info6205.tspsolver.harshil.TwoOpt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,12 +131,38 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 			
 			mapService.publishClearMap();
 			mapService.publishAddPointsAndFitBound(points);
+
+			TwoOpt twoOpt = new TwoOpt(hamiltonianCycle, 1, 1000000);
+			twoOpt.improve();
+			List<Point> improvedTSPList = twoOpt.getImprovedTour();
+
+			//convert point to list of edges
+			List<Edge> improvedTSPTour = new ArrayList<>();
+			for (int i = 0; i < improvedTSPList.size() - 1; i++) {
+				Point source = improvedTSPList.get(i);
+				Point destination = improvedTSPList.get(i + 1);
+				Edge edge = new Edge(source, destination);
+				improvedTSPTour.add(edge);
+			}
+			//add the last edge
+			improvedTSPTour.add(new Edge(improvedTSPList.get(improvedTSPList.size() - 1), improvedTSPList.get(0)));
+
+			double improvedTSPTourCost = EdgeUtil.getTotalCost(improvedTSPTour);
+			LOGGER.trace("totalCost of improved TSP Tour: {}", improvedTSPTourCost);
+
+			mapService.publishClearMap();
+			for (Edge edge : improvedTSPTour) {
+				mapService.publishDrawEdge(edge);
+			}
+
+			double goldenRatio = improvedTSPTourCost / mstCost;
+			LOGGER.trace("goldenRatio: {}", goldenRatio);
 			
 			/*
 			for (Edge edge : initialTSPTour) {
 				mapService.publishDrawEdge(edge);
 			}
-			*/
+
 			
 			final double STARTING_TEMPERATURE = 1000;
 			final double COOLING_RATE = 0.9995;
@@ -162,7 +189,7 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 			
 			double goldenRatioAnnealing = annealingCost / mstCost;
 			LOGGER.trace("goldenRatioAnnealing: {}", goldenRatioAnnealing);
-			
+			*/
 			/*
 			TSPDynamicProgramming solver = new TSPDynamicProgramming(0, points);
 			List<Integer> path = solver.getTour();
@@ -185,6 +212,7 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 			double goldenRatioDynamicProgramming = dynamicProgrammingCost / mstCost;
 			LOGGER.trace("goldenRatioDynamicProgramming: {}", goldenRatioDynamicProgramming);
 			*/
+			
 		};
 		
 		/*

@@ -1,9 +1,12 @@
 package edu.northeastern.info6205.tspsolver.harshil;
 
+import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.impl.JspritTSPSolverServiceImpl;
+import edu.northeastern.info6205.tspsolver.util.PointUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -11,7 +14,7 @@ import java.util.stream.Collectors;
 public class TwoOpt {
     private static final Logger LOGGER = LoggerFactory.getLogger(TwoOpt.class);
 
-    private List<Edge> tour;
+    private List<Point> tour;
 
     /**
         Strategy 1 - Choose two random vertices for swap
@@ -24,7 +27,7 @@ public class TwoOpt {
     //Computation power budget
     private long budget;
 
-    public TwoOpt(List<Edge> tour, int strategy , long budget) {
+    public TwoOpt(List<Point> tour, int strategy , long budget) {
         this.tour = tour;
         this.strategy = strategy;
         this.budget = budget;
@@ -41,49 +44,36 @@ public class TwoOpt {
         } 
     }
 
-    public List<Edge> getImprovedTour() {
+    public List<Point> getImprovedTour() {
         return tour;
     }
 
-    private boolean swapEdges(int i, int j) {
-        LOGGER.trace("Swapping edges {} and {}", i, j);
-        //Selecting first node i.e from the edge
-        Edge e1 = tour.get(i);
-        Edge e2 = tour.get(j);
-        Edge prevE1 = tour.get(i - 1);
-        Edge prevE2 = tour.get(j - 1);
+    private boolean swapNodes(int i, int j) {
+        //current tour distance
+        double cost = PointUtil.getTotalCost(tour);
 
-           //get the current distance
-           double cost = e1.distance + e2.distance + prevE1.distance + prevE2.distance;
+        //duplicate the tour
+        List<Point> improvedTour = new ArrayList<>(tour);
 
-          //swap the from of current
-          Edge improvedE1 = new Edge(e2.from, e1.to);
-          Edge improvedE2 = new Edge(e1.from, e2.to);
+        //swap the nodes
+        Point temp = improvedTour.get(i);
+        improvedTour.set(i, improvedTour.get(j));
+        improvedTour.set(j, temp);
 
-          //swap the to of prev
-          Edge improvedPrevE1 = new Edge(prevE1.from, prevE2.to);
-          Edge improvedPrevE2 = new Edge(prevE2.from, prevE1.to);
+        //new tour distance
+        double newCost = PointUtil.getTotalCost(improvedTour);
 
-          //get the new distance
-          double newCost = improvedE1.distance + improvedE2.distance + improvedPrevE1.distance + improvedPrevE2.distance;
-
-          //update the tour if new cost is less than old cost
-            if(newCost < cost) {
-                LOGGER.trace("Improvement found");
-                LOGGER.trace("Cost before swap : {}", cost);
-                LOGGER.trace("Cost after swap : {}", newCost);
-                tour.set(i, improvedE1);
-                tour.set(j, improvedE2);
-                tour.set(i - 1, improvedPrevE1);
-                tour.set(j - 1, improvedPrevE2);
-                LOGGER.trace("New path E1 : {}", improvedPrevE1.from.getId() + " " + improvedPrevE1.to.getId() + " " + improvedE1.from.getId() + " " + improvedE1.to.getId());
-                LOGGER.trace("New path E2 : {}", improvedPrevE2.from.getId() + " " + improvedPrevE2.to.getId() + " " + improvedE2.from.getId() + " " + improvedE2.to.getId());
-                return true;
-            }
-
+        //update the tour if new cost is less than old cost
+        if(newCost < cost) {
+            LOGGER.trace("Improvement found");
+            LOGGER.trace("Cost before swap : {}", cost);
+            LOGGER.trace("Cost after swap : {}", newCost);
+            this.tour = improvedTour;
+            return true;
+        }
         return false;
     }
-
+    
     private void strategy1() {
         // Choose two random vertices for swap
         boolean improvement = true;
@@ -100,8 +90,9 @@ public class TwoOpt {
             int randomEdge_1 = randomNumbers.get(0);
             int randomEdge_2 = randomNumbers.get(1);
 
-            improvement = swapEdges(randomEdge_1, randomEdge_2);
+            improvement = swapNodes(randomEdge_1, randomEdge_2);
             budget--;
+            LOGGER.trace("Budget remaining : {}", budget);
         }
     }
 
