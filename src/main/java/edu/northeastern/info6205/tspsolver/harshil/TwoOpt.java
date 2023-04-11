@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -56,9 +57,7 @@ public class TwoOpt {
         List<Point> improvedTour = new ArrayList<>(tour);
 
         //swap the nodes
-        Point temp = improvedTour.get(i);
-        improvedTour.set(i, improvedTour.get(j));
-        improvedTour.set(j, temp);
+        Collections.swap(improvedTour, i, j);
 
         //new tour distance
         double newCost = PointUtil.getTotalCost(improvedTour);
@@ -73,7 +72,7 @@ public class TwoOpt {
         }
         return false;
     }
-    
+
     private void strategy1() {
         // Choose two random vertices for swap
         boolean improvement = true;
@@ -97,6 +96,17 @@ public class TwoOpt {
     }
 
     private void strategy2() {
+        // Choose two vertices that are adjacent to each other
+        boolean improvement = true;
+        while(improvement) {
+            improvement = false;
+            for(int i = 1; i < tour.size() - 1; i++) {
+                improvement = swapNodes(i, i + 1);
+                if(improvement) {
+                    break;
+                }
+            }
+        }
 
     }
 

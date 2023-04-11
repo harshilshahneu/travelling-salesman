@@ -132,7 +132,7 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 			mapService.publishClearMap();
 			mapService.publishAddPointsAndFitBound(points);
 
-			TwoOpt twoOpt = new TwoOpt(hamiltonianCycle, 1, 1000000);
+			TwoOpt twoOpt = new TwoOpt(hamiltonianCycle, 2, 0);
 			twoOpt.improve();
 			List<Point> improvedTSPList = twoOpt.getImprovedTour();
 
@@ -144,8 +144,6 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 				Edge edge = new Edge(source, destination);
 				improvedTSPTour.add(edge);
 			}
-			//add the last edge
-			improvedTSPTour.add(new Edge(improvedTSPList.get(improvedTSPList.size() - 1), improvedTSPList.get(0)));
 
 			double improvedTSPTourCost = EdgeUtil.getTotalCost(improvedTSPTour);
 			LOGGER.trace("totalCost of improved TSP Tour: {}", improvedTSPTourCost);
