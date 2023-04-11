@@ -1,13 +1,6 @@
 package edu.northeastern.info6205.tspsolver.service.impl;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class MinimumWeightPerfectMatching {
-	private static final Logger LOGGER = LoggerFactory.getLogger(MinimumWeightPerfectMatching.class);
-
 	// Inputs
 	private final int n;
 	private double[][] cost;
@@ -242,10 +235,12 @@ public class MinimumWeightPerfectMatching {
 		// }
 	}
 
+	/*
 	private static boolean include(int i) {
 		boolean toInclude = Integer.bitCount(i) >= 2 && Integer.bitCount(i) % 2 == 0;
 		return toInclude;
 	}
+	*/
 
 	/*
 	private static void test1() {

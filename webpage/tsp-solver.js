@@ -156,7 +156,7 @@ handleClearMapAction = (payload) => {
 handleAddPointsAndFitBound = (payload) => {
     // var marker = L.marker([payload.latitude, payload.longitude]);
     payload.forEach((payload) => {
-        var circle = L.circle([payload.latitude, payload.longitude], 100)
+        var circle = L.circle([payload.latitude, payload.longitude], 10)
         circle.id = payload.id;
         markersGroup.addLayer(circle);
     });

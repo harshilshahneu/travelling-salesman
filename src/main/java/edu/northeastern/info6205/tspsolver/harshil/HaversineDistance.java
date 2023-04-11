@@ -3,7 +3,7 @@ package edu.northeastern.info6205.tspsolver.harshil;
 import edu.northeastern.info6205.tspsolver.model.Point;
 
 public class HaversineDistance {
-	private static final double R = 6371; // radius of the earth in km
+//	private static final double R = 6371; // radius of the earth in km
 
 	public static double haversine(Point n1, Point n2) {
 		double lat1 = n1.getLatitude();

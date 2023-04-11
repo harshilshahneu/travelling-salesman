@@ -7,7 +7,6 @@ import java.util.List;
 // An Undirected graph using
 // adjacency list representation
 public class FluerysAlgorithm {
-
     private int vertices; // No. of vertices
     private ArrayList<Integer>[] adj; // adjacency list
     private ArrayList<int[]> result = new ArrayList<>(); // list of edges
@@ -62,7 +61,6 @@ public class FluerysAlgorithm {
 
         // Print tour starting from oddv
         printEulerUtil(u);
-        System.out.println();
     }
 
     // Print Euler tour starting from vertex u
@@ -74,7 +72,7 @@ public class FluerysAlgorithm {
             Integer v = adj[u].get(i);
             // If edge u-v is a valid next edge
             if (isValidNextEdge(u, v)) {
-                System.out.print(u + "-" + v + " ");
+//                System.out.print(u + "-" + v + " ");
                 result.add(new int[] { u, v });
                 // This edge is used so remove it now
                 removeEdge(u, v);

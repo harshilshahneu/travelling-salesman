@@ -3,11 +3,7 @@ package edu.northeastern.info6205.tspsolver.harshil;
 import java.io.IOException;
 import java.util.List;
 
-import org.springframework.context.ApplicationContext;
-
-import edu.northeastern.info6205.tspsolver.TSPApplicationContext;
 import edu.northeastern.info6205.tspsolver.model.Point;
-import edu.northeastern.info6205.tspsolver.service.MapService;
 
 public class PrimsMST {
 	
