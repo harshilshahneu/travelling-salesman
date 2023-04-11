@@ -32,24 +32,25 @@ public class SimulatedAnnealingServiceImpl implements SimulatedAnnealingService 
 		final double FINAL_TEMPERATURE = 1;
 		
 		List<Point> best = new ArrayList<>(tour);
-		
+		Random random = new Random();
+
 		for (double temperature = startingTemperature; temperature >= FINAL_TEMPERATURE; temperature *= coolingRate) {
-			LOGGER.trace("t: {}", temperature);
+			LOGGER.trace("temperature: {}", temperature);
 			List<Point> neighbour = new ArrayList<>(tour);
 			
 			// This code will generate random numbers of distinct values
-			Random random = new Random();
 			List<Integer> randomNumbers;
 			do {
 				randomNumbers = random.ints(2, 1, tour.size() - 1)
 	                     .boxed()
 	                     .collect(Collectors.toList());
-			} while (false);
+			} while (randomNumbers.get(0) == randomNumbers.get(1));
 			
 			int firstIndex = randomNumbers.get(0);
 			int secondIndex = randomNumbers.get(1);
 			if (firstIndex == secondIndex) {
-				LOGGER.info("firstIndex: {} matching secondIndex: {}", firstIndex, secondIndex);
+				// IDEALLY this should not even print but keeping it here for debugging
+				LOGGER.trace("firstIndex: {} matching secondIndex: {}", firstIndex, secondIndex);
 			}
 			
 			Collections.swap(neighbour, firstIndex, secondIndex);
@@ -57,12 +58,10 @@ public class SimulatedAnnealingServiceImpl implements SimulatedAnnealingService 
 			double tourCost = PointUtil.getTotalCost(tour);
 			double neighbourCost = PointUtil.getTotalCost(neighbour);
 			
-			if (Math.random() < probability(tourCost, neighbourCost, temperature)) {
-				tour = new ArrayList<>(neighbour);
-			}
-			
 			if (tourCost < PointUtil.getTotalCost(best)) {
 				best = new ArrayList<>(tour);
+			} else if (Math.random() < probability(tourCost, neighbourCost, temperature)) {
+				tour = new ArrayList<>(neighbour);
 			}
 		}
 		
@@ -70,9 +69,9 @@ public class SimulatedAnnealingServiceImpl implements SimulatedAnnealingService 
 		return best;
 	}
 	
-	private double probability(double f1, double f2, double temp) {
-        if (f2 < f1) return 1;
-        return Math.exp((f1 - f2) / temp);
+	private double probability(double previousCost, double newCost, double temp) {
+        if (newCost < previousCost) return 1;
+        return Math.exp((previousCost - newCost) / temp);
     }
 	
 	public static void main(String[] args) {

@@ -137,10 +137,8 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 			}
 			*/
 			
-			/*
-			
 			final double STARTING_TEMPERATURE = 1000;
-			final double COOLING_RATE = 0.999995;
+			final double COOLING_RATE = 0.9995;
 			
 			List<Point> annealingPoints = simulatedAnnealingService.simulatedAnnealing(
 					hamiltonianCycle, 
@@ -165,8 +163,7 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 			double goldenRatioAnnealing = annealingCost / mstCost;
 			LOGGER.trace("goldenRatioAnnealing: {}", goldenRatioAnnealing);
 			
-			*/
-			
+			/*
 			TSPDynamicProgramming solver = new TSPDynamicProgramming(0, points);
 			List<Integer> path = solver.getTour();
 			
@@ -187,6 +184,7 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 			
 			double goldenRatioDynamicProgramming = dynamicProgrammingCost / mstCost;
 			LOGGER.trace("goldenRatioDynamicProgramming: {}", goldenRatioDynamicProgramming);
+			*/
 		};
 		
 		/*
