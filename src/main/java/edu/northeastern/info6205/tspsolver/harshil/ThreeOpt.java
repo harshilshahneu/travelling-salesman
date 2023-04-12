@@ -21,7 +21,7 @@ public class ThreeOpt {
         Strategy 1 - Choose two random vertices for swap
         Strategy 2 - Choose two vertices that are adjacent to each other
         Strategy 3 - Choose two vertices that are of highest cost
-        Strategy 4 - Combination of 1 and 3
+        Strategy 4 - Combination of 1 and 2
      */
     private int strategy;
 
@@ -42,7 +42,9 @@ public class ThreeOpt {
             strategy2();
         } else if (strategy == 3) {
             strategy3();
-        } 
+        } else if (strategy == 4) {
+            strategy4();
+        }
     }
 
     public List<Point> getImprovedTour() {
@@ -149,5 +151,24 @@ public class ThreeOpt {
 
     private void strategy3() {
         // Choose two vertices that are of highest cost
+    }
+
+    private void strategy4() {
+        // Combination of 1 and 2
+        boolean improvement = true;
+        while(improvement) {
+            improvement = false;
+            for(int i = 1; i < tour.size() - 2; i++) {
+                Random random = new Random();
+                List<Integer> randomNumber = random.ints(1, 1, tour.size() - 3)
+                        .boxed()
+                        .collect(Collectors.toList());
+
+                improvement = swapNodes(randomNumber.get(0), randomNumber.get(0) + 1, randomNumber.get(0) + 2);
+                if(improvement) {
+                    break;
+                }
+            }
+        }
     }
 }

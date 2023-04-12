@@ -8,15 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import edu.northeastern.info6205.tspsolver.harshil.TwoOpt;
+import edu.northeastern.info6205.tspsolver.harshil.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import edu.northeastern.info6205.tspsolver.harshil.Edge;
-import edu.northeastern.info6205.tspsolver.harshil.FluerysAlgorithm;
-import edu.northeastern.info6205.tspsolver.harshil.PrimsMST;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.MapService;
 import edu.northeastern.info6205.tspsolver.service.PerfectMatchingSolverService;
@@ -132,9 +129,9 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 			mapService.publishClearMap();
 			mapService.publishAddPointsAndFitBound(points);
 
-			TwoOpt twoOpt = new TwoOpt(hamiltonianCycle, 2, 0);
-			twoOpt.improve();
-			List<Point> improvedTSPList = twoOpt.getImprovedTour();
+			ThreeOpt threeOpt = new ThreeOpt(hamiltonianCycle, 1, 1000000);
+			threeOpt.improve();
+			List<Point> improvedTSPList = threeOpt.getImprovedTour();
 
 			//convert point to list of edges
 			List<Edge> improvedTSPTour = new ArrayList<>();
@@ -144,6 +141,12 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 				Edge edge = new Edge(source, destination);
 				improvedTSPTour.add(edge);
 			}
+
+			//add last edge
+			Point source = improvedTSPList.get(improvedTSPList.size() - 1);
+			Point destination = improvedTSPList.get(0);
+			Edge lastEdge = new Edge(source, destination);
+			improvedTSPTour.add(lastEdge);
 
 			double improvedTSPTourCost = EdgeUtil.getTotalCost(improvedTSPTour);
 			LOGGER.trace("totalCost of improved TSP Tour: {}", improvedTSPTourCost);
