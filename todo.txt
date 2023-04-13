@@ -1,7 +1,5 @@
-Simmulated Annealing
 Ant Colony optimization
 Output in csv file
-Re-implement Blossom's V
 Write unit test cases
 Write report
 Code cleanup
