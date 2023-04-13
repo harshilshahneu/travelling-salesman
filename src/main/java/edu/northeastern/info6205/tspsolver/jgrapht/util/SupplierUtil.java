@@ -8,6 +8,9 @@ import java.lang.reflect.Modifier;
 import java.util.UUID;
 import java.util.function.Supplier;
 
+import edu.northeastern.info6205.tspsolver.jgrapht.graph.DefaultEdge;
+import edu.northeastern.info6205.tspsolver.jgrapht.graph.DefaultWeightedEdge;
+
 public class SupplierUtil {
 
 	@SuppressWarnings("unchecked")
@@ -48,7 +51,7 @@ public class SupplierUtil {
 	@SuppressWarnings("unchecked")
 	private static <T> Supplier<T> getThrowingSupplier(Throwable e) {
 		return (Supplier<T> & Serializable) () -> {
-			throw new org.jgrapht.util.SupplierException(e.getMessage(), e);
+			throw new SupplierException(e.getMessage(), e);
 		};
 	}
 
