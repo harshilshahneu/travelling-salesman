@@ -17,6 +17,7 @@ public interface SimulatedAnnealingService {
 	 * */
 	List<Point> simulatedAnnealing(
 			List<Point> tour, 
+			int maxIteration,
 			double startingTemperature,
 			double coolingRate);
 }

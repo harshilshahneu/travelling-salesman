@@ -163,10 +163,10 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 			for (Edge edge : initialTSPTour) {
 				mapService.publishDrawEdge(edge);
 			}
-
 			
 			final double STARTING_TEMPERATURE = 1000;
-			final double COOLING_RATE = 0.9995;
+			final double COOLING_RATE = 0.99995;
+			final int MAX_ITERATIONS = 1000000;
 			
 			List<Point> annealingPoints = simulatedAnnealingService.simulatedAnnealing(
 					hamiltonianCycle, 
