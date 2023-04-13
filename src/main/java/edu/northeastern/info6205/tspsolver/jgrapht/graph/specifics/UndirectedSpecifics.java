@@ -2,6 +2,7 @@ package edu.northeastern.info6205.tspsolver.jgrapht.graph.specifics;
 
 import edu.northeastern.info6205.tspsolver.jgrapht.Graph;
 import edu.northeastern.info6205.tspsolver.jgrapht.graph.EdgeSetFactory;
+import edu.northeastern.info6205.tspsolver.jgrapht.util.ArrayUnenforcedSet;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -13,10 +14,10 @@ public class UndirectedSpecifics<V, E> implements Specifics<V, E>, Serializable 
 	private static final long serialVersionUID = 1L;
 	
 	protected Graph<V, E> graph;
-	protected Map<V, org.jgrapht.graph.specifics.UndirectedEdgeContainer<V, E>> vertexMap;
+	protected Map<V, UndirectedEdgeContainer<V, E>> vertexMap;
 	protected EdgeSetFactory<V, E> edgeSetFactory;
 
-	public UndirectedSpecifics(Graph<V, E> graph, Map<V, org.jgrapht.graph.specifics.UndirectedEdgeContainer<V, E>> vertexMap,
+	public UndirectedSpecifics(Graph<V, E> graph, Map<V, UndirectedEdgeContainer<V, E>> vertexMap,
 			EdgeSetFactory<V, E> edgeSetFactory) {
 		this.graph = Objects.requireNonNull(graph);
 		this.vertexMap = Objects.requireNonNull(vertexMap);
@@ -25,7 +26,7 @@ public class UndirectedSpecifics<V, E> implements Specifics<V, E>, Serializable 
 
 	@Override
 	public boolean addVertex(V v) {
-		org.jgrapht.graph.specifics.UndirectedEdgeContainer<V, E> ec = vertexMap.get(v);
+		UndirectedEdgeContainer<V, E> ec = vertexMap.get(v);
 		if (ec == null) {
 			vertexMap.put(v, new UndirectedEdgeContainer<>(edgeSetFactory, v));
 			return true;
@@ -95,7 +96,7 @@ public class UndirectedSpecifics<V, E> implements Specifics<V, E>, Serializable 
 	@Override
 	public boolean addEdgeToTouchingVerticesIfAbsent(V sourceVertex, V targetVertex, E e) {
 		// lookup for edge with same source and target
-		org.jgrapht.graph.specifics.UndirectedEdgeContainer<V, E> ec = getEdgeContainer(sourceVertex);
+		UndirectedEdgeContainer<V, E> ec = getEdgeContainer(sourceVertex);
 		for (E edge : ec.vertexEdges) {
 			if (isEqualsStraightOrInverted(sourceVertex, targetVertex, edge)) {
 				return false;
@@ -111,7 +112,7 @@ public class UndirectedSpecifics<V, E> implements Specifics<V, E>, Serializable 
 	@Override
 	public E createEdgeToTouchingVerticesIfAbsent(V sourceVertex, V targetVertex, Supplier<E> edgeSupplier) {
 		// lookup for edge with same source and target
-		org.jgrapht.graph.specifics.UndirectedEdgeContainer<V, E> ec = getEdgeContainer(sourceVertex);
+		UndirectedEdgeContainer<V, E> ec = getEdgeContainer(sourceVertex);
 		for (E edge : ec.vertexEdges) {
 			if (isEqualsStraightOrInverted(sourceVertex, targetVertex, edge)) {
 				return null;
@@ -181,8 +182,8 @@ public class UndirectedSpecifics<V, E> implements Specifics<V, E>, Serializable 
 		}
 	}
 
-	protected org.jgrapht.graph.specifics.UndirectedEdgeContainer<V, E> getEdgeContainer(V vertex) {
-		org.jgrapht.graph.specifics.UndirectedEdgeContainer<V, E> ec = vertexMap.get(vertex);
+	protected UndirectedEdgeContainer<V, E> getEdgeContainer(V vertex) {
+		UndirectedEdgeContainer<V, E> ec = vertexMap.get(vertex);
 
 		if (ec == null) {
 			ec = new UndirectedEdgeContainer<>(edgeSetFactory, vertex);

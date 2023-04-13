@@ -34,7 +34,7 @@ public abstract class AbstractBaseGraph<V, E> extends AbstractGraph<V, E>
 
 	private Specifics<V, E> specifics;
 	private IntrusiveEdgesSpecifics<V, E> intrusiveEdgesSpecifics;
-	private org.jgrapht.graph.GraphSpecificsStrategy<V, E> graphSpecificsStrategy;
+	private GraphSpecificsStrategy<V, E> graphSpecificsStrategy;
 
 	private transient GraphIterables<V, E> graphIterables = null;
 
