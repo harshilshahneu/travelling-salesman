@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.jgrapht.Graph;
-import org.jgrapht.alg.interfaces.MatchingAlgorithm;
-import org.jgrapht.alg.matching.blossom.v5.KolmogorovWeightedPerfectMatching;
-import org.jgrapht.graph.DefaultWeightedEdge;
-import org.jgrapht.graph.SimpleWeightedGraph;
-import org.jgrapht.util.SupplierUtil;
+import edu.northeastern.info6205.tspsolver.jgrapht.Graph;
+import edu.northeastern.info6205.tspsolver.jgrapht.alg.interfaces.MatchingAlgorithm;
+import edu.northeastern.info6205.tspsolver.jgrapht.alg.matching.blossom.v5.KolmogorovWeightedPerfectMatching;
+import edu.northeastern.info6205.tspsolver.jgrapht.graph.DefaultWeightedEdge;
+import edu.northeastern.info6205.tspsolver.jgrapht.graph.SimpleWeightedGraph;
+import edu.northeastern.info6205.tspsolver.jgrapht.util.SupplierUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +70,7 @@ public class PerfectMatchingSolverServiceImpl implements PerfectMatchingSolverSe
 		LOGGER.trace("solving kolmogorovMatching algorithms for points size: {}", points.size());
 		
 		Graph<String, DefaultWeightedEdge> graph = new SimpleWeightedGraph<>(
-				SupplierUtil.createStringSupplier(), 
+				SupplierUtil.createStringSupplier(),
 				SupplierUtil.createDefaultWeightedEdgeSupplier());
 
 		Map<String, Point> map = new HashMap<>();

@@ -1,9 +1,5 @@
 package edu.northeastern.info6205.tspsolver.jgrapht.util;
 
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.DefaultWeightedEdge;
-import org.jgrapht.util.SupplierException;
-
 import java.io.InvalidObjectException;
 import java.io.ObjectStreamException;
 import java.io.Serializable;

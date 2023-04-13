@@ -1,6 +1,5 @@
 package edu.northeastern.info6205.tspsolver.jgrapht.util;
 
-import org.jgrapht.util.CollectionUtil;
 
 import java.util.*;
 
