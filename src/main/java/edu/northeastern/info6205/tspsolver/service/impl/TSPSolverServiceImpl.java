@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import edu.northeastern.info6205.tspsolver.harshil.*;
+import edu.northeastern.info6205.tspsolver.util.PointUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,42 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 				pointMap.put(Integer.parseInt(point.getId()), point);
 			}
 
+			/**
+			 * Genetic
+			 */
+//			double[][] travelPrices = TravellingSalesmanGenetic.generateRandomMatrix(points);
+//			int numberOfCities = points.size();
+//			TravellingSalesmanGenetic geneticAlgorithm = new TravellingSalesmanGenetic(numberOfCities, SelectionType.ROULETTE, travelPrices, 0, 0);
+//			SalesmanGenome result = geneticAlgorithm.optimize();
+//			List<Integer> genomeTour = result.getGenome();
+//			LOGGER.trace("Genome Tour length: {}", genomeTour.size());
+//			LOGGER.trace("Genome : {}", result);
+//			 List<Point> genomeList = new ArrayList<>();
+//			 for(int i = 0; i < genomeTour.size(); i++) {
+//			 	genomeList.add(points.get(genomeTour.get(i)));
+//			 }
+//			 //calculate the total cost of the tour
+//			 double totalGenomeCost = PointUtil.getTotalCost(genomeList);
+
+			/**
+				Ant colony simulation
+			 */
+
+			// AntColonySimulation antColonySimulation = new AntColonySimulation(points);
+			// int[] bestTourOrder = antColonySimulation.solve();
+
+			// //build tour from the array
+			// List<Point> antTour = new ArrayList<>();
+			// for(int i = 0; i < bestTourOrder.length; i++) {
+			// 	antTour.add(pointMap.get(bestTourOrder[i]));
+			// }
+
+			// //add the starting point to the end of the tour
+			// antTour.add(pointMap.get(bestTourOrder[0]));
+
+			// //calculate the total cost of the tour
+			// double totalAntTourCost = PointUtil.getTotalCost(antTour);
+			
 			PrimsMST primsMST = new PrimsMST(points);
 			primsMST.solve();
 			Edge[] edges = primsMST.getMst();
@@ -129,7 +166,7 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 			mapService.publishClearMap();
 			mapService.publishAddPointsAndFitBound(points);
 
-			ThreeOpt threeOpt = new ThreeOpt(hamiltonianCycle, 1, 1000000);
+			ThreeOpt threeOpt = new ThreeOpt(hamiltonianCycle, 1, 10000);
 			threeOpt.improve();
 			List<Point> improvedTSPList = threeOpt.getImprovedTour();
 
@@ -158,15 +195,16 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 
 			double goldenRatio = improvedTSPTourCost / mstCost;
 			LOGGER.trace("goldenRatio: {}", goldenRatio);
+			LOGGER.trace("Genome tour cost : {}", improvedTSPTourCost);
 			
 			/*
 			for (Edge edge : initialTSPTour) {
 				mapService.publishDrawEdge(edge);
 			}
+
 			
 			final double STARTING_TEMPERATURE = 1000;
-			final double COOLING_RATE = 0.99995;
-			final int MAX_ITERATIONS = 1000000;
+			final double COOLING_RATE = 0.9995;
 			
 			List<Point> annealingPoints = simulatedAnnealingService.simulatedAnnealing(
 					hamiltonianCycle, 
