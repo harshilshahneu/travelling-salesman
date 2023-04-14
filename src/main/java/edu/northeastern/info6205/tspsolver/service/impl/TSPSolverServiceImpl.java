@@ -34,6 +34,9 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 	
 	@Autowired
 	private SimulatedAnnealingService simulatedAnnealingService;
+
+	@Autowired
+	private Christofides christofides;
 	
 	@Override
 	public void solveAsync(List<Point> points, int startingPointIndex) {
@@ -156,17 +159,20 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 				Edge edge = new Edge(source, destination);
 				initialTSPTour.add(edge);
 			}
-			
+
+			christofides.setPoints(points);
+			List<Edge> candidate = christofides.solve();
+			double candidateCost = EdgeUtil.getTotalCost(candidate);
 			double totalTSPCost = EdgeUtil.getTotalCost(initialTSPTour);
 			LOGGER.trace("totalCost of initial TSP Tour: {}", totalTSPCost);
-
+			LOGGER.trace("totalCost of candidate TSP Tour: {}", candidateCost);
 			double goldenRatioInitialTSP = totalTSPCost / mstCost;
 			LOGGER.trace("goldenRatioInitialTSP: {}", goldenRatioInitialTSP);
 			
 			mapService.publishClearMap();
 			mapService.publishAddPointsAndFitBound(points);
 
-			ThreeOpt threeOpt = new ThreeOpt(hamiltonianCycle, 1, 10000);
+			ThreeOpt threeOpt = new ThreeOpt(hamiltonianCycle, 1, 1);
 			threeOpt.improve();
 			List<Point> improvedTSPList = threeOpt.getImprovedTour();
 
