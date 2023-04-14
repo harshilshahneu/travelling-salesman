@@ -14,6 +14,11 @@ public class Point {
 	}
     
 	public Point(String id, double latitude, double longitude) {
+
+		if (latitude < -90.0 || latitude > 90.0 || longitude > 180.0 || longitude < -180.0){
+			throw new IllegalArgumentException("Illegal coordinates provided.");
+		};
+
 		this.id = id;
 		this.latitude = latitude;
 		this.longitude = longitude;
@@ -29,12 +34,18 @@ public class Point {
 		return latitude;
 	}
 	public void setLatitude(double latitude) {
+		if (latitude < -90.0 || latitude > 90.0){
+			throw new IllegalArgumentException("Illegal coordinates provided.");
+		}
 		this.latitude = latitude;
 	}
 	public double getLongitude() {
 		return longitude;
 	}
 	public void setLongitude(double longitude) {
+		if (longitude > 180.0 || longitude < -180.0){
+			throw new IllegalArgumentException("Illegal coordinates provided.");
+		}
 		this.longitude = longitude;
 	}
 	
