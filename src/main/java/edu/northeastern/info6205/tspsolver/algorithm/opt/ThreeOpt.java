@@ -20,7 +20,7 @@ public class ThreeOpt {
     /**
         Strategy 1 - Choose two random vertices for swap
         Strategy 2 - Choose two vertices that are adjacent to each other
-        Strategy 3 - Choose two vertices that are of highest cost
+        Strategy 3 - Iterative combination of one and two
         Strategy 4 - Combination of 1 and 2
      */
     private int strategy;
@@ -36,7 +36,6 @@ public class ThreeOpt {
 
     public void improve() {
         if (strategy == 1) {
-            LOGGER.trace("Strategy 1");
             strategy1();
         } else if (strategy == 2) {
             strategy2();
@@ -148,7 +147,9 @@ public class ThreeOpt {
     }
 
     private void strategy3() {
-        // Choose two vertices that are of highest cost
+        // Iterative combination of one and two
+        strategy1();
+        strategy2();
     }
 
     private void strategy4() {

@@ -20,8 +20,7 @@ public class TwoOpt {
     /**
         Strategy 1 - Choose two random vertices for swap
         Strategy 2 - Choose two vertices that are adjacent to each other
-        Strategy 3 - Choose two vertices that are of highest cost
-        Strategy 4 - Combination of 1 and 3
+        Strategy 3 - Iterative combination of one and two
      */
     private int strategy;
 
@@ -111,6 +110,8 @@ public class TwoOpt {
     }
 
     private void strategy3() {
-        
+        //Iterative combination of one and two
+        strategy1();
+        strategy2();
     }
 }
