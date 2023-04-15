@@ -2,7 +2,7 @@ package edu.northeastern.info6205.tspsolver.service;
 
 import java.util.List;
 
-import edu.northeastern.info6205.tspsolver.harshil.Edge;
+import edu.northeastern.info6205.tspsolver.model.Edge;
 import edu.northeastern.info6205.tspsolver.model.Point;
 
 /**
@@ -12,16 +12,9 @@ import edu.northeastern.info6205.tspsolver.model.Point;
 public interface PerfectMatchingSolverService {
 
 	/**
-	 * Will apply Edmond Karpds algorithm
-	 * to solve the minimized weight matching
-	 * for the given list of points
+	 * Will get the perfect matching
+	 * with minimum weight
 	 * */
-	List<Edge> edmondAlgorithm(List<Point> points);
-	
-	/**
-	 * Will use the KolmogorovWeightedMatching
-	 * in jgrapht-core library
-	 * */
-	List<Edge> kolmogorovMatching(List<Point> points);
+	List<Edge> getMinimumWeightPerfectMatching(List<Point> points);
 	
 }

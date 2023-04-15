@@ -1,4 +1,4 @@
-package edu.northeastern.info6205.tspsolver.harshil;
+package edu.northeastern.info6205.tspsolver.algorithm.eulerian;
 
 // in a given Eulerian or Semi-Eulerian Graph
 import java.util.ArrayList;

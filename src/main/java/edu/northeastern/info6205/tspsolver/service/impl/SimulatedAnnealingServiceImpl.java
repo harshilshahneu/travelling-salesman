@@ -8,16 +8,28 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.SimulatedAnnealingService;
 import edu.northeastern.info6205.tspsolver.util.PointUtil;
 
-@Service
 public class SimulatedAnnealingServiceImpl implements SimulatedAnnealingService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SimulatedAnnealingServiceImpl.class);
 
+	private static SimulatedAnnealingService instance;
+	
+	private SimulatedAnnealingServiceImpl() {
+		LOGGER.info("Initialising the instance");
+	}
+	
+	public static SimulatedAnnealingService getInstance() {
+		if (instance == null) {
+			instance = new SimulatedAnnealingServiceImpl();
+		}
+		
+		return instance;
+	}
+	
 	@Override
 	public List<Point> simulatedAnnealing(
 			List<Point> tour, 

@@ -2,7 +2,7 @@ package edu.northeastern.info6205.tspsolver.service;
 
 import java.util.List;
 
-import edu.northeastern.info6205.tspsolver.harshil.Edge;
+import edu.northeastern.info6205.tspsolver.model.Edge;
 import edu.northeastern.info6205.tspsolver.model.Point;
 
 /**

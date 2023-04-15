@@ -1,5 +1,6 @@
 package edu.northeastern.info6205.tspsolver.harshil;
 
+import edu.northeastern.info6205.tspsolver.model.Edge;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -16,9 +17,9 @@ public class EdgeTest {
         Point p1 = new Point("", 0, 0);
         Point p2 = new Point("", 3, 4);
         Edge edge = new Edge(p1, p2);
-        assertEquals(p1, edge.from);
-        assertEquals(p2, edge.to);
-        assertEquals(555811.9416947138, edge.distance);
+        assertEquals(p1, edge.getFrom());
+        assertEquals(p2, edge.getTo());
+        assertEquals(555811.9416947138, edge.getDistance());
     }
 
 
@@ -28,9 +29,9 @@ public class EdgeTest {
         Point p1 = new Point("", 0, 0);
         Point p2 = new Point("", 0, 0);
         Edge edge = new Edge(p1, p2);
-        assertEquals(p1, edge.from);
-        assertEquals(p2, edge.to);
-        assertEquals(0, edge.distance);
+        assertEquals(p1, edge.getFrom());
+        assertEquals(p2, edge.getTo());
+        assertEquals(0, edge.getDistance());
     }
 
     @Test
@@ -39,9 +40,9 @@ public class EdgeTest {
         Point p1 = new Point("", 5, 9);
         Point p2 = new Point("", 5, 9);
         Edge edge = new Edge(p1, p2);
-        assertEquals(p1, edge.from);
-        assertEquals(p2, edge.to);
-        assertEquals(0, edge.distance);
+        assertEquals(p1, edge.getFrom());
+        assertEquals(p2, edge.getTo());
+        assertEquals(0, edge.getDistance());
     }
 
     @Test
@@ -52,8 +53,8 @@ public class EdgeTest {
         Point p3 = new Point("", 5, 5);
         Point p4 = new Point("", 15, 20);
         Edge edge2 = new Edge(p3, p4);
-        assertEquals(p1, edge2.from);
-        assertEquals(p2, edge2.to);
+        assertEquals(p1, edge2.getFrom());
+        assertEquals(p2, edge2.getTo());
     }
 
     @Test
@@ -65,7 +66,7 @@ public class EdgeTest {
         Point p4 = new Point("d", 15, 20);
         Edge edge1 = new Edge(p1, p2);
         Edge edge2 = new Edge(p3, p4);
-        assertEquals(edge1.distance, edge2.distance);
+        assertEquals(edge1.getDistance(), edge2.getDistance());
     }
 
     @Test
@@ -84,8 +85,7 @@ public class EdgeTest {
         Point p1 = new Point("", 0, 0);
         Point p2 = null;
         assertThrows(NullPointerException.class, () -> {
-            Edge edge = new Edge(p1, p2);
-            double distance = edge.distance;
+            new Edge(p1, p2);
         });
     }
 
@@ -96,8 +96,7 @@ public class EdgeTest {
         Point p1 = null;
         Point p2 = new Point("b", 15, 20);
         assertThrows(NullPointerException.class, () -> {
-            Edge edge = new Edge(p1, p2);
-            double distance = edge.distance;
+            new Edge(p1, p2);
         });
     }
 
@@ -108,8 +107,7 @@ public class EdgeTest {
         Point p1 = null;
         Point p2 = null;
         assertThrows(NullPointerException.class, () -> {
-            Edge edge = new Edge(p1, p2);
-            double distance = edge.distance;
+            new Edge(p1, p2);
         });
     }
 }

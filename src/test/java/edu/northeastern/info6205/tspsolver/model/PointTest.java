@@ -1,23 +1,23 @@
 package edu.northeastern.info6205.tspsolver.model;
 
-import edu.northeastern.info6205.tspsolver.harshil.HaversineDistance;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 public class PointTest {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(edu.northeastern.info6205.tspsolver.model.PointTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PointTest.class);
 
     @Test
     public void invalidCoordinates() {
         LOGGER.trace("invalidCoordinates()");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            Point point1 = new Point("", 100.0, 0.0);
-            Point point2 = new Point("", 40.712776, 40.0);
+            new Point("", 100.0, 0.0);
+            new Point("", 40.712776, 40.0);
         });
     }
 
@@ -26,8 +26,8 @@ public class PointTest {
         LOGGER.trace("invalidCoordinates2()");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            Point point1 = new Point("", 0.0, 181.0);
-            Point point2 = new Point("", 1.0, 40.0);
+            new Point("", 0.0, 181.0);
+            new Point("", 1.0, 40.0);
         });
     }
 
@@ -36,8 +36,8 @@ public class PointTest {
         LOGGER.trace("invalidCoordinates3()");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            Point point1 = new Point("", 0.0, 18.0);
-            Point point2 = new Point("", -91.0, 40.0);
+            new Point("", 0.0, 18.0);
+            new Point("", -91.0, 40.0);
         });
     }
 
@@ -46,8 +46,8 @@ public class PointTest {
         LOGGER.trace("invalidCoordinates4()");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            Point point1 = new Point("", 0.0, 18.0);
-            Point point2 = new Point("", -9.0, -181.0);
+            new Point("", 0.0, 18.0);
+            new Point("", -9.0, -181.0);
         });
     }
 

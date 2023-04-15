@@ -1,19 +1,23 @@
-package edu.northeastern.info6205.tspsolver.harshil;
+package edu.northeastern.info6205.tspsolver.algorithm.christofides;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import edu.northeastern.info6205.tspsolver.algorithm.eulerian.FluerysAlgorithm;
+import edu.northeastern.info6205.tspsolver.algorithm.mst.PrimsMST;
+import edu.northeastern.info6205.tspsolver.model.Edge;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.PerfectMatchingSolverService;
-import edu.northeastern.info6205.tspsolver.service.impl.PerfectMatchingSolverServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import edu.northeastern.info6205.tspsolver.service.impl.KolmogorovWeightedPerfectMatchingImpl;
 
-import java.io.IOException;
-import java.util.*;
-
-@Service
 public class Christofides {
-	@Autowired
-	private PerfectMatchingSolverService perfectMatchingSolverService;
-    private List<Point> points;
+	
+	private List<Point> points;
     private List<Edge> mst;
     private List<Point> oddDegreeNodes;
     private List<Edge> matchingEdges;
@@ -23,6 +27,7 @@ public class Christofides {
 	public void setPoints(List<Point> points) {
 		this.points = points;
 	}
+	
     private void getMst() {
         PrimsMST primsMST = new PrimsMST(points);
         primsMST.solve();
@@ -36,8 +41,8 @@ public class Christofides {
 	    }
 
 	    for (Edge edge : mst) {
-	        vertexDegrees.put(edge.from, vertexDegrees.get(edge.from) + 1);
-	        vertexDegrees.put(edge.to, vertexDegrees.get(edge.to) + 1);
+	        vertexDegrees.put(edge.getFrom(), vertexDegrees.get(edge.getFrom()) + 1);
+	        vertexDegrees.put(edge.getTo(), vertexDegrees.get(edge.getTo()) + 1);
 	    }
 
 	    oddDegreeNodes = new ArrayList<>();
@@ -49,7 +54,8 @@ public class Christofides {
 	}
 
     private void findPerfectMatching() {
-		matchingEdges = perfectMatchingSolverService.kolmogorovMatching(oddDegreeNodes);
+    	PerfectMatchingSolverService service = KolmogorovWeightedPerfectMatchingImpl.getInstance();
+		matchingEdges = service.getMinimumWeightPerfectMatching(oddDegreeNodes);
     }
 
     private void getEulerianTour() {
@@ -64,8 +70,8 @@ public class Christofides {
 		multigraph.addAll(matchingEdges);
         FluerysAlgorithm eulerianCircuit =  new FluerysAlgorithm(multigraph.size());
 		for(Edge edge: multigraph) {
-			int sourceIndex = Integer.parseInt(edge.from.getId());
-			int destinationIndex = Integer.parseInt(edge.to.getId());
+			int sourceIndex = Integer.parseInt(edge.getFrom().getId());
+			int destinationIndex = Integer.parseInt(edge.getTo().getId());
 			eulerianCircuit.addEdge(sourceIndex, destinationIndex);
 		}
         eulerianCircuit.printEulerTour();
@@ -87,8 +93,8 @@ public class Christofides {
         hamiltonianCycle = new ArrayList<>();
 		Set<Point> visited = new HashSet<>();
 		for (Edge edge : eulerianTour) {
-			Point source = edge.from;
-			Point target = edge.to;
+			Point source = edge.getFrom();
+			Point target = edge.getTo();
 
 			if (visited.add(source)) {
 				hamiltonianCycle.add(source);

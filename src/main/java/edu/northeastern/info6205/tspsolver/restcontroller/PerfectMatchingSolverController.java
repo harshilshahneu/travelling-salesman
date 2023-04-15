@@ -5,34 +5,25 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.northeastern.info6205.tspsolver.harshil.Edge;
+import edu.northeastern.info6205.tspsolver.model.Edge;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.PerfectMatchingSolverService;
+import edu.northeastern.info6205.tspsolver.service.impl.KolmogorovWeightedPerfectMatchingImpl;
 
 @RestController
 public class PerfectMatchingSolverController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(PerfectMatchingSolverController.class);
 	
-	@Autowired
-	private PerfectMatchingSolverService perfectMatchingSolverService;
-	
-	@PostMapping("/api/perfect-matchin/edmond")
-	public List<Edge> edmondAlgorithm(@RequestBody List<Point> points) {
-		LOGGER.trace("solving edmond algorithms for points size: {}", points.size());
-		List<Edge> result = perfectMatchingSolverService.edmondAlgorithm(points);
-		return result;
-	}
-	
 	@PostMapping("/api/perfect-matchin/kolmogorv")
 	public List<Edge> kolmogorovAlgorithm(@RequestBody List<Point> points) {
 		LOGGER.trace("solving kolmogorov algorithms for points size: {}", points.size());
-		List<Edge> result = perfectMatchingSolverService.kolmogorovMatching(points);
+		PerfectMatchingSolverService service = KolmogorovWeightedPerfectMatchingImpl.getInstance();
+		List<Edge> result = service.getMinimumWeightPerfectMatching(points);
 		return result;
 	}
 	
@@ -62,7 +53,8 @@ public class PerfectMatchingSolverController {
 			newList.addAll(modifiedPoints);
 		}
 		
-		List<Edge> result = perfectMatchingSolverService.kolmogorovMatching(newList);
+		PerfectMatchingSolverService service = KolmogorovWeightedPerfectMatchingImpl.getInstance();
+		List<Edge> result = service.getMinimumWeightPerfectMatching(newList);
 		return result;
 	}
 	

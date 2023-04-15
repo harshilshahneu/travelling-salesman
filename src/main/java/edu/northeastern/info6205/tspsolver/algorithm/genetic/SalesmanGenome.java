@@ -1,7 +1,7 @@
-package edu.northeastern.info6205.tspsolver.harshil;
+package edu.northeastern.info6205.tspsolver.algorithm.genetic;
 import java.util.*;
 
-public class SalesmanGenome implements Comparable {
+public class SalesmanGenome implements Comparable<SalesmanGenome> {
     List<Integer> genome;
     double[][] travelPrices;
     int startingCity;
@@ -77,15 +77,14 @@ public class SalesmanGenome implements Comparable {
         return sb.toString();
     }
 
-
-    @Override
-    public int compareTo(Object o) {
-        SalesmanGenome genome = (SalesmanGenome) o;
-        if(this.fitness > genome.getFitness())
+	@Override
+	public int compareTo(SalesmanGenome o) {
+		if(this.fitness > o.getFitness())
             return 1;
-        else if(this.fitness < genome.getFitness())
+        else if(this.fitness < o.getFitness())
             return -1;
         else
             return 0;
-    }
+	}
+	
 }

@@ -1,10 +1,15 @@
-package edu.northeastern.info6205.tspsolver.harshil;
+package edu.northeastern.info6205.tspsolver.algorithm.genetic;
 
-import edu.northeastern.info6205.tspsolver.model.Point;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
-import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import edu.northeastern.info6205.tspsolver.model.Point;
+import edu.northeastern.info6205.tspsolver.util.HaversineDistanceUtil;
 
 public class TravellingSalesmanGenetic {
     private static final Logger LOGGER = LoggerFactory.getLogger(TravellingSalesmanGenetic.class);
@@ -44,7 +49,7 @@ public class TravellingSalesmanGenetic {
          double[][] graph = new double[points.size()][points.size()];
         for (int i = 0; i < points.size(); i++) {
             for (int j = 0; j < points.size(); j++) {
-                graph[i][j] = HaversineDistance.haversine(points.get(i), points.get(j));
+                graph[i][j] = HaversineDistanceUtil.haversine(points.get(i), points.get(j));
             }
         }
         return graph;
@@ -60,7 +65,7 @@ public class TravellingSalesmanGenetic {
 
     public List<SalesmanGenome> selection(List<SalesmanGenome> population){
         List<SalesmanGenome> selected = new ArrayList<>();
-        SalesmanGenome winner;
+
         for(int i=0; i<reproductionSize; i++){
             if(selectionType == SelectionType.ROULETTE){
                 selected.add(rouletteSelection(population));

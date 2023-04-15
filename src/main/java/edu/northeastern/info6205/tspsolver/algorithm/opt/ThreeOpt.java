@@ -1,16 +1,16 @@
-package edu.northeastern.info6205.tspsolver.harshil;
-
-import edu.northeastern.info6205.tspsolver.model.Point;
-import edu.northeastern.info6205.tspsolver.service.impl.JspritTSPSolverServiceImpl;
-import edu.northeastern.info6205.tspsolver.util.PointUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package edu.northeastern.info6205.tspsolver.algorithm.opt;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import edu.northeastern.info6205.tspsolver.model.Point;
+import edu.northeastern.info6205.tspsolver.util.PointUtil;
 
 public class ThreeOpt {
     private static final Logger LOGGER = LoggerFactory.getLogger(TwoOpt.class);
@@ -92,9 +92,7 @@ public class ThreeOpt {
 
         //update the tour if new cost is less than old cost
         if(min < cost) {
-            LOGGER.trace("Improvement found");
-            LOGGER.trace("Cost before swap : {}", cost);
-            LOGGER.trace("Cost after swap : {}", min);
+            LOGGER.trace("Improvement found, old cost: {}, new cost: {}", cost, min);
             if(index == 0) {
                 this.tour = improvedTour_1;
             } else if(index == 1) {

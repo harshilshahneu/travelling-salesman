@@ -1,8 +1,10 @@
-package edu.northeastern.info6205.tspsolver.harshil;
+package edu.northeastern.info6205.tspsolver.algorithm.mst;
 
 import java.io.IOException;
 import java.util.List;
 
+import edu.northeastern.info6205.tspsolver.model.Edge;
+import edu.northeastern.info6205.tspsolver.model.MinIndexedDHeap;
 import edu.northeastern.info6205.tspsolver.model.Point;
 
 public class PrimsMST {
@@ -90,7 +92,7 @@ public class PrimsMST {
             Edge edge = ipq.pollMinValue();
 
             mstEdges[edgeCount++] = edge;
-            minCostSum += edge.distance;
+            minCostSum += edge.getDistance();
 
          //   mapService.publishDrawEdge(edge);
             
@@ -101,12 +103,6 @@ public class PrimsMST {
 
         // Verify MST spans entire graph.
         mstExists = (edgeCount == m);
-    }
-
-    public void printMST(Edge[] edges) {
-        for(int i = 0; i < edges.length; i++) {
-            System.out.println(edges[i].from.getId()+ ", " + " to " + edges[i].to.getId() +  " Distance: " +edges[i].distance);
-        }
     }
 
     public static void main(String[] args) throws IOException {

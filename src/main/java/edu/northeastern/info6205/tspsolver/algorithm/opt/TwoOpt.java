@@ -1,16 +1,16 @@
-package edu.northeastern.info6205.tspsolver.harshil;
-
-import edu.northeastern.info6205.tspsolver.model.Point;
-import edu.northeastern.info6205.tspsolver.service.impl.JspritTSPSolverServiceImpl;
-import edu.northeastern.info6205.tspsolver.util.PointUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package edu.northeastern.info6205.tspsolver.algorithm.opt;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import edu.northeastern.info6205.tspsolver.model.Point;
+import edu.northeastern.info6205.tspsolver.util.PointUtil;
 
 public class TwoOpt {
     private static final Logger LOGGER = LoggerFactory.getLogger(TwoOpt.class);

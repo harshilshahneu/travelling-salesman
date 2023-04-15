@@ -1,5 +1,8 @@
-package edu.northeastern.info6205.tspsolver.harshil;
+package edu.northeastern.info6205.tspsolver.algorithm.onetree;
 
+import edu.northeastern.info6205.tspsolver.algorithm.mst.PrimsMST;
+import edu.northeastern.info6205.tspsolver.model.Edge;
+import edu.northeastern.info6205.tspsolver.model.MinIndexedDHeap;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +37,7 @@ public class OneTree {
         mst[mst.length - 1] = ipq.pollMinValue();
 
         this.oneTree = mst;
-        this.oneTreeCost += mst[mst.length - 2].distance + mst[mst.length - 1].distance;
-    }
-
-    public void printOneTree() {
-        for(int i = 0; i < oneTree.length; i++) {
-            System.out.println(oneTree[i].to + " " + oneTree[i].from + " " + oneTree[i].distance);
-        }
+        this.oneTreeCost += mst[mst.length - 2].getDistance() + mst[mst.length - 1].getDistance();
     }
 
     public double getOnetreeCost() {

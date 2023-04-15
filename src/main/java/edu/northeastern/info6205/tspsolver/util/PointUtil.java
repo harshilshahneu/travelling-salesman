@@ -2,7 +2,6 @@ package edu.northeastern.info6205.tspsolver.util;
 
 import java.util.List;
 
-import edu.northeastern.info6205.tspsolver.harshil.HaversineDistance;
 import edu.northeastern.info6205.tspsolver.model.Point;
 
 public class PointUtil {
@@ -19,7 +18,7 @@ public class PointUtil {
 		for (int i = 0; i < points.size() - 1; i++) {
 			Point source = points.get(i);
 			Point destiation = points.get(i + 1);
-			double distance = HaversineDistance.haversine(source, destiation);
+			double distance = HaversineDistanceUtil.haversine(source, destiation);
 			total += distance;
 		}
 		

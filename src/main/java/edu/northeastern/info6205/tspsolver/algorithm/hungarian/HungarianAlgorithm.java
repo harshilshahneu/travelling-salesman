@@ -1,4 +1,4 @@
-package edu.northeastern.info6205.tspsolver.harshil;
+package edu.northeastern.info6205.tspsolver.algorithm.hungarian;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;

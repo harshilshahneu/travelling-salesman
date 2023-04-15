@@ -8,35 +8,36 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import edu.northeastern.info6205.tspsolver.harshil.*;
-import edu.northeastern.info6205.tspsolver.util.PointUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
+import edu.northeastern.info6205.tspsolver.algorithm.christofides.Christofides;
+import edu.northeastern.info6205.tspsolver.algorithm.eulerian.FluerysAlgorithm;
+import edu.northeastern.info6205.tspsolver.algorithm.mst.PrimsMST;
+import edu.northeastern.info6205.tspsolver.algorithm.opt.ThreeOpt;
+import edu.northeastern.info6205.tspsolver.model.Edge;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.MapService;
 import edu.northeastern.info6205.tspsolver.service.PerfectMatchingSolverService;
-import edu.northeastern.info6205.tspsolver.service.SimulatedAnnealingService;
 import edu.northeastern.info6205.tspsolver.service.TSPSolverService;
 import edu.northeastern.info6205.tspsolver.util.EdgeUtil;
 
-@Service
 public class TSPSolverServiceImpl implements TSPSolverService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TSPSolverServiceImpl.class);
 
-	@Autowired
-	private PerfectMatchingSolverService perfectMatchingSolverService;
+	private static TSPSolverService instance;
 	
-	@Autowired
-	private MapService mapService;
+	private TSPSolverServiceImpl() {
+		LOGGER.info("Initialising the instance");
+	}
 	
-	@Autowired
-	private SimulatedAnnealingService simulatedAnnealingService;
-
-	@Autowired
-	private Christofides christofides;
+	public static TSPSolverService getInstance() {
+		if (instance == null) {
+			instance = new TSPSolverServiceImpl();
+		}
+		
+		return instance;
+	}
 	
 	@Override
 	public void solveAsync(List<Point> points, int startingPointIndex) {
@@ -102,7 +103,8 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 			
 			List<Point> oddDegreePoints = findOddDegreeVertices(points, mstEdgeList);
 			
-			List<Edge> matchingEdges = perfectMatchingSolverService.kolmogorovMatching(oddDegreePoints);
+			PerfectMatchingSolverService service = KolmogorovWeightedPerfectMatchingImpl.getInstance();
+			List<Edge> matchingEdges = service.getMinimumWeightPerfectMatching(oddDegreePoints);
 			LOGGER.trace("matchingEdges size: {}", matchingEdges.size());
 			
 			double totalCost = EdgeUtil.getTotalCost(matchingEdges);
@@ -114,8 +116,8 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 
 			FluerysAlgorithm eulerianCircuit =  new FluerysAlgorithm(multigraph.size());
 			for(Edge edge: multigraph) {
-				int sourceIndex = Integer.parseInt(edge.from.getId());
-				int destinationIndex = Integer.parseInt(edge.to.getId());
+				int sourceIndex = Integer.parseInt(edge.getFrom().getId());
+				int destinationIndex = Integer.parseInt(edge.getTo().getId());
 				eulerianCircuit.addEdge(sourceIndex, destinationIndex);
 			}
 
@@ -137,8 +139,8 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 			List<Point> hamiltonianCycle = new ArrayList<>();
 			Set<Point> visited = new HashSet<>();
 			for (Edge edge : eulerianTour) {
-				Point source = edge.from;
-				Point target = edge.to;
+				Point source = edge.getFrom();
+				Point target = edge.getTo();
 
 				if (visited.add(source)) {
 					hamiltonianCycle.add(source);
@@ -160,6 +162,7 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 				initialTSPTour.add(edge);
 			}
 
+			Christofides christofides = new Christofides();
 			christofides.setPoints(points);
 			List<Edge> candidate = christofides.solve();
 			double candidateCost = EdgeUtil.getTotalCost(candidate);
@@ -169,10 +172,12 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 			double goldenRatioInitialTSP = totalTSPCost / mstCost;
 			LOGGER.trace("goldenRatioInitialTSP: {}", goldenRatioInitialTSP);
 			
+			MapService mapService = MapServiceImpl.getInstance();
 			mapService.publishClearMap();
 			mapService.publishAddPointsAndFitBound(points);
 
-			ThreeOpt threeOpt = new ThreeOpt(hamiltonianCycle, 1, 1);
+			int budget = 1000000;
+			ThreeOpt threeOpt = new ThreeOpt(hamiltonianCycle, 1, budget);
 			threeOpt.improve();
 			List<Point> improvedTSPList = threeOpt.getImprovedTour();
 
@@ -201,7 +206,8 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 
 			double goldenRatio = improvedTSPTourCost / mstCost;
 			LOGGER.trace("goldenRatio: {}", goldenRatio);
-			LOGGER.trace("Genome tour cost : {}", improvedTSPTourCost);
+			
+			LOGGER.trace("3-opt tour cost : {}", improvedTSPTourCost);
 			
 			/*
 			for (Edge edge : initialTSPTour) {
@@ -277,8 +283,8 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 	    }
 
 	    for (Edge edge : edges) {
-	        vertexDegrees.put(edge.from, vertexDegrees.get(edge.from) + 1);
-	        vertexDegrees.put(edge.to, vertexDegrees.get(edge.to) + 1);
+	        vertexDegrees.put(edge.getFrom(), vertexDegrees.get(edge.getFrom()) + 1);
+	        vertexDegrees.put(edge.getTo(), vertexDegrees.get(edge.getTo()) + 1);
 	    }
 
 	    List<Point> oddDegreeVertices = new ArrayList<>();

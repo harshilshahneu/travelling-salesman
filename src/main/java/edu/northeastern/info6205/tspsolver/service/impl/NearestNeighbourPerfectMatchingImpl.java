@@ -1,19 +1,37 @@
-package edu.northeastern.info6205.tspsolver.harshil;
-
-import edu.northeastern.info6205.tspsolver.model.Point;
-import edu.northeastern.info6205.tspsolver.service.impl.PerfectMatchingSolverServiceImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package edu.northeastern.info6205.tspsolver.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class NearestNeighbourPerfectMatching {
-    private static final Logger LOGGER = LoggerFactory.getLogger(NearestNeighbourPerfectMatching.class);
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-    public static List<Edge> calculatePerfectMatching(List<Point> points) {
+import edu.northeastern.info6205.tspsolver.model.Edge;
+import edu.northeastern.info6205.tspsolver.model.Point;
+import edu.northeastern.info6205.tspsolver.service.PerfectMatchingSolverService;
+import edu.northeastern.info6205.tspsolver.util.HaversineDistanceUtil;
+
+public class NearestNeighbourPerfectMatchingImpl implements PerfectMatchingSolverService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(NearestNeighbourPerfectMatchingImpl.class);
+
+    private static PerfectMatchingSolverService instance;
+	
+	private NearestNeighbourPerfectMatchingImpl() {
+		LOGGER.info("Initialising the instance");
+	}
+	
+	public static PerfectMatchingSolverService getInstance() {
+		if (instance == null) {
+			instance = new NearestNeighbourPerfectMatchingImpl();
+		}
+		
+		return instance;
+	}
+    
+    @Override
+    public List<Edge> getMinimumWeightPerfectMatching(List<Point> points) {
         LOGGER.trace("solve nearest neighbour perfect matching for points size: {}", points.size());
 
         List<Edge> edges = new ArrayList<>();
@@ -37,13 +55,13 @@ public class NearestNeighbourPerfectMatching {
         return edges;
     }
 
-    private static Point getNearestNeighbour(Point point, Set<Point> unvisitedPoints) {
+    private Point getNearestNeighbour(Point point, Set<Point> unvisitedPoints) {
         LOGGER.trace("getNearestNeighbour for point: {}, unvisitedPoints size: {}", point, unvisitedPoints.size());
 
         Point nearestPoint = null;
         double minDistance = Double.MAX_VALUE;
         for (Point unvisitedPoint : unvisitedPoints) {
-            double distance = HaversineDistance.haversine(point, unvisitedPoint);
+            double distance = HaversineDistanceUtil.haversine(point, unvisitedPoint);
             if (distance < minDistance) {
                 minDistance = distance;
                 nearestPoint = unvisitedPoint;

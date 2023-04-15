@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.graphhopper.jsprit.core.algorithm.VehicleRoutingAlgorithm;
 import com.graphhopper.jsprit.core.algorithm.box.Jsprit;
@@ -17,6 +15,7 @@ import com.graphhopper.jsprit.core.problem.cost.TransportCost;
 import com.graphhopper.jsprit.core.problem.cost.VehicleRoutingTransportCosts;
 import com.graphhopper.jsprit.core.problem.driver.Driver;
 import com.graphhopper.jsprit.core.problem.job.Job;
+import com.graphhopper.jsprit.core.problem.job.Service;
 import com.graphhopper.jsprit.core.problem.solution.VehicleRoutingProblemSolution;
 import com.graphhopper.jsprit.core.problem.solution.route.VehicleRoute;
 import com.graphhopper.jsprit.core.problem.vehicle.Vehicle;
@@ -26,18 +25,28 @@ import com.graphhopper.jsprit.core.problem.vehicle.VehicleTypeImpl;
 import com.graphhopper.jsprit.core.util.Solutions;
 
 import edu.northeastern.info6205.tspsolver.constant.Constant;
-import edu.northeastern.info6205.tspsolver.harshil.Edge;
-import edu.northeastern.info6205.tspsolver.harshil.HaversineDistance;
+import edu.northeastern.info6205.tspsolver.model.Edge;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.JspritTSPSolverService;
 import edu.northeastern.info6205.tspsolver.service.MapService;
+import edu.northeastern.info6205.tspsolver.util.HaversineDistanceUtil;
 
-@Service
 public class JspritTSPSolverServiceImpl implements JspritTSPSolverService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(JspritTSPSolverServiceImpl.class);
 	
-	@Autowired
-	private MapService mapService;
+	private static JspritTSPSolverService instance;
+	
+	private JspritTSPSolverServiceImpl() {
+		LOGGER.info("Initialising the instance");
+	}
+	
+	public static JspritTSPSolverService getInstance() {
+		if (instance == null) {
+			instance = new JspritTSPSolverServiceImpl();
+		}
+		
+		return instance;
+	}
 	
 	@Override
 	public List<Point> getTSPTour(List<Point> points, int startingPointIndex) {
@@ -46,7 +55,9 @@ public class JspritTSPSolverServiceImpl implements JspritTSPSolverService {
 				points.size(),
 				startingPointIndex);
 		
-		List<com.graphhopper.jsprit.core.problem.job.Service> jobs = new ArrayList<>();
+		MapService mapService = MapServiceImpl.getInstance(); 
+		
+		List<Service> jobs = new ArrayList<>();
 		
 		for (int i = 0; i < points.size(); ++i) {
 			if (i == startingPointIndex) {
@@ -59,7 +70,7 @@ public class JspritTSPSolverServiceImpl implements JspritTSPSolverService {
 					point.getLongitude(), 
 					point.getLatitude());
 			
-			com.graphhopper.jsprit.core.problem.job.Service service = com.graphhopper.jsprit.core.problem.job.Service
+			Service service = com.graphhopper.jsprit.core.problem.job.Service
 					.Builder
 					.newInstance(point.getId())
 					.setLocation(location)
@@ -74,7 +85,7 @@ public class JspritTSPSolverServiceImpl implements JspritTSPSolverService {
 				startingPoint.getLongitude(), 
 				startingPoint.getLatitude());
 		
-		com.graphhopper.jsprit.core.problem.job.Service home = com.graphhopper.jsprit.core.problem.job.Service
+		Service home = com.graphhopper.jsprit.core.problem.job.Service
 				.Builder
 				.newInstance(String.valueOf(startingPointIndex))
                 .setLocation(startingLocation)
@@ -201,7 +212,7 @@ public class JspritTSPSolverServiceImpl implements JspritTSPSolverService {
 			Point n1 = new Point(Constant.BLANK_STRING, from.getCoordinate().getY(), from.getCoordinate().getX());
 			Point n2 = new Point(Constant.BLANK_STRING, to.getCoordinate().getY(), to.getCoordinate().getX());
 
-			return HaversineDistance.haversine(n1, n2);
+			return HaversineDistanceUtil.haversine(n1, n2);
 		}
 	}
 

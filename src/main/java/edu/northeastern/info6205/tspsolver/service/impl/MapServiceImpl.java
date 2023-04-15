@@ -2,23 +2,36 @@ package edu.northeastern.info6205.tspsolver.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import edu.northeastern.info6205.tspsolver.harshil.Edge;
 import edu.northeastern.info6205.tspsolver.model.Action;
 import edu.northeastern.info6205.tspsolver.model.ActionType;
+import edu.northeastern.info6205.tspsolver.model.Edge;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.MapService;
 import edu.northeastern.info6205.tspsolver.service.WebSocketPublishService;
 
-@Service
 public class MapServiceImpl implements MapService {
-//	private static final Logger LOGGER = LoggerFactory.getLogger(MapServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MapServiceImpl.class);
 
-	@Autowired
 	private WebSocketPublishService webSocketPublishService;
 
+	private static MapService instance;
+	
+	private MapServiceImpl() {
+		LOGGER.info("Initialising the instance");
+		webSocketPublishService = WebSocketPublishServiceImpl.getInstance();
+	}
+	
+	public static MapService getInstance() {
+		if (instance == null) {
+			instance = new MapServiceImpl();
+		}
+		
+		return instance;
+	}
+	
 	@Override
 	public void publishClearMap() {
 //		LOGGER.trace("publishing clear map message");

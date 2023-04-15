@@ -9,65 +9,41 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import edu.northeastern.info6205.tspsolver.harshil.Edge;
-import edu.northeastern.info6205.tspsolver.harshil.HaversineDistance;
 import edu.northeastern.info6205.tspsolver.jgrapht.Graph;
 import edu.northeastern.info6205.tspsolver.jgrapht.alg.interfaces.MatchingAlgorithm;
 import edu.northeastern.info6205.tspsolver.jgrapht.alg.matching.blossom.v5.KolmogorovWeightedPerfectMatching;
 import edu.northeastern.info6205.tspsolver.jgrapht.graph.DefaultWeightedEdge;
 import edu.northeastern.info6205.tspsolver.jgrapht.graph.SimpleWeightedGraph;
 import edu.northeastern.info6205.tspsolver.jgrapht.util.SupplierUtil;
+import edu.northeastern.info6205.tspsolver.model.Edge;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.MapService;
 import edu.northeastern.info6205.tspsolver.service.PerfectMatchingSolverService;
+import edu.northeastern.info6205.tspsolver.util.HaversineDistanceUtil;
 
-@Service
-public class PerfectMatchingSolverServiceImpl implements PerfectMatchingSolverService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(PerfectMatchingSolverServiceImpl.class);
+public class KolmogorovWeightedPerfectMatchingImpl implements PerfectMatchingSolverService {
+	private static final Logger LOGGER = LoggerFactory.getLogger(KolmogorovWeightedPerfectMatchingImpl.class);
 
-	@Autowired
-	private MapService mapService;
+	private static PerfectMatchingSolverService instance;
+	
+	private KolmogorovWeightedPerfectMatchingImpl() {
+		LOGGER.info("Initialising the instance");
+	}
+	
+	public static PerfectMatchingSolverService getInstance() {
+		if (instance == null) {
+			instance = new KolmogorovWeightedPerfectMatchingImpl();
+		}
+		
+		return instance;
+	}
 	
 	@Override
-	public List<Edge> edmondAlgorithm(List<Point> points) {
-		LOGGER.trace("solving edmond algorithms for points size: {}", points.size());
-	    int n = points.size();
-	    double[][] matrix = new double[n][n];
-	    for (int i = 0; i < points.size(); i++) {
-	    	Point source = points.get(i);
-	    	for (int j = 0; j < points.size(); j++) {
-	    		Point destination = points.get(j);
-	    		matrix[i][j] = HaversineDistance.haversine(source, destination);	
-	    	}
-	    }
-
-	    MinimumWeightPerfectMatching matching = new MinimumWeightPerfectMatching(matrix);
-	    matching.solve();
-	    int[] path = matching.getMinWeightCostMatching();
-
-	    List<Edge> result = new ArrayList<>();
-
-	    for (int i = 0; i < path.length / 2; i++) {
-			int sourceIndex = path[2 * i];
-			int destinationIndex = path[2 * i + 1];
-			Point source = points.get(sourceIndex);
-			Point destination = points.get(destinationIndex);
-			
-//			LOGGER.trace("{} <-> {}", source.getId(), destination.getId());
-			
-			Edge edge = new Edge(source, destination);
-			result.add(edge);
-		}
-	    
-	    return result;
-	}
-
-	@Override
-	public List<Edge> kolmogorovMatching(List<Point> points) {
+	public List<Edge> getMinimumWeightPerfectMatching(List<Point> points) {
 		LOGGER.trace("solving kolmogorovMatching algorithms for points size: {}", points.size());
+		
+		MapService mapService = MapServiceImpl.getInstance();
 		
 		Graph<String, DefaultWeightedEdge> graph = new SimpleWeightedGraph<>(
 				SupplierUtil.createStringSupplier(),
@@ -81,7 +57,7 @@ public class PerfectMatchingSolverServiceImpl implements PerfectMatchingSolverSe
 		}
 
 		/*
-		// Kept here for debuggig, should not be kept logs or else will get verbose
+		// Kept here for debugging, should not be kept logs or else will get verbose
 		Set<String> vertexSet = graph.vertexSet();
 		LOGGER.trace("vertexSet size: {}", vertexSet.size());
 		for (String vertex : vertexSet) {
@@ -97,7 +73,7 @@ public class PerfectMatchingSolverServiceImpl implements PerfectMatchingSolverSe
 				Point destination = points.get(j);
 //				LOGGER.trace("destination: {}", destination.getId());
 				
-				double distance = HaversineDistance.haversine(source, destination);
+				double distance = HaversineDistanceUtil.haversine(source, destination);
 				
 				DefaultWeightedEdge edge = graph.addEdge(source.getId(), destination.getId());
 //				LOGGER.trace("added edge: {}", edge);

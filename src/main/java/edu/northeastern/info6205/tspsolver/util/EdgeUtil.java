@@ -2,7 +2,7 @@ package edu.northeastern.info6205.tspsolver.util;
 
 import java.util.List;
 
-import edu.northeastern.info6205.tspsolver.harshil.Edge;
+import edu.northeastern.info6205.tspsolver.model.Edge;
 
 public class EdgeUtil {
 //	private static final Logger LOGGER = LoggerFactory.getLogger(EdgeUtil.class);

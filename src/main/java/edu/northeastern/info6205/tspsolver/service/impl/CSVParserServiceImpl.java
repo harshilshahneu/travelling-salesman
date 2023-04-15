@@ -9,16 +9,28 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.northeastern.info6205.tspsolver.constant.Constant;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.CSVParserService;
 
-@Service
 public class CSVParserServiceImpl implements CSVParserService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CSVParserServiceImpl.class);
+	
+	private static CSVParserService instance;
+	
+	private CSVParserServiceImpl() {
+		LOGGER.info("Initialising the instance");
+	}
+	
+	public static CSVParserService getInstance() {
+		if (instance == null) {
+			instance = new CSVParserServiceImpl();
+		}
+		
+		return instance;
+	}
 	
 	@Override
 	public List<Point> parsePoints(MultipartFile multipartFile) {
