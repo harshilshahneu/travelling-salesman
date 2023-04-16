@@ -12,10 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.CSVParserService;
 import edu.northeastern.info6205.tspsolver.service.MapService;
-import edu.northeastern.info6205.tspsolver.service.TSPSolverService;
+import edu.northeastern.info6205.tspsolver.service.TSPAsyncService;
 import edu.northeastern.info6205.tspsolver.service.impl.CSVParserServiceImpl;
 import edu.northeastern.info6205.tspsolver.service.impl.MapServiceImpl;
-import edu.northeastern.info6205.tspsolver.service.impl.TSPSolverServiceImpl;
+import edu.northeastern.info6205.tspsolver.service.impl.TSPAsyncServiceImpl;
 
 @RestController
 public class UploadCSVController {
@@ -33,8 +33,10 @@ public class UploadCSVController {
 		mapService.publishAddPointsAndFitBound(points);
 		
 		// TODO for now using 0 as starting index, but should be part of API query param
-		TSPSolverService tspSolverService = TSPSolverServiceImpl.getInstance();
-		tspSolverService.solveAsync(points, 0);
+		TSPAsyncService asyncService = TSPAsyncServiceImpl.getInstance();
+		
+		// TODO need to add key identifier and payload queries;
+		asyncService.solveAsync(null, points, 0, null);
 		
 		return "OK";
 	}

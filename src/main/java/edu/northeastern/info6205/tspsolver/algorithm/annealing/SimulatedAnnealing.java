@@ -1,4 +1,4 @@
-package edu.northeastern.info6205.tspsolver.service.impl;
+package edu.northeastern.info6205.tspsolver.algorithm.annealing;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,28 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.northeastern.info6205.tspsolver.model.Point;
-import edu.northeastern.info6205.tspsolver.service.SimulatedAnnealingService;
 import edu.northeastern.info6205.tspsolver.util.PointUtil;
 
-public class SimulatedAnnealingServiceImpl implements SimulatedAnnealingService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(SimulatedAnnealingServiceImpl.class);
+public class SimulatedAnnealing {
+	private static final Logger LOGGER = LoggerFactory.getLogger(SimulatedAnnealing.class);
 
-	private static SimulatedAnnealingService instance;
-	
-	private SimulatedAnnealingServiceImpl() {
-		LOGGER.info("Initialising the instance");
-	}
-	
-	public static SimulatedAnnealingService getInstance() {
-		if (instance == null) {
-			instance = new SimulatedAnnealingServiceImpl();
-		}
-		
-		return instance;
-	}
-	
-	@Override
-	public List<Point> simulatedAnnealing(
+	public List<Point> solve(
 			List<Point> tour, 
 			int maxIteration,
 			double startingTemperature,

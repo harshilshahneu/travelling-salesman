@@ -27,33 +27,48 @@ import com.graphhopper.jsprit.core.util.Solutions;
 import edu.northeastern.info6205.tspsolver.constant.Constant;
 import edu.northeastern.info6205.tspsolver.model.Edge;
 import edu.northeastern.info6205.tspsolver.model.Point;
-import edu.northeastern.info6205.tspsolver.service.JspritTSPSolverService;
+import edu.northeastern.info6205.tspsolver.model.TSPPayload;
 import edu.northeastern.info6205.tspsolver.service.MapService;
+import edu.northeastern.info6205.tspsolver.service.TSPSolverService;
 import edu.northeastern.info6205.tspsolver.util.HaversineDistanceUtil;
 
-public class JspritTSPSolverServiceImpl implements JspritTSPSolverService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(JspritTSPSolverServiceImpl.class);
+public class TSPJspritSolverServiceImpl implements TSPSolverService {
+	private static final Logger LOGGER = LoggerFactory.getLogger(TSPJspritSolverServiceImpl.class);
 	
-	private static JspritTSPSolverService instance;
+	private static TSPSolverService instance;
 	
-	private JspritTSPSolverServiceImpl() {
+	private TSPJspritSolverServiceImpl() {
 		LOGGER.info("Initialising the instance");
 	}
 	
-	public static JspritTSPSolverService getInstance() {
+	public static TSPSolverService getInstance() {
 		if (instance == null) {
-			instance = new JspritTSPSolverServiceImpl();
+			instance = new TSPJspritSolverServiceImpl();
 		}
 		
 		return instance;
 	}
 	
 	@Override
-	public List<Point> getTSPTour(List<Point> points, int startingPointIndex) {
+	public String getKeyIdentifier() {
+		return Constant.KEY_IDENTIFIER_JSPRIT;
+	}
+
+	@Override
+	public String getName() {
+		return Constant.NAME_JSPRIT;
+	}
+
+	@Override
+	public List<Point> solve(
+			List<Point> points, 
+			int startingPointIndex, 
+			TSPPayload payload) {
 		LOGGER.info(
-				"JSP TSP will solve for points size: {}, startingPointIndex: {}", 
+				"Christofides will solve for points size: {}, startingPointIndex: {}, payload: {}", 
 				points.size(),
-				startingPointIndex);
+				startingPointIndex,
+				payload);
 		
 		MapService mapService = MapServiceImpl.getInstance(); 
 		
@@ -70,7 +85,7 @@ public class JspritTSPSolverServiceImpl implements JspritTSPSolverService {
 					point.getLongitude(), 
 					point.getLatitude());
 			
-			Service service = com.graphhopper.jsprit.core.problem.job.Service
+			Service service = Service
 					.Builder
 					.newInstance(point.getId())
 					.setLocation(location)
@@ -85,7 +100,7 @@ public class JspritTSPSolverServiceImpl implements JspritTSPSolverService {
 				startingPoint.getLongitude(), 
 				startingPoint.getLatitude());
 		
-		Service home = com.graphhopper.jsprit.core.problem.job.Service
+		Service home = Service
 				.Builder
 				.newInstance(String.valueOf(startingPointIndex))
                 .setLocation(startingLocation)

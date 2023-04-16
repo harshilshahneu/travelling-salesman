@@ -12,4 +12,18 @@ public class Constant {
 	public static final String LONGITUDE = "longitude";
 
 	public static final String NO_LOCATION = "No Location";
+	
+	public static final String KEY_IDENTIFIER_JSPRIT = "tsp-jsprit";
+	public static final String KEY_IDENTIFIER_CHRISTOFIDES = "christofides";
+	public static final String KEY_IDENTIFIER_RANDOM_TWO_OPT = "random-2-opt";
+	public static final String KEY_IDENTIFIER_RANDOM_THREE_OPT = "random-3-opt";
+	public static final String KEY_IDENTIFIER_SIMULATED_ANNEALING = "simulated-annealing";
+	public static final String KEY_IDENTIFIER_ANT_COLONY = "ant-colony";
+	
+	public static final String NAME_JSPRIT = "Jsprit";
+	public static final String NAME_CHRISTOFIDES = "Christofides";
+	public static final String NAME_RANDOM_TWO_OPT = "Random Two Opt";
+	public static final String NAME_RANDOM_THREE_OPT = "Random Three Opt";
+	public static final String NAME_SIMULATED_ANNEALING = "Simulated Annealing";
+	public static final String NAME_ANT_COLONY = "Ant Colony Optimization";
 }

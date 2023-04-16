@@ -3,6 +3,7 @@ package edu.northeastern.info6205.tspsolver.service;
 import java.util.List;
 
 import edu.northeastern.info6205.tspsolver.model.Point;
+import edu.northeastern.info6205.tspsolver.model.TSPPayload;
 
 /**
  * Service to solve the TSP Problem
@@ -10,10 +11,26 @@ import edu.northeastern.info6205.tspsolver.model.Point;
 public interface TSPSolverService {
 
 	/**
-	 * Will solve the TSP for the given
-	 * list of {@link Point} in an asynchronous 
-	 * manner so that the thread does NOT get blocked
+	 * Will return the key to identify the
+	 * Service
 	 * */
-	void solveAsync(List<Point> points, int startingPointIndex);
+	String getKeyIdentifier();
+	
+	/**
+	 * Will return the Name of the service
+	 * */
+	String getName();
+	
+	/**
+	 * Will solve the TSP for the given
+	 * list of {@link Point} and then 
+	 * return the list of points in the order in
+	 * which they are visited for completing the
+	 * TSP tour
+	 * */
+	List<Point> solve(
+			List<Point> points, 
+			int startingPointIndex,
+			TSPPayload payload);
 	
 }
