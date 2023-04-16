@@ -1,5 +1,6 @@
 package edu.northeastern.info6205.tspsolver.service.impl;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -20,7 +21,7 @@ public class TSPSolverFactoryServiceImpl implements TSPSolverFactoryService {
 		initializeServiceMap();
 	}
 	
-	public static TSPSolverFactoryService getInstane() {
+	public static TSPSolverFactoryService getInstance() {
 		if (instance == null) {
 			instance = new TSPSolverFactoryServiceImpl();
 		}
@@ -31,6 +32,8 @@ public class TSPSolverFactoryServiceImpl implements TSPSolverFactoryService {
 	private void initializeServiceMap() {
 		LOGGER.info("initializing the service map");
 		
+		serviceMap = new HashMap<>();
+		
 		addService(TSPJspritSolverServiceImpl.getInstance());
 		addService(TSPChristofidesSolverServiceImpl.getInstance());
 		addService(TSPRandomTwoOptSolverServiceImpl.getInstance());
@@ -40,6 +43,7 @@ public class TSPSolverFactoryServiceImpl implements TSPSolverFactoryService {
 	}
 	
 	private void addService(TSPSolverService service) {
+		LOGGER.info("adding service: {}", service);
 		serviceMap.put(service.getKeyIdentifier(), service);
 	}
 	

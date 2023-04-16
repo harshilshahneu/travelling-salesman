@@ -27,7 +27,7 @@ public class TwoOpt {
     //Computation power budget
     private long budget;
 
-    public TwoOpt(List<Point> tour, int strategy , long budget) {
+    public TwoOpt(List<Point> tour, int strategy, long budget) {
         this.tour = tour;
         this.strategy = strategy;
         this.budget = budget;
@@ -63,9 +63,10 @@ public class TwoOpt {
 
         //update the tour if new cost is less than old cost
         if(newCost < cost) {
-            LOGGER.trace("Improvement found");
-            LOGGER.trace("Cost before swap : {}", cost);
-            LOGGER.trace("Cost after swap : {}", newCost);
+//            Too verbose, use only while debugging
+//            LOGGER.trace("Improvement found");
+//            LOGGER.trace("Cost before swap : {}", cost);
+//            LOGGER.trace("Cost after swap : {}", newCost);
             this.tour = improvedTour;
             return true;
         }
@@ -90,7 +91,9 @@ public class TwoOpt {
 
             improvement = swapNodes(randomEdge_1, randomEdge_2);
             budget--;
-            LOGGER.trace("Budget remaining : {}", budget);
+            
+            // Too verbose, use only while debugging
+//            LOGGER.trace("Budget remaining : {}", budget);
         }
     }
 

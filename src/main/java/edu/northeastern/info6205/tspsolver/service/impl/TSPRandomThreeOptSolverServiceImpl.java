@@ -5,9 +5,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.northeastern.info6205.tspsolver.algorithm.christofides.Christofides;
+import edu.northeastern.info6205.tspsolver.algorithm.opt.ThreeOpt;
+import edu.northeastern.info6205.tspsolver.algorithm.opt.TwoOpt;
 import edu.northeastern.info6205.tspsolver.constant.Constant;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.model.TSPPayload;
+import edu.northeastern.info6205.tspsolver.model.TSPPayload.ThreeOptPayload;
+import edu.northeastern.info6205.tspsolver.model.TSPPayload.TwoOptPayload;
 import edu.northeastern.info6205.tspsolver.service.TSPSolverService;
 
 public class TSPRandomThreeOptSolverServiceImpl implements TSPSolverService {
@@ -48,8 +53,15 @@ public class TSPRandomThreeOptSolverServiceImpl implements TSPSolverService {
 				startingPointIndex,
 				payload);
 		
-		// TODO Use Random Three Opt algorithm to return the tour
-		return null;
+		Christofides christofides = new Christofides(points);
+		christofides.solve();
+		List<Point> tour = christofides.solve();
+		
+		ThreeOptPayload threeOptPayload = payload.getThreeOptPayload();
+		ThreeOpt threeOpt = new ThreeOpt(tour, threeOptPayload.getStrategy(), threeOptPayload.getBudget());
+		threeOpt.improve();
+		List<Point> improvedTour = threeOpt.getImprovedTour();
+		return improvedTour;
 	}
 	
 }

@@ -11,7 +11,6 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import edu.northeastern.info6205.tspsolver.algorithm.christofides.Christofides;
 import edu.northeastern.info6205.tspsolver.algorithm.eulerian.FluerysAlgorithm;
 import edu.northeastern.info6205.tspsolver.algorithm.mst.PrimsMST;
 import edu.northeastern.info6205.tspsolver.algorithm.opt.ThreeOpt;
@@ -180,16 +179,6 @@ public class TSPSolverServiceImpl implements TSPSolverService {
 			initialTSPTour.add(edge);
 		}
 
-		Christofides christofides = new Christofides();
-		christofides.setPoints(points);
-		List<Edge> candidate = christofides.solve();
-		double candidateCost = EdgeUtil.getTotalCost(candidate);
-		double totalTSPCost = EdgeUtil.getTotalCost(initialTSPTour);
-		LOGGER.trace("totalCost of initial TSP Tour: {}", totalTSPCost);
-		LOGGER.trace("totalCost of candidate TSP Tour: {}", candidateCost);
-		double goldenRatioInitialTSP = totalTSPCost / mstCost;
-		LOGGER.trace("goldenRatioInitialTSP: {}", goldenRatioInitialTSP);
-		
 		MapService mapService = MapServiceImpl.getInstance();
 		mapService.publishClearMap();
 		mapService.publishAddPointsAndFitBound(points);

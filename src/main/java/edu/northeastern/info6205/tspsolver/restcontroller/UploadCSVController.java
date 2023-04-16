@@ -4,41 +4,41 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import edu.northeastern.info6205.tspsolver.constant.Constant;
 import edu.northeastern.info6205.tspsolver.model.Point;
+import edu.northeastern.info6205.tspsolver.model.TSPPayload;
 import edu.northeastern.info6205.tspsolver.service.CSVParserService;
-import edu.northeastern.info6205.tspsolver.service.MapService;
 import edu.northeastern.info6205.tspsolver.service.TSPAsyncService;
 import edu.northeastern.info6205.tspsolver.service.impl.CSVParserServiceImpl;
-import edu.northeastern.info6205.tspsolver.service.impl.MapServiceImpl;
 import edu.northeastern.info6205.tspsolver.service.impl.TSPAsyncServiceImpl;
 
 @RestController
 public class UploadCSVController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UploadCSVController.class);
 
-	@PostMapping("/api/csv")
-	public String uploadCSV(@RequestParam MultipartFile multiPartFile) {
-		LOGGER.debug("Starting to upload the CSV File");
-		
-		MapService mapService = MapServiceImpl.getInstance();
-		mapService.publishClearMap();
+	@PostMapping("/api/csv/{serviceType}")
+	public String uploadCSV(
+			@RequestPart MultipartFile multiPartFile, 
+			@PathVariable String serviceType,
+			@RequestPart TSPPayload tspPayload) {
+		LOGGER.info(
+				"Starting to upload the CSV File for serviceType: {}, tspPayload: {}", 
+				serviceType,
+				tspPayload);
 		
 		CSVParserService csvParserService = CSVParserServiceImpl.getInstance();
 		List<Point> points = csvParserService.parsePoints(multiPartFile);
-		mapService.publishAddPointsAndFitBound(points);
 		
-		// TODO for now using 0 as starting index, but should be part of API query param
 		TSPAsyncService asyncService = TSPAsyncServiceImpl.getInstance();
+		asyncService.solveAsync(serviceType, points, 0, tspPayload);
 		
-		// TODO need to add key identifier and payload queries;
-		asyncService.solveAsync(null, points, 0, null);
-		
-		return "OK";
+		return Constant.OK;
 	}
 	
 }

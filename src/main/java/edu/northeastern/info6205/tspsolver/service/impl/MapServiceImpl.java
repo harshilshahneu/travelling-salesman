@@ -50,6 +50,17 @@ public class MapServiceImpl implements MapService {
 		
 		webSocketPublishService.publish(action);
 	}
+	
+	@Override
+	public void publishAddPolylineAndFitBound(List<Point> points) {
+//		LOGGER.trace("publishing add polyline and fit bounds for points size: {}", points.size());
+		
+		Action<List<Point>> action = new Action<>();
+		action.setActionType(ActionType.ADD_POLYLINE_AND_FIT_BOUND);
+		action.setPayload(points);
+		
+		webSocketPublishService.publish(action);
+	}
 
 	@Override
 	public void publishPointRelaxed(String id) {

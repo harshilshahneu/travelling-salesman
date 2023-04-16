@@ -49,12 +49,10 @@ public class TSPChristofidesSolverServiceImpl implements TSPSolverService {
 				startingPointIndex,
 				payload);
 		
-		Christofides christofides = new Christofides();
-		christofides.setPoints(points);
-//		List<Edge> candidate = christofides.solve();
-		
-		// TODO complete rest of the implementation of christofides
-		return null;
+		Christofides christofides = new Christofides(points);
+		christofides.solve();
+		List<Point> tour = christofides.solve();
+		return tour;
 	}
 	
 }

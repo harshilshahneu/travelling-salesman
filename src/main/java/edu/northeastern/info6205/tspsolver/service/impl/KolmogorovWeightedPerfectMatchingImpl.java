@@ -134,17 +134,17 @@ public class KolmogorovWeightedPerfectMatchingImpl implements PerfectMatchingSol
 			
 			Point sourcePoint = map.get(source);
 			if (publishedPoints.add(sourcePoint)) {
-				mapService.publishChangePointColorGreen(sourcePoint.getId());
+//				mapService.publishChangePointColorGreen(sourcePoint.getId());
 			}
 			
 			Point destinationPoint = map.get(destination);
 			if (publishedPoints.add(destinationPoint)) {
-				mapService.publishChangePointColorGreen(destinationPoint.getId());
+//				mapService.publishChangePointColorGreen(destinationPoint.getId());
 			}
 
 			Edge path = new Edge(sourcePoint, destinationPoint);
 			result.add(path);
-			mapService.publishAddGreenLine(path);
+//			mapService.publishAddGreenLine(path);
 		}
         
 		return result;

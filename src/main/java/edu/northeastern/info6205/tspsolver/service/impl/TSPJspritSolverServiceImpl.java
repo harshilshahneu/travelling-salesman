@@ -65,7 +65,7 @@ public class TSPJspritSolverServiceImpl implements TSPSolverService {
 			int startingPointIndex, 
 			TSPPayload payload) {
 		LOGGER.info(
-				"Christofides will solve for points size: {}, startingPointIndex: {}, payload: {}", 
+				"JSprit will solve for points size: {}, startingPointIndex: {}, payload: {}", 
 				points.size(),
 				startingPointIndex,
 				payload);

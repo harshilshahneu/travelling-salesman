@@ -5,9 +5,12 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.northeastern.info6205.tspsolver.algorithm.christofides.Christofides;
+import edu.northeastern.info6205.tspsolver.algorithm.opt.TwoOpt;
 import edu.northeastern.info6205.tspsolver.constant.Constant;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.model.TSPPayload;
+import edu.northeastern.info6205.tspsolver.model.TSPPayload.TwoOptPayload;
 import edu.northeastern.info6205.tspsolver.service.TSPSolverService;
 
 public class TSPRandomTwoOptSolverServiceImpl implements TSPSolverService {
@@ -48,8 +51,15 @@ public class TSPRandomTwoOptSolverServiceImpl implements TSPSolverService {
 				startingPointIndex,
 				payload);
 		
-		// TODO Use Random Two Opt algorithm to return the tour
-		return null;
+		Christofides christofides = new Christofides(points);
+		christofides.solve();
+		List<Point> tour = christofides.solve();
+		
+		TwoOptPayload twoOptPayload = payload.getTwoOptPayload();
+		TwoOpt twoOpt = new TwoOpt(tour, twoOptPayload.getStrategy(), twoOptPayload.getBudget());
+		twoOpt.improve();
+		List<Point> improvedTour = twoOpt.getImprovedTour();
+		return improvedTour;
 	}
 	
 }

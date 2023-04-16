@@ -14,17 +14,56 @@
     <div class="container-fluid px-4">
         <div class="row">
             <div class="col-12 pt-2">
-                <input class="form-control-inline bg-light" type="file" id="formFile">
+                <div class="form-group form-inline">
+                    <input class="form-control-inline bg-light mr-3" type="file" id="formFile">
 
-                <button class="btn btn-info" id="upload-button">
-                    Upload
-                </button>
+                    <label 
+                        class="mr-3"
+                        for="algorithm-select">Select Algorithm</label>
+
+                    <select 
+                        name="Algorithm" 
+                        id="algorithm-select" 
+                        class="form-control mr-3">
+            
+                    </select>    
+
+                    <button class="btn btn-secondary mr-3" data-toggle="modal" data-target="#json-modal">
+                        Configuration
+                    </button>
+
+                    <button class="btn btn-info" id="upload-button">
+                        Upload
+                    </button>
+                </div>
             </div>
         </div>
 
         <div class="row mt-2">
             <div class="col-12">
                 <div id="map"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JSON Modal -->
+    <div class="modal fade" id="json-modal" tabindex="-1" role="dialog" aria-labelledby="json-modal-label"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="json-modal-label">Edit Configuration</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="json-textarea" class="form-control" rows="10"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="restTSPPayload()">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="updateTSPPayload()">Save changes</button>
+                </div>
             </div>
         </div>
     </div>

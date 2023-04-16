@@ -91,7 +91,8 @@ public class ThreeOpt {
 
         //update the tour if new cost is less than old cost
         if(min < cost) {
-            LOGGER.trace("Improvement found, old cost: {}, new cost: {}", cost, min);
+//        	TOO verbose use only while debugging
+//            LOGGER.trace("Improvement found, old cost: {}, new cost: {}", cost, min);
             if(index == 0) {
                 this.tour = improvedTour_1;
             } else if(index == 1) {
@@ -126,7 +127,9 @@ public class ThreeOpt {
 
             improvement = swapNodes(randomEdge_1, randomEdge_2, randomEdge_3);
             budget--;
-            LOGGER.trace("Budget remaining : {}", budget);
+            
+//        	TOO verbose use only while debugging
+//            LOGGER.trace("Budget remaining : {}", budget);
         }
     }
 

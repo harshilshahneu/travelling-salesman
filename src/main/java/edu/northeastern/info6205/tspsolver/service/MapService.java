@@ -25,6 +25,14 @@ public interface MapService {
 	
 	/**
 	 * Will publish a message in the web socket
+	 * channel to tell the map to draw a polyline
+	 * through all the following points and
+	 * then fit the map bound
+	 * */
+	void publishAddPolylineAndFitBound(List<Point> points);
+	
+	/**
+	 * Will publish a message in the web socket
 	 * channel to tell the point with the given id
 	 * has been relaxed
 	 * */
