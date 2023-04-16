@@ -1,8 +1,6 @@
-package edu.northeastern.info6205.tspsolver.harshil;
+package edu.northeastern.info6205.tspsolver.model;
 
-import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.util.HaversineDistanceUtil;
-
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class HaversineDistanceTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(edu.northeastern.info6205.tspsolver.harshil.HaversineDistanceTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HaversineDistanceTest.class);
 
     @Test
     public void haversineBetweenSamePoints() {
