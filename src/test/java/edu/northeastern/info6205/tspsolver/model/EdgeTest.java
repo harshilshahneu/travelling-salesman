@@ -58,6 +58,7 @@ public class EdgeTest {
         assertEquals(p2, edge2.getTo());
     }
 
+    //TODO: test case failing due to equals
     @Test
     public void compareEdgePoints2() {
         LOGGER.trace("compareEdgePoints2()");
@@ -70,6 +71,7 @@ public class EdgeTest {
         assertEquals(edge1.getDistance(), edge2.getDistance(), 0);
     }
 
+    //TODO: test case failing due to equals
     @Test
     public void compareEdges() {
         LOGGER.trace("compareEdges()");
