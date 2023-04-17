@@ -3,6 +3,7 @@ package edu.northeastern.info6205.tspsolver.service.impl;
 import java.util.Arrays;
 import java.util.List;
 
+import edu.northeastern.info6205.tspsolver.algorithm.onetree.OneTree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,6 +63,8 @@ public class TSPServiceImpl implements TSPService {
 		
 		PrimsMST primsMST = new PrimsMST(points);
         primsMST.solve();
+		OneTree.getMaxOneTree(points);
+		double oneTreeCost = OneTree.getMaxOneTreeCost();
         List<Edge> mstTour = Arrays.asList(primsMST.getMst());
 		double mstCost = EdgeUtil.getTotalCost(mstTour);
 		
@@ -79,7 +82,8 @@ public class TSPServiceImpl implements TSPService {
 		mapService.publishAddPolylineAndFitBound(tspTour);
 		
 		double tspTourCost = PointUtil.getTotalCost(tspTour);
-		double percentageImprovement = ( (tspTourCost - mstCost) / mstCost ) * 100;
+		double percentageMSTImprovement = ( (tspTourCost - mstCost) / mstCost ) * 100;
+		double percentageOneTreeImprovement = ( (tspTourCost - oneTreeCost) / oneTreeCost ) * 100;
 		
 		long endTimestamp = System.currentTimeMillis();
 		long millsecondsTaken = (endTimestamp - startTimestamp);
@@ -94,8 +98,10 @@ public class TSPServiceImpl implements TSPService {
 		addMetric(stringBuilder, "payload", payload);
 		addMetric(stringBuilder, "TSP Tour Size", tspTour.size());
 		addMetric(stringBuilder, "mstCost", mstCost);
+		addMetric(stringBuilder, "oneTreeCost", oneTreeCost);
 		addMetric(stringBuilder, "tspTourCost", tspTourCost);
-		addMetric(stringBuilder, "percentage (compared to TSP)", percentageImprovement);
+		addMetric(stringBuilder, "percentage (compared to MST)", percentageMSTImprovement);
+		addMetric(stringBuilder, "percentage (compared to One Tree)", percentageOneTreeImprovement);
 		addMetric(stringBuilder, "Millseconds Taken", millsecondsTaken);
 		
 		stringBuilder.append(Constant.LINE_SEPERATOR);
