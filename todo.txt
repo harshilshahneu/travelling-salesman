@@ -1,4 +1,3 @@
-Error not showing in Ajax API calls, need to handle that!
 Proper file name not showing for the download CSV file
 
 Low priority:

@@ -2,6 +2,8 @@ var map;
 var markersGroup;
 var linesGroup;
 
+const SOMETHING_WENT_WRONG = "Something Went Wrong";
+
 const CLEAR_MAP = "clear-map";
 const ADD_START_POINT = "add-start-point";
 const ADD_POINT_LIST_AND_FIT_BOUND = "add-point-list-and-fit-bound";
@@ -163,6 +165,9 @@ callUploadCsvApi = () => {
     xhttp.onload = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
             handleUploadCsvApiResponse(xhttp);
+        } else {
+            console.error('Some error in csv api');
+            alert(SOMETHING_WENT_WRONG);
         }
     };
 
