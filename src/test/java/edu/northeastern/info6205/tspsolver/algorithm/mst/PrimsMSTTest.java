@@ -1,15 +1,14 @@
 package edu.northeastern.info6205.tspsolver.algorithm.mst;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.northeastern.info6205.tspsolver.util.HaversineDistanceUtil;
-import org.junit.Before;
 import org.junit.Test;
 
-import edu.northeastern.info6205.tspsolver.algorithm.mst.PrimsMST;
 import edu.northeastern.info6205.tspsolver.model.Edge;
 import edu.northeastern.info6205.tspsolver.model.Point;
 

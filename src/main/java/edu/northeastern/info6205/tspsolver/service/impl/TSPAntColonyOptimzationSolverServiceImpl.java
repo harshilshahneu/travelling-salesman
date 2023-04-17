@@ -14,6 +14,7 @@ import edu.northeastern.info6205.tspsolver.algorithm.christofides.Christofides;
 import edu.northeastern.info6205.tspsolver.constant.Constant;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.model.TSPPayload;
+import edu.northeastern.info6205.tspsolver.model.TSPPayload.AntColonyOptimazationPayload;
 import edu.northeastern.info6205.tspsolver.service.TSPSolverService;
 import edu.northeastern.info6205.tspsolver.util.HaversineDistanceUtil;
 
@@ -64,6 +65,9 @@ public class TSPAntColonyOptimzationSolverServiceImpl implements TSPSolverServic
 		christofides.solve();
 		List<Point> tour = christofides.solve();
 		
+		// Last point and first point are same in Christofides tour
+		tour.remove(tour.size() - 1);
+		
 		int[] christofidesTour = tour.stream()
 				.mapToInt(p -> Integer.parseInt(p.getId()))
 				.toArray();
@@ -80,7 +84,19 @@ public class TSPAntColonyOptimzationSolverServiceImpl implements TSPSolverServic
 			}
 		}
 
-		AntColonyOptimization optimization = new AntColonyOptimization(graph, christofidesTour);
+		AntColonyOptimazationPayload antColonyOptimazationPayload = payload.getAntColonyOptimazationPayload();
+		
+		AntColonyOptimization optimization = new AntColonyOptimization(
+				graph, 
+				christofidesTour, 
+				antColonyOptimazationPayload.getNumberOfAnts(), 
+				antColonyOptimazationPayload.getPhermoneExponent(), 
+				antColonyOptimazationPayload.getHeuristicExponent(), 
+				antColonyOptimazationPayload.getPhermoneEvaporationRate(), 
+				antColonyOptimazationPayload.getPhermoneDepositFactor(), 
+				antColonyOptimazationPayload.getNumberOfIterations(), 
+				antColonyOptimazationPayload.getMaxImprovementIterations());
+		
 		int[] path = optimization.runACO();
 		
 		List<Point> result = new ArrayList<>();

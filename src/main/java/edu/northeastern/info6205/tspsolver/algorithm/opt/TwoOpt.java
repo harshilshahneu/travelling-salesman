@@ -68,10 +68,7 @@ public class TwoOpt {
 
         //update the tour if new cost is less than old cost
         if(newCost < cost) {
-//            Too verbose, use only while debugging
-//            LOGGER.trace("Improvement found");
-//            LOGGER.trace("Cost before swap : {}", cost);
-//            LOGGER.trace("Cost after swap : {}", newCost);
+            LOGGER.trace("Improvement found before swap: {}, after swap: {}", cost, newCost);
             this.tour = improvedTour;
             return true;
         }
@@ -97,8 +94,7 @@ public class TwoOpt {
             improvement = swapNodes(randomEdge_1, randomEdge_2);
             budget--;
             
-            // Too verbose, use only while debugging
-//            LOGGER.trace("Budget remaining : {}", budget);
+            LOGGER.trace("Budget remaining : {}", budget);
         }
     }
 

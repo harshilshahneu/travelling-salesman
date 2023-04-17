@@ -73,10 +73,70 @@ public class TSPPayload {
 	}
 	
 	public static class SimulatedAnnealingPayload {
-		// TODO Need to add parameters
+		private int maxIteration;
+		private double startingTemperature;
+		private double finalTemperature;
+		private double coolingRate;
+		
+		public int getMaxIteration() {
+			return maxIteration;
+		}
+		public double getStartingTemperature() {
+			return startingTemperature;
+		}
+		public double getFinalTemperature() {
+			return finalTemperature;
+		}
+		public double getCoolingRate() {
+			return coolingRate;
+		}
+
+		@Override
+		public String toString() {
+			return "SimulatedAnnealingPayload [maxIteration=" + maxIteration + ", startingTemperature="
+					+ startingTemperature + ", finalTemperature=" + finalTemperature + ", coolingRate=" + coolingRate
+					+ "]";
+		}
 	}
 	
 	public static class AntColonyOptimazationPayload {
-		// TODO Need to add parameters
+		private int numberOfAnts;
+		private double phermoneExponent; //ALPHA
+		private double heuristicExponent; //BETA
+		private double phermoneEvaporationRate; // RHO
+		private double phermoneDepositFactor; // Q
+		private int numberOfIterations;
+		private int maxImprovementIterations;
+		
+		public int getNumberOfAnts() {
+			return numberOfAnts;
+		}
+		public double getPhermoneExponent() {
+			return phermoneExponent;
+		}
+		public double getHeuristicExponent() {
+			return heuristicExponent;
+		}
+		public double getPhermoneEvaporationRate() {
+			return phermoneEvaporationRate;
+		}
+		public double getPhermoneDepositFactor() {
+			return phermoneDepositFactor;
+		}
+		public int getNumberOfIterations() {
+			return numberOfIterations;
+		}
+		public int getMaxImprovementIterations() {
+			return maxImprovementIterations;
+		}
+
+		@Override
+		public String toString() {
+			return "AntColonyOptimazationPayload [numberOfAnts=" + numberOfAnts + ", phermoneExponent="
+					+ phermoneExponent + ", heuristicExponent=" + heuristicExponent + ", phermoneEvaporationRate="
+					+ phermoneEvaporationRate + ", phermoneDepositFactor=" + phermoneDepositFactor
+					+ ", numberOfIterations=" + numberOfIterations + ", maxImprovementIterations="
+					+ maxImprovementIterations + "]";
+		}
 	}
 }

@@ -7,17 +7,26 @@ public class AntColonyOptimization {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AntColonyOptimization.class);
 
 	// Parameters of ACO algorithm
-	private static final int NUM_ANTS = 10; // Number of ants
-	private static final double ALPHA = 1.0; // Pheromone exponent
-	private static final double BETA = 2.0; // Heuristic exponent
-	private static final double RHO = 0.1; // Pheromone evaporation rate
-	private static final double Q = 1.0; // Pheromone deposit factor
-	private static final int NUM_ITERATIONS = 20; // Number of iterations
+//	private static final int NUM_ANTS = 10; // Number of ants
+//	private static final double ALPHA = 1.0; // Pheromone exponent
+//	private static final double BETA = 2.0; // Heuristic exponent
+//	private static final double RHO = 0.1; // Pheromone evaporation rate
+//	private static final double Q = 1.0; // Pheromone deposit factor
+//	private static final int NUM_ITERATIONS = 20; // Number of iterations
 
+	// Parameters of ACO algorithm
+	private final int numberOfAnts;
+	private final double phermoneExponent; //ALPHA
+	private final double heuristicExponent; //BETA
+	private final double phermoneEvaporationRate; // RHO
+	private final double phermoneDepositFactor; // Q
+	private final int numberOfIterations;
+	private final int maxImprovementIterations;
+	
 	// Graph represented as adjacency matrix
-	private double[][] graph;
-	private int[] christofidesTour;
-	private int numVertices;
+	private final double[][] graph;
+	private final int[] christofidesTour;
+	private final int numVertices;
 
 	// Ants' current tours and distances
 	private int[][] antTours;
@@ -31,15 +40,52 @@ public class AntColonyOptimization {
 	
 	public AntColonyOptimization(
 			double[][] graph,
-			int[] christofidesTour) {
+			int[] christofidesTour,
+			int numberOfAnts,
+			double phermoneExponent,
+			double heuristicExponent,
+			double phermoneEvaporationRate,
+			double phermoneDepositFactor,
+			int numberOfIterations,
+			int maxImprovementIterations) {
         this.graph = graph;
         this.christofidesTour = christofidesTour;
         
+        this.numberOfAnts = numberOfAnts;
+        this.phermoneExponent = phermoneExponent;
+        this.heuristicExponent = heuristicExponent;
+        this.phermoneEvaporationRate = phermoneEvaporationRate;
+        this.phermoneDepositFactor = phermoneDepositFactor;
+        this.numberOfIterations = numberOfIterations;
+        this.maxImprovementIterations = maxImprovementIterations;
+
         this.numVertices = graph.length;
-        this.antTours = new int[NUM_ANTS][numVertices];
-        this.antDistances = new double[NUM_ANTS];
+        this.antTours = new int[numberOfAnts][numVertices];
+        this.antDistances = new double[numberOfAnts];
         this.pheromones = new double[numVertices][numVertices];
         this.heuristicInfo = new double[numVertices][numVertices];
+        
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("initialised with parameters, graph length: ");
+        stringBuilder.append(graph.length);
+        stringBuilder.append(", christofidesTour length: ");
+        stringBuilder.append(christofidesTour.length);
+        stringBuilder.append(", numberOfAnts: ");
+        stringBuilder.append(numberOfAnts);
+        stringBuilder.append(", phermoneExponent: ");
+        stringBuilder.append(phermoneExponent);
+        stringBuilder.append(", heuristicExponent: ");
+        stringBuilder.append(heuristicExponent);
+        stringBuilder.append(", phermoneEvaporationRate: ");
+        stringBuilder.append(phermoneEvaporationRate);
+        stringBuilder.append(", phermoneDepositFactor: ");
+        stringBuilder.append(phermoneDepositFactor);
+        stringBuilder.append(", numberOfIterations: ");
+        stringBuilder.append(numberOfIterations);
+        stringBuilder.append(", maxImprovementIterations: ");
+        stringBuilder.append(maxImprovementIterations);
+        
+        LOGGER.info(stringBuilder.toString());
     }
 	
 	public void initialize() {
@@ -62,7 +108,7 @@ public class AntColonyOptimization {
 		pheromones[christofidesTour[numVertices-1]][christofidesTour[0]] = initialPheromone;
 		pheromones[christofidesTour[0]][christofidesTour[numVertices-1]] = initialPheromone;
 
-		for (int i = 0; i < NUM_ANTS; i++) {
+		for (int i = 0; i < numberOfAnts; i++) {
 			antTours[i] = christofidesTour.clone();
 			antDistances[i] = computeTourDistance(christofidesTour);
 		}
@@ -73,11 +119,11 @@ public class AntColonyOptimization {
 		int[] bestTour = null;
 		double bestDistance = Double.POSITIVE_INFINITY;
 		
-		for (int i = 0; i < NUM_ITERATIONS; i++) {
+		for (int i = 0; i < numberOfIterations; i++) {
 			LOGGER.trace("iteration counter: {}", i);
 			
 			// Move ants to construct tours
-			for (int j = 0; j < NUM_ANTS; j++) {
+			for (int j = 0; j < numberOfAnts; j++) {
 				moveAnt(j);
 			}
 			
@@ -85,7 +131,7 @@ public class AntColonyOptimization {
 			updatePheromones();
 			
 			// Evaluate ants' tours
-			for (int j = 0; j < NUM_ANTS; j++) {
+			for (int j = 0; j < numberOfAnts; j++) {
 				LOGGER.trace("evaluate ant tour: {}", j);
 				double distance = computeTourDistance(antTours[j]);
 				if (distance < bestDistance) {
@@ -129,7 +175,7 @@ public class AntColonyOptimization {
 		// Compute probability of choosing each unvisited city
 		for (int j = 0; j < numVertices; j++) {
 			if (!visited[j]) {
-				probabilities[j] = Math.pow(pheromones[i][j], ALPHA) * Math.pow(heuristicInfo[i][j], BETA);
+				probabilities[j] = Math.pow(pheromones[i][j], phermoneExponent) * Math.pow(heuristicInfo[i][j], heuristicExponent);
 				sum += probabilities[j];
 			}
 		}
@@ -161,7 +207,6 @@ public class AntColonyOptimization {
 
 		boolean improved = true;
 	    int iterCount = 0;
-	    final int MAX_ITERATIONS = 1000; // Maximum number of iterations without improvement
 		while (improved) {
 			improved = false;
 			for (int i = 0; i < numVertices; i++) {
@@ -194,8 +239,8 @@ public class AntColonyOptimization {
 			}
 			
 			iterCount++;
-	        if (iterCount >= MAX_ITERATIONS) {
-	            LOGGER.warn("shortcutTour: Maximum number of iterations without improvement reached");
+	        if (iterCount >= maxImprovementIterations) {
+	            LOGGER.trace("shortcutTour: Maximum number of iterations without improvement reached: {}", maxImprovementIterations);
 	            break;
 	        }
 		}
@@ -208,17 +253,18 @@ public class AntColonyOptimization {
         // Decay pheromones
         for (int i = 0; i < numVertices; i++) {
             for (int j = 0; j < numVertices; j++) {
-                pheromones[i][j] *= (1.0 - RHO);
+                pheromones[i][j] *= (1.0 - phermoneEvaporationRate);
             }
         }
+        
         // Update pheromones based on ant tours
-        for (int k = 0; k < NUM_ANTS; k++) {
+        for (int k = 0; k < numberOfAnts; k++) {
             double tourLength = antDistances[k];
             for (int i = 0; i < numVertices; i++) {
                 int city1 = antTours[k][i];
                 int city2 = antTours[k][(i+1)%numVertices];
-                pheromones[city1][city2] += Q / tourLength;
-                pheromones[city2][city1] += Q / tourLength;
+                pheromones[city1][city2] += phermoneDepositFactor / tourLength;
+                pheromones[city2][city1] += phermoneDepositFactor / tourLength;
             }
         }
     }

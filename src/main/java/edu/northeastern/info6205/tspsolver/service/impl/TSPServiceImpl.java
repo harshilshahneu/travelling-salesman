@@ -44,7 +44,7 @@ public class TSPServiceImpl implements TSPService {
 			int startingPointIndex, 
 			TSPPayload payload) {
 		LOGGER.trace(
-				"solve tsp in for keyIdentifier: {}, points size: {}, startingPointIndex: {}, payload: {}",
+				"solve tsp for keyIdentifier: {}, points size: {}, startingPointIndex: {}, payload: {}",
 				keyIdentifier,
 				points.size(),
 				startingPointIndex,

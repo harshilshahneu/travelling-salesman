@@ -31,8 +31,11 @@ closeModal = () => {
 }
 
 updateTSPPayload = () => {
-    // It's possible for user to enter an invalid json
-    
+    /* 
+    It's possible for user to enter an invalid json 
+    so need to handle unexpected behaviour 
+    with try catch
+    */
     try {
         const textArea = document.getElementById("json-textarea");
         const jsonString = textArea.value;
@@ -65,12 +68,19 @@ initTSPPayload = () => {
             "budget": 10000
         },
         "simulatedAnnealingPayload": {
-            "strategy": 0,
-            "budget": 0
+            "maxIteration": 1000000,
+            "startingTemperature": 1000,
+            "finalTemperature": 1,
+            "coolingRate": 0.9995
         },
         "antColonyOptimazationPayload": {
-            "strategy": 0,
-            "budget": 0
+            "numberOfAnts": 10,
+            "phermoneExponent": 1.0,
+            "heuristicExponent": 2.0,
+            "phermoneEvaporationRate": 0.1,
+            "phermoneDepositFactor": 1.0,
+            "numberOfIterations": 20,
+            "maxImprovementIterations": 1000
         }
     };
 
