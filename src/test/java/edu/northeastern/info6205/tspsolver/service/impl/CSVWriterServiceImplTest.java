@@ -6,23 +6,19 @@ package edu.northeastern.info6205.tspsolver.service.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.northeastern.info6205.tspsolver.service.CSVWriterService;
+import edu.northeastern.info6205.tspsolver.service.CSVWriterServiceTest;
 
 public class CSVWriterServiceImplTest {
 
     private static final String TMP_DIRECTORY = "tmp";
 
-    private CSVWriterService csvWriterService;
+    private CSVWriterServiceTest csvWriterService;
 
     @Before
     public void setUp() throws Exception {
