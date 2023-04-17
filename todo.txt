@@ -1,6 +1,7 @@
 Ant Colony optimization
 Add PlaceID in output CSV instead of the array index
 UI - Pinpoint for start marker and rest of the vertices in different color
+Proper file name not showing for the download CSV file
 
 Low priority:
 Graphical data of all algorithms with decreasing cost
