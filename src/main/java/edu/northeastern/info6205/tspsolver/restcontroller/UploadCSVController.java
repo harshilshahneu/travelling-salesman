@@ -44,6 +44,7 @@ public class UploadCSVController {
 		TSPOutput output = service.solve(serviceType, points, 0, tspPayload);
 		
 		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
 	    headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + output.getFileName());
 		
 		Resource resource = new FileSystemResource(output.getCompleteFilePath());

@@ -213,7 +213,7 @@ handlePingApiResponse = (responseText) => {
 handleUploadCsvApiResponse = (xhttp) => {
     console.log('CSV API response xhttp', xhttp);
 
-    const filename = 'tsp-solution-result.csv';
+    let filename = 'tsp-solution-result.csv';
     var disposition = xhttp.getResponseHeader('Content-Disposition');
     if (disposition && disposition.indexOf('attachment') !== -1) {
         var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
