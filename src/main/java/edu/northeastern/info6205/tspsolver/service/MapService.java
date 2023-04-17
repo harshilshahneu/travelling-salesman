@@ -26,6 +26,22 @@ public interface MapService {
 	/**
 	 * Will publish a message in the web socket
 	 * channel to tell the map to draw a polyline
+	 * for the minimum spanning tree represented
+	 * by the given list of {@link Edge} and
+	 * then fit the map bound
+	 * */
+	void publishAddMSTPolylineAndFitBound(List<Edge> edges);
+	
+	/**
+	 * Will publish a message in the web socket
+	 * channel to tell the map to clear polylines
+	 * that were created for the MST Edges
+	 * */
+	void publishClearMSTPolyline();
+	
+	/**
+	 * Will publish a message in the web socket
+	 * channel to tell the map to draw a polyline
 	 * through all the following points and
 	 * then fit the map bound
 	 * */

@@ -52,6 +52,25 @@ public class MapServiceImpl implements MapService {
 	}
 	
 	@Override
+	public void publishAddMSTPolylineAndFitBound(List<Edge> edges) {
+//		LOGGER.trace("publishing add mst polyline and fit bounds for points size: {}", points.size());
+
+		Action<List<Edge>> action = new Action<>();
+		action.setActionType(ActionType.ADD_MST_POLYLINE_AND_FIT_BOUND);
+		action.setPayload(edges);
+		
+		webSocketPublishService.publish(action);
+	}
+	
+	@Override
+	public void publishClearMSTPolyline() {
+//		LOGGER.trace("publishing MST Polyline message");
+		Action<Void> clearAction = new Action<>();
+		clearAction.setActionType(ActionType.CLEAR_MST_POLYLINE);
+		webSocketPublishService.publish(clearAction);
+	}
+	
+	@Override
 	public void publishAddPolylineAndFitBound(List<Point> points) {
 //		LOGGER.trace("publishing add polyline and fit bounds for points size: {}", points.size());
 		

@@ -4,12 +4,19 @@ var linesGroup;
 
 const CLEAR_MAP = "clear-map";
 const ADD_POINT_LIST_AND_FIT_BOUND = "add-point-list-and-fit-bound";
+const ADD_MST_POLYLINE_AND_FIT_BOUND = "add-mst-polyline-and-fit-bound";
+const CLEAR_MST_POLYLINE = "clear-mst-polyline";
 const ADD_POLYLINE_AND_FIT_BOUND = "add-polyline-and-fit-bound";
 const POINT_RELAXED = "point-relaxed";
 const DRAW_EDGE = "draw-edge"
 const CHANGE_POINT_COLOR_RED = "change-point-color-red";
 const CHANGE_POINT_COLOR_GREEN = "change-point-color-green";
 const DRAW_EDGE_COLOR_GREEN = "draw-edge-color-green";
+
+// const Z_INDEX_MARKER = 9000;
+// const Z_INDEX_POINTS = 8000;
+// const Z_INDEX_MST_POLYLINE = 7000;
+// const Z_INDEX_FINAL_TOUR_POLYLINE = 6000;
 
 let tspPayload;
 
@@ -261,6 +268,10 @@ handleWebsocketMessage = (message) => {
         handleClearMapAction(payload);
     } else if (action === ADD_POINT_LIST_AND_FIT_BOUND) {
         handleAddPointsAndFitBound(payload);
+    } else if (action === ADD_MST_POLYLINE_AND_FIT_BOUND) {
+        handleAddMSTPoylineAndFitBound(payload);
+    } else if (action === CLEAR_MST_POLYLINE) {
+        handleClearMSTPolyline(payload);
     } else if (action === ADD_POLYLINE_AND_FIT_BOUND) {
         handleAddPolylineAndFitBound(payload);
     } else if (action === POINT_RELAXED) {
@@ -284,12 +295,48 @@ handleClearMapAction = (payload) => {
 handleAddPointsAndFitBound = (payload) => {
     // var marker = L.marker([payload.latitude, payload.longitude]);
     payload.forEach((payload) => {
-        var circle = L.circle([payload.latitude, payload.longitude], 10)
+        const circle = L.circle([payload.latitude, payload.longitude], 10)
         circle.id = payload.id;
+        // circle.setZIndexOffset(Z_INDEX_POINTS);
+
         markersGroup.addLayer(circle);
     });
 
     map.fitBounds(markersGroup.getBounds());
+}
+
+handleAddMSTPoylineAndFitBound = (payload) => {
+    payload.forEach((edge) => {
+        const fromPoint = edge.from;
+        const toPoint = edge.to;
+        const id = `${fromPoint.id}-${toPoint.id}`;
+    
+        const polyline = new L.Polyline(
+            [
+                [fromPoint.latitude, fromPoint.longitude],
+                [toPoint.latitude, toPoint.longitude]
+            ], 
+            {
+                color: 'red',
+                weight: 3,
+                smoothFactor: 1,
+                // dashArray: '5, 5', 
+                // dashOffset: '0',
+                // opacity: 0.5
+            }
+        );
+    
+        polyline.id = id;
+        // polyline.setZIndex(Z_INDEX_MST_POLYLINE);
+
+        linesGroup.addLayer(polyline);
+    });
+
+    map.fitBounds(linesGroup.getBounds());
+}
+
+handleClearMSTPolyline = (payload) => {
+    linesGroup.clearLayers();
 }
 
 handleAddPolylineAndFitBound = (payload) => {
@@ -306,8 +353,11 @@ handleAddPolylineAndFitBound = (payload) => {
 
     const polyline = new L.Polyline(points, polylineOptions);
     polyline.id = 'final-tour';
+    // polyline.setZIndex(Z_INDEX_FINAL_TOUR_POLYLINE);
 
     linesGroup.addLayer(polyline);
+
+    map.fitBounds(linesGroup.getBounds());
 }
 
 handlePointRelaxed = (payload) => {

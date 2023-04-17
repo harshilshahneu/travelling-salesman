@@ -62,6 +62,8 @@ public class TSPServiceImpl implements TSPService {
         primsMST.solve();
         List<Edge> mstTour = Arrays.asList(primsMST.getMst());
 		double mstCost = EdgeUtil.getTotalCost(mstTour);
+		
+		mapService.publishAddMSTPolylineAndFitBound(mstTour);
         
 		long startTimestamp = System.currentTimeMillis();
 		
@@ -69,6 +71,8 @@ public class TSPServiceImpl implements TSPService {
 				points, 
 				startingPointIndex, 
 				payload);
+		
+		mapService.publishClearMSTPolyline();
 		
 		mapService.publishAddPolylineAndFitBound(tspTour);
 		
