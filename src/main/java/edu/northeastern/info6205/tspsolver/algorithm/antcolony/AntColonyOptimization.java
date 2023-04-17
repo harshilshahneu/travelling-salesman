@@ -12,7 +12,7 @@ public class AntColonyOptimization {
 	private static final double BETA = 2.0; // Heuristic exponent
 	private static final double RHO = 0.1; // Pheromone evaporation rate
 	private static final double Q = 1.0; // Pheromone deposit factor
-	private static final int NUM_ITERATIONS = 1000; // Number of iterations
+	private static final int NUM_ITERATIONS = 20; // Number of iterations
 
 	// Graph represented as adjacency matrix
 	private double[][] graph;
