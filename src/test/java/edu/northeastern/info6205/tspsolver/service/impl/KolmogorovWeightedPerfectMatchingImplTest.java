@@ -6,6 +6,7 @@ import edu.northeastern.info6205.tspsolver.service.PerfectMatchingSolverService;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -60,19 +61,33 @@ public class KolmogorovWeightedPerfectMatchingImplTest {
         });
     }
 
-    @Test
-    public void testGetMinimumWeightPerfectMatching() {
-        List<Point> nodes = new ArrayList<>();
-        nodes.add(new Point("0", 0, 0));
-        nodes.add(new Point("1", 1, 1));
-        nodes.add(new Point("2", 1, 1));
+    //TODO: change this test case to check unique node
+//    @Test
+//    public void testGetMinimumWeightPerfectMatching() {
+//        List<Point> nodes = new ArrayList<>();
+//        nodes.add(new Point("0", 0, 0));
+//        nodes.add(new Point("1", 1, 1));
+//        nodes.add(new Point("2", 1, 1));
+//        nodes.add(new Point("3", 1, 0));
+//
+//        List<Edge> result = new ArrayList<>();
+//        result = perfectMatchingSolverService.getMinimumWeightPerfectMatching(nodes);
+//
+//        HashMap hash = new HashMap();
+//        for (int i = 0; i < result.size(); i++) {
+//            Edge edge = result.get(i);
+//            Point point = edge.getTo();
+//            String id = point.getId();
+//            if(hash.get(id)
 
+//            if (hash.get(result.get(i)))
+//        }
 
 
 //        assertThrows(IllegalArgumentException.class, () -> {
 //            List<Edge> result = new ArrayList<>();
 //            result = perfectMatchingSolverService.getMinimumWeightPerfectMatching(nodes);
 //        });
-    }
+//    }
 
 }

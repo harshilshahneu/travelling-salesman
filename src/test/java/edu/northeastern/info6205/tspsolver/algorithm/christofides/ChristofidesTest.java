@@ -65,13 +65,10 @@ public class ChristofidesTest {
 
         List<Point> graph = new ArrayList<>();
         graph.add(new Point(String.valueOf(0), 35.65, 45.45));
-        graph.add(new Point(String.valueOf(1), 35.65, 45.45));
+        graph.add(new Point(String.valueOf(1), 35.65, 45.46));
         Christofides christofides = new Christofides(graph);
-        christofides.solve();
-
-//        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
-//
-//        });
+        List<Point> result = christofides.solve();
+        assertEquals(1, result.size());
     }
 }
 

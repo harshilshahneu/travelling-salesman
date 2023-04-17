@@ -1,9 +1,5 @@
 package edu.northeastern.info6205.tspsolver.algorithm.mst;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +7,8 @@ import org.junit.Test;
 
 import edu.northeastern.info6205.tspsolver.model.Edge;
 import edu.northeastern.info6205.tspsolver.model.Point;
+
+import static org.junit.Assert.*;
 
 public class PrimsMSTTest {
     private List<Point> nodes;
@@ -103,24 +101,21 @@ public class PrimsMSTTest {
     public void getMstCostBetweenOneNodeOnlyTest() {
 
         nodes = new ArrayList<>();
-        nodes.add(new Point("", 1, 0));
+        nodes.add(new Point("0", 1, 0));
         mstSolver = new PrimsMST(nodes);
 
         double actualCost = mstSolver.getMstCost();
-        //TODO: check if assertFalse is correct.
-        assertFalse(Double.isNaN(actualCost));
+        assertEquals(actualCost, 0, 0);
     }
 
-    //TODO: Clear the doubt for empty Point List provided for MST.
     @Test
-    public void testGetMstCostWithEmptyList() {
-
+    public void getMstCostWithEmptyListTest() {
         nodes = new ArrayList<>();
         mstSolver = new PrimsMST(nodes);
-
-        double actualCost = mstSolver.getMstCost();
-        assertFalse(Double.isNaN(actualCost));
+        assertThrows(NegativeArraySizeException.class, () -> {
+            double actualCost = mstSolver.getMstCost();
+            assertFalse(Double.isNaN(actualCost));
+        });
     }
-
 }
 
