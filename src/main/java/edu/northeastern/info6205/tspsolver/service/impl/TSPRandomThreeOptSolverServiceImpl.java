@@ -7,12 +7,10 @@ import org.slf4j.LoggerFactory;
 
 import edu.northeastern.info6205.tspsolver.algorithm.christofides.Christofides;
 import edu.northeastern.info6205.tspsolver.algorithm.opt.ThreeOpt;
-import edu.northeastern.info6205.tspsolver.algorithm.opt.TwoOpt;
 import edu.northeastern.info6205.tspsolver.constant.Constant;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.model.TSPPayload;
 import edu.northeastern.info6205.tspsolver.model.TSPPayload.ThreeOptPayload;
-import edu.northeastern.info6205.tspsolver.model.TSPPayload.TwoOptPayload;
 import edu.northeastern.info6205.tspsolver.service.TSPSolverService;
 
 public class TSPRandomThreeOptSolverServiceImpl implements TSPSolverService {

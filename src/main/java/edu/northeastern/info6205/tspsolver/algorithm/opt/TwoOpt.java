@@ -28,6 +28,12 @@ public class TwoOpt {
     private long budget;
 
     public TwoOpt(List<Point> tour, int strategy, long budget) {
+    	LOGGER.info(
+    			"initialising with tour size: {}, strategy: {}, budget: {}",
+    			tour.size(),
+    			strategy,
+    			budget);
+    	
         this.tour = tour;
         this.strategy = strategy;
         this.budget = budget;
@@ -35,7 +41,6 @@ public class TwoOpt {
 
     public void improve() {
         if (strategy == 1) {
-            LOGGER.trace("Strategy 1");
             strategy1();
         } else if (strategy == 2) {
             strategy2();

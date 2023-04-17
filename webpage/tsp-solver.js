@@ -140,34 +140,6 @@ uploadButtonClicked = () => {
     callUploadCsvApi();
 }
 
-/*
-callUploadCsvApi = () => {
-    const xhttp = new XMLHttpRequest();
-    xhttp.onload = () => {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            handleUploadCsvApiResponse(xhttp.responseText);
-        }
-    };
-
-    const fileInput = document.getElementById('formFile');
-
-    const serviceType = document.getElementById('algorithm-select').value;
-
-    const tspPayloadBlob = new Blob(
-        [JSON.stringify(tspPayload)],
-        { type: "application/json" }
-    );
-
-    const formData = new FormData();
-    formData.append('multiPartFile', fileInput.files[0]);
-    // formData.append('tspPayload', tspPayloadBlob);
-
-    const url = `http://localhost:8080/api/csv/${serviceType}`;
-    xhttp.open("POST", url, true);
-    xhttp.send(formData);
-}
-*/
-
 callUploadCsvApi = () => {
     const xhttp = new XMLHttpRequest();
     xhttp.onload = () => {

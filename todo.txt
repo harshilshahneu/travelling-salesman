@@ -1,14 +1,7 @@
-Presentation, report, pdf and slides must be checked in repo
 Ant Colony optimization
 Output in csv file
-Write unit test cases
-Write report
-Code cleanup
+UI - Pinpoint for start marker and rest of the vertices in different color
 
 Low priority:
-Try to remove spring auto-wiring and service classes wherever you can
-Dynamic reading of algorithm parameters
-UI - Pinpoint for start marker and rest of the vertices in different color
-Dropdown for different type of algorithms
 Graphical data of all algorithms with decreasing cost
 re-establish socket connection on failure (Reconnect button + connection active logo)

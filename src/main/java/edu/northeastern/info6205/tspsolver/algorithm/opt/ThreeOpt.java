@@ -29,6 +29,12 @@ public class ThreeOpt {
     private long budget;
 
     public ThreeOpt(List<Point> tour, int strategy , long budget) {
+    	LOGGER.info(
+    			"initialising with tour size: {}, strategy: {}, budget: {}",
+    			tour.size(),
+    			strategy,
+    			budget);
+    	
         this.tour = tour;
         this.strategy = strategy;
         this.budget = budget;
