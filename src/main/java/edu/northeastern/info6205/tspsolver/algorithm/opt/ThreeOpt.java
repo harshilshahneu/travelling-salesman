@@ -50,6 +50,9 @@ public class ThreeOpt {
         } else if (strategy == 4) {
             strategy4();
         }
+        //  else if(strategy == 5){
+        //     strategy5();
+        // }
     }
 
     public List<Point> getImprovedTour() {
@@ -177,4 +180,19 @@ public class ThreeOpt {
             }
         }
     }
+
+    /**
+        * Commented out on purpose
+        * Even though this strategy is correct, it is not feasible
+        * since the strategy takes a lot of time (n^3)
+     */
+    // private void strategy5() {
+    //     for(int i = 1; i < tour.size() - 2; i++) {
+    //         for(int j = i + 1; j < tour.size() - 1; j++) {
+    //             for(int k = j + 1; k < tour.size(); k++) {
+    //                 swapNodes(i, j, k);
+    //             }
+    //         }
+    //     }
+    // }
 }
