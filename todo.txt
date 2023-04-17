@@ -1,3 +1,4 @@
+Output csv file format should match as given by Professor
 Add the filename is this format: Algo_GoldenRation_ TourDistance_TimeStamp
 
 Low priority:
