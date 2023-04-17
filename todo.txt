@@ -1,4 +1,4 @@
-Proper file name not showing for the download CSV file
+Add the filename is this format: Algo_GoldenRation_ TourDistance_TimeStamp
 
 Low priority:
 Progress Bar to show progress of algorithms
