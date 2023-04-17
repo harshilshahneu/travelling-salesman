@@ -78,7 +78,6 @@ public class AntColonyOptimization {
 			
 			// Move ants to construct tours
 			for (int j = 0; j < NUM_ANTS; j++) {
-				LOGGER.trace("moving ant: {}", j);
 				moveAnt(j);
 			}
 			
@@ -101,6 +100,8 @@ public class AntColonyOptimization {
 	
 	// Ant movement
 	private void moveAnt(int k) {
+		LOGGER.trace("moving ant: {}", k);
+		
 		int[] tour = antTours[k];
 		tour[0] = (int) (Math.random() * numVertices);
 		boolean[] visited = new boolean[numVertices];
@@ -156,6 +157,8 @@ public class AntColonyOptimization {
 	
 	// Local optimization of a tour using edge shortcuts
 	private int[] shortcutTour(int[] tour) {
+		LOGGER.trace("shortcutTour start");
+
 		boolean improved = true;
 		while (improved) {
 			improved = false;
@@ -188,6 +191,8 @@ public class AntColonyOptimization {
 				}
 			}
 		}
+		
+		LOGGER.trace("shortcutTour end");
 		return tour;
 	}
 	
