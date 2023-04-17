@@ -2,6 +2,7 @@ package edu.northeastern.info6205.tspsolver.model;
 
 public class ActionType {
 	public static final String CLEAR_MAP = "clear-map";
+	public static final String ADD_START_POINT = "add-start-point";
 	public static final String ADD_POINT_LIST_AND_FIT_BOUND = "add-point-list-and-fit-bound";
 	public static final String ADD_MST_POLYLINE_AND_FIT_BOUND = "add-mst-polyline-and-fit-bound";
 	public static final String CLEAR_MST_POLYLINE = "clear-mst-polyline";

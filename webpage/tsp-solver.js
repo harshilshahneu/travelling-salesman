@@ -3,6 +3,7 @@ var markersGroup;
 var linesGroup;
 
 const CLEAR_MAP = "clear-map";
+const ADD_START_POINT = "add-start-point";
 const ADD_POINT_LIST_AND_FIT_BOUND = "add-point-list-and-fit-bound";
 const ADD_MST_POLYLINE_AND_FIT_BOUND = "add-mst-polyline-and-fit-bound";
 const CLEAR_MST_POLYLINE = "clear-mst-polyline";
@@ -266,6 +267,8 @@ handleWebsocketMessage = (message) => {
 
     if (action === CLEAR_MAP) {
         handleClearMapAction(payload);
+    } else if (action === ADD_START_POINT) {
+        handleAddStartPoint(payload);
     } else if (action === ADD_POINT_LIST_AND_FIT_BOUND) {
         handleAddPointsAndFitBound(payload);
     } else if (action === ADD_MST_POLYLINE_AND_FIT_BOUND) {
@@ -292,8 +295,14 @@ handleClearMapAction = (payload) => {
     linesGroup.clearLayers();
 }
 
+handleAddStartPoint = (payload) => {
+    const marker = L.marker([payload.latitude, payload.longitude]);
+    markersGroup.addLayer(marker);
+    map.fitBounds(markersGroup.getBounds());
+}
+
 handleAddPointsAndFitBound = (payload) => {
-    // var marker = L.marker([payload.latitude, payload.longitude]);
+    // const marker = L.marker([payload.latitude, payload.longitude]);
     payload.forEach((payload) => {
         const circle = L.circle([payload.latitude, payload.longitude], 10)
         circle.id = payload.id;

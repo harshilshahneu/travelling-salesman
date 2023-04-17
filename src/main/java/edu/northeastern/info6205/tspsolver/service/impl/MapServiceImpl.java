@@ -35,9 +35,18 @@ public class MapServiceImpl implements MapService {
 	@Override
 	public void publishClearMap() {
 //		LOGGER.trace("publishing clear map message");
-		Action<Void> clearAction = new Action<>();
-		clearAction.setActionType(ActionType.CLEAR_MAP);
-		webSocketPublishService.publish(clearAction);
+		Action<Void> action = new Action<>();
+		action.setActionType(ActionType.CLEAR_MAP);
+		webSocketPublishService.publish(action);
+	}
+	
+	@Override
+	public void publishAddStartPointMarker(Point point) {
+//		LOGGER.trace("publishing add start point marker for : {}", point);
+		Action<Point> action = new Action<>();
+		action.setActionType(ActionType.ADD_START_POINT);
+		action.setPayload(point);
+		webSocketPublishService.publish(action);
 	}
 
 	@Override
@@ -65,9 +74,9 @@ public class MapServiceImpl implements MapService {
 	@Override
 	public void publishClearMSTPolyline() {
 //		LOGGER.trace("publishing MST Polyline message");
-		Action<Void> clearAction = new Action<>();
-		clearAction.setActionType(ActionType.CLEAR_MST_POLYLINE);
-		webSocketPublishService.publish(clearAction);
+		Action<Void> action = new Action<>();
+		action.setActionType(ActionType.CLEAR_MST_POLYLINE);
+		webSocketPublishService.publish(action);
 	}
 	
 	@Override

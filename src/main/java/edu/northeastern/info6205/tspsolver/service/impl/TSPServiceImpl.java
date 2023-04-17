@@ -53,6 +53,8 @@ public class TSPServiceImpl implements TSPService {
 		MapService mapService = MapServiceImpl.getInstance();
 		mapService.publishClearMap();
 		
+		mapService.publishAddStartPointMarker(points.get(0));
+		
 		mapService.publishAddPointsAndFitBound(points);
 		
 		TSPSolverFactoryService factoryService = TSPSolverFactoryServiceImpl.getInstance();

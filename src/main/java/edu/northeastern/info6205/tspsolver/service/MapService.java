@@ -18,6 +18,14 @@ public interface MapService {
 	
 	/**
 	 * Will publish a message in the web socket
+	 * channel to tell the map to
+	 * draw a marker represented by the given
+	 * {@link Point}
+	 * */
+	void publishAddStartPointMarker(Point point);
+	
+	/**
+	 * Will publish a message in the web socket
 	 * channel to tell the map to draw all the points
 	 * and then fit the map bound
 	 * */
