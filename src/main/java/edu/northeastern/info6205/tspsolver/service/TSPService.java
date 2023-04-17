@@ -7,9 +7,6 @@ import edu.northeastern.info6205.tspsolver.model.TSPPayload;
 
 /**
  * Service to solve the TSP
- * in a separate thread so that it executes
- * asynchronously and doesn't block the main
- * thread.
  * 
  * <br><br>
  * 
@@ -17,9 +14,9 @@ import edu.northeastern.info6205.tspsolver.model.TSPPayload;
  * to determine which {@link TSPSolverService}
  * implementation to use
  * */
-public interface TSPAsyncService {
+public interface TSPService {
 
-	void solveAsync(
+	void solve(
 			String keyIdentifier,
 			List<Point> points, 
 			int startingPointIndex,

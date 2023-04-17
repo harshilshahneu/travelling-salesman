@@ -14,9 +14,9 @@ import edu.northeastern.info6205.tspsolver.constant.Constant;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.model.TSPPayload;
 import edu.northeastern.info6205.tspsolver.service.CSVParserService;
-import edu.northeastern.info6205.tspsolver.service.TSPAsyncService;
+import edu.northeastern.info6205.tspsolver.service.TSPService;
 import edu.northeastern.info6205.tspsolver.service.impl.CSVParserServiceImpl;
-import edu.northeastern.info6205.tspsolver.service.impl.TSPAsyncServiceImpl;
+import edu.northeastern.info6205.tspsolver.service.impl.TSPServiceImpl;
 
 @RestController
 public class UploadCSVController {
@@ -35,8 +35,8 @@ public class UploadCSVController {
 		CSVParserService csvParserService = CSVParserServiceImpl.getInstance();
 		List<Point> points = csvParserService.parsePoints(multiPartFile);
 		
-		TSPAsyncService asyncService = TSPAsyncServiceImpl.getInstance();
-		asyncService.solveAsync(serviceType, points, 0, tspPayload);
+		TSPService asyncService = TSPServiceImpl.getInstance();
+		asyncService.solve(serviceType, points, 0, tspPayload);
 		
 		return Constant.OK;
 	}
