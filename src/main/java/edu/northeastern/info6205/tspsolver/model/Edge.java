@@ -2,6 +2,8 @@ package edu.northeastern.info6205.tspsolver.model;
 
 import edu.northeastern.info6205.tspsolver.util.HaversineDistanceUtil;
 
+import java.util.Objects;
+
 public class Edge implements Comparable<Edge> {
     private Point from;
     private Point to;
@@ -42,5 +44,12 @@ public class Edge implements Comparable<Edge> {
             return 0;
         }
     }
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Edge)) return false;
+		Edge edge = (Edge) o;
+		return Double.compare(edge.distance, distance) == 0 && from.equals(edge.from) && to.equals(edge.to);
+	}
 }

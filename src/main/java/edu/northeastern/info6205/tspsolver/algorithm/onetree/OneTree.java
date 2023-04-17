@@ -73,4 +73,10 @@ public class OneTree {
         LOGGER.trace("Lower bound using one-tree: " + OneTree.maxOneTreeCost);
         return OneTree.maxOneTree;
     }
+
+    //TODO: Please confirm if this method is correctly implemented
+    //To use this method, we will need to execute getMaxOneTree first!
+    public static double getMaxOneTreeCost(){
+        return maxOneTreeCost;
+    }
 }
