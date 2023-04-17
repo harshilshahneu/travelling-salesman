@@ -143,8 +143,8 @@ uploadButtonClicked = () => {
 callUploadCsvApi = () => {
     const xhttp = new XMLHttpRequest();
     xhttp.onload = () => {
-        if (this.readyState == 4 && this.status == 200) {
-            handleUploadCsvApiResponse(this.responseText);
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+            handleUploadCsvApiResponse(xhttp);
         }
     };
 
@@ -173,7 +173,7 @@ callTSPServiceAPI = () => {
     xhttp.onload = () => {
         console.log('readyState', xhttp.readyState, 'status', xhttp.status);
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-            handleTSPServiceResponse(xhttp.responseText);
+            handleTSPServiceResponse(xhttp.response);
         }
     };
 
@@ -187,9 +187,21 @@ handlePingApiResponse = (responseText) => {
     console.log(responseText);
 }
 
-handleUploadCsvApiResponse = (responseText) => {
-    console.log('CSV API responseText', responseText);
-    console.log(responseText);
+handleUploadCsvApiResponse = (xhttp) => {
+    console.log('CSV API response xhttp', xhttp);
+
+    const filename = 'tsp-solution-result.csv';
+    var disposition = xhttp.getResponseHeader('Content-Disposition');
+    if (disposition && disposition.indexOf('attachment') !== -1) {
+        var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+        var matches = filenameRegex.exec(disposition);
+        if (matches != null && matches[1]) {
+            filename = matches[1].replace(/['"]/g, '');
+        }
+    }
+
+    var blob = new Blob([xhttp.response], { type: 'application/octet-stream' });
+    saveAs(blob, filename);
 }
 
 handleTSPServiceResponse = (responseText) => {

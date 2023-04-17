@@ -10,7 +10,9 @@ import edu.northeastern.info6205.tspsolver.algorithm.mst.PrimsMST;
 import edu.northeastern.info6205.tspsolver.constant.Constant;
 import edu.northeastern.info6205.tspsolver.model.Edge;
 import edu.northeastern.info6205.tspsolver.model.Point;
+import edu.northeastern.info6205.tspsolver.model.TSPOutput;
 import edu.northeastern.info6205.tspsolver.model.TSPPayload;
+import edu.northeastern.info6205.tspsolver.service.CSVWriterService;
 import edu.northeastern.info6205.tspsolver.service.MapService;
 import edu.northeastern.info6205.tspsolver.service.TSPService;
 import edu.northeastern.info6205.tspsolver.service.TSPSolverFactoryService;
@@ -36,7 +38,7 @@ public class TSPServiceImpl implements TSPService {
 	}
 	
 	@Override
-	public void solve(
+	public TSPOutput solve(
 			String keyIdentifier, 
 			List<Point> points, 
 			int startingPointIndex, 
@@ -48,7 +50,6 @@ public class TSPServiceImpl implements TSPService {
 				startingPointIndex,
 				payload);
 		
-
 		MapService mapService = MapServiceImpl.getInstance();
 		mapService.publishClearMap();
 		
@@ -95,6 +96,10 @@ public class TSPServiceImpl implements TSPService {
 		stringBuilder.append("[PERFORMANCE METRIC --- END  -----]");
 		
 		LOGGER.info(stringBuilder.toString());
+		
+		CSVWriterService csvWriterService = CSVWriterServiceImpl.getInstance();
+		TSPOutput output = csvWriterService.write(tspTour);
+		return output;
 	}
 	
 	private StringBuilder addMetric(

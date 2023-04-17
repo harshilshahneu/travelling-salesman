@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,12 @@ import org.slf4j.LoggerFactory;
 public class PointTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(PointTest.class);
 
+    @Test
+    @Disabled("This test case needs to be implemented")
+    public void test() {
+
+    }
+    
     @Test
     public void invalidCoordinates() {
         LOGGER.trace("invalidCoordinates()");

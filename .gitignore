@@ -1,3 +1,6 @@
+# tmp file created to save output of TSP Solutions
+tmp/*
+
 # Compiled class file
 *.class
 target/

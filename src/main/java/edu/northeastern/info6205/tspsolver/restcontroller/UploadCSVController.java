@@ -4,14 +4,19 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import edu.northeastern.info6205.tspsolver.constant.Constant;
 import edu.northeastern.info6205.tspsolver.model.Point;
+import edu.northeastern.info6205.tspsolver.model.TSPOutput;
 import edu.northeastern.info6205.tspsolver.model.TSPPayload;
 import edu.northeastern.info6205.tspsolver.service.CSVParserService;
 import edu.northeastern.info6205.tspsolver.service.TSPService;
@@ -23,7 +28,7 @@ public class UploadCSVController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UploadCSVController.class);
 
 	@PostMapping("/api/csv/{serviceType}")
-	public String uploadCSV(
+	public ResponseEntity<Resource> uploadCSV(
 			@RequestPart MultipartFile multiPartFile, 
 			@PathVariable String serviceType,
 			@RequestPart TSPPayload tspPayload) {
@@ -35,10 +40,18 @@ public class UploadCSVController {
 		CSVParserService csvParserService = CSVParserServiceImpl.getInstance();
 		List<Point> points = csvParserService.parsePoints(multiPartFile);
 		
-		TSPService asyncService = TSPServiceImpl.getInstance();
-		asyncService.solve(serviceType, points, 0, tspPayload);
+		TSPService service = TSPServiceImpl.getInstance();
+		TSPOutput output = service.solve(serviceType, points, 0, tspPayload);
 		
-		return Constant.OK;
+		HttpHeaders headers = new HttpHeaders();
+	    headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + output.getFileName());
+		
+		Resource resource = new FileSystemResource(output.getCompleteFilePath());
+		
+	    return ResponseEntity.ok()
+	            .headers(headers)
+	            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+	            .body(resource);
 	}
 	
 }

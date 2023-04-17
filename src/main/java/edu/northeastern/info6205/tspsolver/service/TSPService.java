@@ -3,6 +3,7 @@ package edu.northeastern.info6205.tspsolver.service;
 import java.util.List;
 
 import edu.northeastern.info6205.tspsolver.model.Point;
+import edu.northeastern.info6205.tspsolver.model.TSPOutput;
 import edu.northeastern.info6205.tspsolver.model.TSPPayload;
 
 /**
@@ -16,7 +17,11 @@ import edu.northeastern.info6205.tspsolver.model.TSPPayload;
  * */
 public interface TSPService {
 
-	void solve(
+	/**
+	 * @return The file name which contains the
+	 * output CSV of the solved TSP problem
+	 * */
+	TSPOutput solve(
 			String keyIdentifier,
 			List<Point> points, 
 			int startingPointIndex,

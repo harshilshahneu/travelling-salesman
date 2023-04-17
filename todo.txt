@@ -1,5 +1,4 @@
 Ant Colony optimization
-Output in csv file
 UI - Pinpoint for start marker and rest of the vertices in different color
 
 Low priority:
