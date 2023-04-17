@@ -47,6 +47,20 @@ public class CSVParserServiceImpl implements CSVParserService {
 			
 			int latitudeIndex = headerList.indexOf(Constant.LATITUDE);
 			int longitudeIndex = headerList.indexOf(Constant.LONGITUDE);
+			int placeIdIndex = headerList.stream()
+			        .filter(s -> s.contains(String.valueOf(Constant.ID)))
+			        .findFirst()
+			        .map(headerList::indexOf)
+			        .orElse(-1);
+			if (placeIdIndex == -1) {
+				LOGGER.error("Header list does not contain single column matching: {}", Constant.ID);
+			}
+			
+			LOGGER.trace(
+					"latitudeIndex: {}, longitudeIndex: {}, placeIdIndex: {}",
+					latitudeIndex,
+					longitudeIndex,
+					placeIdIndex);
 			
 			int index = -1;
 			while ((line = bufferedReader.readLine()) != null) {
@@ -58,7 +72,7 @@ public class CSVParserServiceImpl implements CSVParserService {
 				if (partsList.contains(Constant.NO_LOCATION)) {
 					continue;
 				}
-
+				
 				/**
 				 * Sometimes ID is missing from the CSV file
 				 * and also using an integer type of ID allows
@@ -74,9 +88,14 @@ public class CSVParserServiceImpl implements CSVParserService {
 				
 				double longitude = Double.parseDouble(partsList.get(longitudeIndex));
 				double latitude = Double.parseDouble(partsList.get(latitudeIndex));
+
+				String placeId = (placeIdIndex != -1) ? partsList.get(placeIdIndex) : Constant.DASH;
 				
-				Point node = new Point(id, latitude, longitude);
-				points.add(node);
+				Point point = new Point(id, latitude, longitude);
+				point.setPlaceId(placeId);
+				points.add(point);
+				
+				LOGGER.trace("added point: {}", point);
 			}
 		} catch (Exception  e) {
 			LOGGER.error("Error in parseNodes(): {}", e.getMessage(), e);

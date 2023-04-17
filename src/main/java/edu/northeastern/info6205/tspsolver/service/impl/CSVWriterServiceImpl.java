@@ -68,6 +68,8 @@ public class CSVWriterServiceImpl implements CSVWriterService {
 		
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(completeFilePath))) {
 			// Header row
+			writer.write(Constant.INDEX);
+			writer.write(Constant.COMMA);
 			writer.write(Constant.ID);
 			writer.write(Constant.COMMA);
 			writer.write(Constant.LATITUDE);
@@ -77,7 +79,11 @@ public class CSVWriterServiceImpl implements CSVWriterService {
 			writer.newLine();
 			
 			for (Point point : points) {
+				LOGGER.trace("writing data for point: {}", point);
+
 				writer.write(point.getId());
+				writer.write(Constant.COMMA);
+				writer.write(point.getPlaceId());
 				writer.write(Constant.COMMA);
 				writer.write(String.valueOf(point.getLatitude()));
 				writer.write(Constant.COMMA);

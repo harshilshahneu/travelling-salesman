@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class Point {
 	private String id;
+	private String placeId;
 	
 	// Real world coordinates
     private double latitude;
@@ -24,6 +25,12 @@ public class Point {
 		this.longitude = longitude;
 	}
 	
+	public String getPlaceId() {
+		return placeId;
+	}
+	public void setPlaceId(String placeId) {
+		this.placeId = placeId;
+	}
 	public String getId() {
 		return id;
 	}
@@ -70,7 +77,6 @@ public class Point {
 
 	@Override
 	public String toString() {
-		return "Point [id=" + id + ", latitude=" + latitude + ", longitude=" + longitude + "]";
+		return "Point [id=" + id + ", placeId=" + placeId + ", latitude=" + latitude + ", longitude=" + longitude + "]";
 	}
-	
 }

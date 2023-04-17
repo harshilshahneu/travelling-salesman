@@ -9,11 +9,13 @@ public class Constant {
 	public static final String COMMA = ",";
 	public static final String COLON_SINGLE_SPACE = " : ";
 	public static final String SLASH = "/";
+	public static final String DASH = "-";
 	
 	public static final String SOMETHING_WENT_WRONG = "Something Went Wrong!!";
 	public static final String OK = "OK";
 	
-	public static final String ID = "ID";
+	public static final String INDEX = "index";
+	public static final String ID = "id";
 	public static final String LATITUDE = "latitude";
 	public static final String LONGITUDE = "longitude";
 	
