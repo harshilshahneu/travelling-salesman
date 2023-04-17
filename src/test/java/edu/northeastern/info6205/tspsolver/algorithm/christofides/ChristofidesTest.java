@@ -2,44 +2,76 @@ package edu.northeastern.info6205.tspsolver.algorithm.christofides;
 
 import edu.northeastern.info6205.tspsolver.algorithm.mst.PrimsMST;
 import edu.northeastern.info6205.tspsolver.model.Point;
+import edu.northeastern.info6205.tspsolver.service.CSVParserService;
+import edu.northeastern.info6205.tspsolver.service.impl.CSVParserServiceImpl;
 import edu.northeastern.info6205.tspsolver.util.PointUtil;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class ChristofidesTest {
-
-    //TODO: pass mumbai coordinates for this test case
     @Test
-    public void testSolve() {
-        // create points for testing
-        Point p1 = new Point("0", 0, 0);
-        Point p2 = new Point("1", 1, 1);
-        Point p3 = new Point("2", 2, 0);
-        Point p4 = new Point("3", 3, 1);
-
-        List<Point> graph = new ArrayList<>(Arrays.asList(p1, p2));
+    public void solvePercentageTest() {
+        CSVParserService csvService = CSVParserServiceImpl.getInstance();
+        List<Point> graph = csvService.parsePoints("src/test/resources/data/tsp-test-mumbai.csv");
 
         // create Christofides object and solve TSP
         Christofides christofides = new Christofides(graph);
-        List<Point> chritofidesTour = christofides.solve();
-        double chritofidesTourCost = PointUtil.getTotalCost(chritofidesTour);
+        List<Point> christofidesTour = christofides.solve();
+        double christofidesTourCost = PointUtil.getTotalCost(christofidesTour);
 
         PrimsMST primsMst = new PrimsMST(graph);
         double mstCost = primsMst.getMstCost();
 
-        double christofidesCostDiff = (chritofidesTourCost - mstCost);
+        double christofidesCostDiff = (christofidesTourCost - mstCost);
         double percentage = (christofidesCostDiff/mstCost) * 100;
-//        double goldenRatio =
 
+        assertTrue(percentage < 100);
+    }
 
-//        assertTrue(percentage < 50);
-        assertEquals(50, percentage, 0);
+    @Test
+    public void solveNullTest() {
+        assertThrows(NullPointerException.class, () -> {
+            Christofides christofides = new Christofides(null);
+            christofides.solve();
+        });
+    }
 
+    @Test
+    public void solveEmptyGraphTest() {
+        assertThrows(NegativeArraySizeException.class, () -> {
+            List<Point> graph = new ArrayList<>();
+            Christofides christofides = new Christofides(graph);
+            christofides.solve();
+        });
+    }
 
+    @Test
+    public void solveSingleNodeGraphTest() {
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            List<Point> graph = new ArrayList<>();
+            graph.add(new Point(String.valueOf(0), 35.65, 45.45));
+            Christofides christofides = new Christofides(graph);
+            christofides.solve();
+        });
+    }
+
+    @Test
+    public void solveDoubleNodeGraphTest() {
+
+        List<Point> graph = new ArrayList<>();
+        graph.add(new Point(String.valueOf(0), 35.65, 45.45));
+        graph.add(new Point(String.valueOf(1), 35.65, 45.45));
+        Christofides christofides = new Christofides(graph);
+        christofides.solve();
+
+//        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+//
+//        });
     }
 }
 

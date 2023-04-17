@@ -22,13 +22,13 @@ public class KolmogorovWeightedPerfectMatchingImplTest {
     }
 
     @Test
-    public void testGetMinimumWeightPerfectMatching() {
+    public void testGetMinimumWeightPerfectMatchingWithLoop() {
         List<Point> nodes = new ArrayList<>();
-        nodes.add(new Point("", 0, 0));
-        nodes.add(new Point("", 0, 1));
-        nodes.add(new Point("", 1, 1));
-        nodes.add(new Point("", 1, 0));
-        nodes.add(new Point("", 0, 0));
+        nodes.add(new Point("0", 0, 0));
+        nodes.add(new Point("1", 0, 1));
+        nodes.add(new Point("2", 1, 1));
+        nodes.add(new Point("3", 1, 0));
+        nodes.add(new Point("4", 0, 0));
 
         assertThrows(IllegalArgumentException.class, () -> {
             List<Edge> result = new ArrayList<>();
@@ -37,16 +37,42 @@ public class KolmogorovWeightedPerfectMatchingImplTest {
     }
 
     @Test
-    public void testGetMinimumWeightPerfectMatchingWithoutLoop() {
+    public void testGetMinimumWeightPerfectMatchingTwoNodes() {
         List<Point> nodes = new ArrayList<>();
-        nodes.add(new Point("", 0, 0));
-        nodes.add(new Point("", 0, 1));
-        nodes.add(new Point("", 1, 1));
-        nodes.add(new Point("", 1, 0));
-        nodes.add(new Point("", 0, 0));
+        nodes.add(new Point("0", 0, 0));
+        nodes.add(new Point("1", 1, 1));
 
         List<Edge> result = new ArrayList<>();
         result = perfectMatchingSolverService.getMinimumWeightPerfectMatching(nodes);
-        assertEquals(0, result.size());
+        assertEquals(1, result.size());
     }
+
+    @Test
+    public void testGetMinimumWeightPerfectMatchingWithOddNodes() {
+        List<Point> nodes = new ArrayList<>();
+        nodes.add(new Point("0", 0, 0));
+        nodes.add(new Point("1", 1, 1));
+        nodes.add(new Point("2", 1, 1));
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            List<Edge> result = new ArrayList<>();
+            result = perfectMatchingSolverService.getMinimumWeightPerfectMatching(nodes);
+        });
+    }
+
+    @Test
+    public void testGetMinimumWeightPerfectMatching() {
+        List<Point> nodes = new ArrayList<>();
+        nodes.add(new Point("0", 0, 0));
+        nodes.add(new Point("1", 1, 1));
+        nodes.add(new Point("2", 1, 1));
+
+
+
+//        assertThrows(IllegalArgumentException.class, () -> {
+//            List<Edge> result = new ArrayList<>();
+//            result = perfectMatchingSolverService.getMinimumWeightPerfectMatching(nodes);
+//        });
+    }
+
 }

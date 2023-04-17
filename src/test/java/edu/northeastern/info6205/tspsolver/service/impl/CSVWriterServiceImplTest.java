@@ -22,7 +22,7 @@ public class CSVWriterServiceImplTest {
 
     @Before
     public void setUp() throws Exception {
-        csvWriterService = CSVWriterServiceImpl.getInstance();
+//        csvWriterService = CSVWriterServiceImpl.getInstance();
     }
 
     @After

@@ -17,7 +17,7 @@ public class PrimsMSTTest {
     private PrimsMST mstSolver;
 
     @Test
-    public void testGetMst() {
+    public void getMstTest() {
 
         nodes = new ArrayList<>();
         nodes.add(new Point("", 0, 0));
@@ -54,7 +54,7 @@ public class PrimsMSTTest {
     }
 
     @Test
-    public void testGetMstCost() {
+    public void getMstCostTest() {
 
         nodes = new ArrayList<>();
         nodes.add(new Point("", 0, 0));
@@ -80,7 +80,7 @@ public class PrimsMSTTest {
     }
 
     @Test
-    public void testGetMstCostBetweenTwoNodes() {
+    public void getMstCostBetweenTwoNodesTest() {
 
         nodes = new ArrayList<>();
         nodes.add(new Point("", 1, 0));
@@ -100,7 +100,7 @@ public class PrimsMSTTest {
     }
 
     @Test
-    public void testGetMstCostBetweenOneNodeOnly() {
+    public void getMstCostBetweenOneNodeOnlyTest() {
 
         nodes = new ArrayList<>();
         nodes.add(new Point("", 1, 0));

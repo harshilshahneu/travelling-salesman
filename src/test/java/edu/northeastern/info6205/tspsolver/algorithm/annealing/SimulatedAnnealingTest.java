@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 //TODO: Change the nodes with mumbai dataset created by giving path
 public class SimulatedAnnealingTest {
     @Test
-//    @Disabled("This test case needs to be implemented")
+    @Disabled("This test case needs to be implemented")
     public void testSolveWithEmptyTour() {
 //        List<Point> tour = new ArrayList<>();
 //        SimulatedAnnealingOptimization annealing = new SimulatedAnnealingOptimization(tour, 1000, 100, 100, 0.1, 0.95);
