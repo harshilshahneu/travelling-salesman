@@ -1,7 +1,7 @@
 package edu.northeastern.info6205.tspsolver.service.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,6 +88,19 @@ public class TSPAntColonyOptimzationSolverServiceImpl implements TSPSolverServic
 			result.add(pointMap.get(node));
 		}
 		
+		Point firstPoint = pointMap.get(startingPointIndex);
+		int firstPointIndex = result.indexOf(firstPoint);
+		LOGGER.trace("firstPointIndex: {}", firstPointIndex);
+		
+		if (firstPointIndex != -1) {
+			int rotations = firstPointIndex;
+			LOGGER.info("will rotate the tour by rotations: {}", rotations);
+			Collections.rotate(result, -rotations);
+		} else {
+			LOGGER.info("ACO gave correct tours, no need to rotate array");
+		}
+
+		result.add(result.get(0));
 		return result;
 	}
 	

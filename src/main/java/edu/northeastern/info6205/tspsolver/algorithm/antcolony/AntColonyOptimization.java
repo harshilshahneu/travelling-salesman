@@ -7,12 +7,12 @@ public class AntColonyOptimization {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AntColonyOptimization.class);
 
 	// Parameters of ACO algorithm
-	private static final int NUM_ANTS = 2; // Number of ants
+	private static final int NUM_ANTS = 10; // Number of ants
 	private static final double ALPHA = 1.0; // Pheromone exponent
 	private static final double BETA = 2.0; // Heuristic exponent
 	private static final double RHO = 0.1; // Pheromone evaporation rate
 	private static final double Q = 1.0; // Pheromone deposit factor
-	private static final int NUM_ITERATIONS = 10; // Number of iterations
+	private static final int NUM_ITERATIONS = 1000; // Number of iterations
 
 	// Graph represented as adjacency matrix
 	private double[][] graph;
@@ -160,6 +160,8 @@ public class AntColonyOptimization {
 		LOGGER.trace("shortcutTour start");
 
 		boolean improved = true;
+	    int iterCount = 0;
+	    final int MAX_ITERATIONS = 1000; // Maximum number of iterations without improvement
 		while (improved) {
 			improved = false;
 			for (int i = 0; i < numVertices; i++) {
@@ -190,6 +192,12 @@ public class AntColonyOptimization {
 					}
 				}
 			}
+			
+			iterCount++;
+	        if (iterCount >= MAX_ITERATIONS) {
+	            LOGGER.warn("shortcutTour: Maximum number of iterations without improvement reached");
+	            break;
+	        }
 		}
 		
 		LOGGER.trace("shortcutTour end");
