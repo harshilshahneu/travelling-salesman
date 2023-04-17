@@ -1,14 +1,21 @@
 package edu.northeastern.info6205.tspsolver.service.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.northeastern.info6205.tspsolver.algorithm.antcolony.AntColonyOptimization;
+import edu.northeastern.info6205.tspsolver.algorithm.christofides.Christofides;
 import edu.northeastern.info6205.tspsolver.constant.Constant;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.model.TSPPayload;
 import edu.northeastern.info6205.tspsolver.service.TSPSolverService;
+import edu.northeastern.info6205.tspsolver.util.HaversineDistanceUtil;
 
 public class TSPAntColonyOptimzationSolverServiceImpl implements TSPSolverService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TSPAntColonyOptimzationSolverServiceImpl.class);
@@ -48,8 +55,40 @@ public class TSPAntColonyOptimzationSolverServiceImpl implements TSPSolverServic
 				startingPointIndex,
 				payload);
 		
-		// TODO Use Ant Colony Optimization algorithm to return the tour
-		return null;
+		Map<Integer, Point> pointMap = new HashMap<>();
+		for (Point point : points) {
+			pointMap.put(Integer.parseInt(point.getId()), point);
+		}
+		
+		Christofides christofides = new Christofides(points);
+		christofides.solve();
+		List<Point> tour = christofides.solve();
+		
+		int[] christofidesTour = tour.stream()
+				.mapToInt(p -> Integer.parseInt(p.getId()))
+				.toArray();
+		
+		int n = points.size();
+		double[][] graph = new double[n][n];
+		for (int i = 0; i < n; i++) {
+			Point source = points.get(i);
+			for (int j = i + 1; j < n; j++) {
+				Point destination = points.get(j);
+				double distance = HaversineDistanceUtil.haversine(destination, source);
+				graph[i][j] = distance;
+				graph[j][i] = distance;
+			}
+		}
+
+		AntColonyOptimization optimization = new AntColonyOptimization(graph, christofidesTour);
+		int[] path = optimization.runACO();
+		
+		List<Point> result = new ArrayList<>();
+		for (int node : path) {
+			result.add(pointMap.get(node));
+		}
+		
+		return result;
 	}
 	
 }

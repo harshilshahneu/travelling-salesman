@@ -31,7 +31,7 @@ public class CSVWriterServiceImpl implements CSVWriterService {
 		
 		File directory = new File(TMP_DIRECTORY);
 		if (directory.exists()) {
-			LOGGER.info("directory already exists no need to do anythings");
+			LOGGER.info("directory already exists no need to do anything");
 			return;
 		}
 
