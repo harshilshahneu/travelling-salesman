@@ -18,19 +18,28 @@ public class TSPPayload {
 	public TwoOptPayload getTwoOptPayload() {
 		return twoOptPayload;
 	}
-
+	public void setTwoOptPayload(TwoOptPayload twoOptPayload) {
+		this.twoOptPayload = twoOptPayload;
+	}
 	public ThreeOptPayload getThreeOptPayload() {
 		return threeOptPayload;
 	}
-
+	public void setThreeOptPayload(ThreeOptPayload threeOptPayload) {
+		this.threeOptPayload = threeOptPayload;
+	}
 	public SimulatedAnnealingPayload getSimulatedAnnealingPayload() {
 		return simulatedAnnealingPayload;
 	}
-
+	public void setSimulatedAnnealingPayload(SimulatedAnnealingPayload simulatedAnnealingPayload) {
+		this.simulatedAnnealingPayload = simulatedAnnealingPayload;
+	}
 	public AntColonyOptimazationPayload getAntColonyOptimazationPayload() {
 		return antColonyOptimazationPayload;
 	}
-	
+	public void setAntColonyOptimazationPayload(AntColonyOptimazationPayload antColonyOptimazationPayload) {
+		this.antColonyOptimazationPayload = antColonyOptimazationPayload;
+	}
+
 	@Override
 	public String toString() {
 		return "TSPPayload [twoOptPayload=" + twoOptPayload + ", threeOptPayload=" + threeOptPayload
@@ -45,8 +54,14 @@ public class TSPPayload {
 		public int getStrategy() {
 			return strategy;
 		}
+		public void setStrategy(int strategy) {
+			this.strategy = strategy;
+		}
 		public long getBudget() {
 			return budget;
+		}
+		public void setBudget(long budget) {
+			this.budget = budget;
 		}
 
 		@Override
@@ -62,8 +77,14 @@ public class TSPPayload {
 		public int getStrategy() {
 			return strategy;
 		}
+		public void setStrategy(int strategy) {
+			this.strategy = strategy;
+		}
 		public long getBudget() {
 			return budget;
+		}
+		public void setBudget(long budget) {
+			this.budget = budget;
 		}
 
 		@Override
@@ -81,14 +102,26 @@ public class TSPPayload {
 		public int getMaxIteration() {
 			return maxIteration;
 		}
+		public void setMaxIteration(int maxIteration) {
+			this.maxIteration = maxIteration;
+		}
 		public double getStartingTemperature() {
 			return startingTemperature;
+		}
+		public void setStartingTemperature(double startingTemperature) {
+			this.startingTemperature = startingTemperature;
 		}
 		public double getFinalTemperature() {
 			return finalTemperature;
 		}
+		public void setFinalTemperature(double finalTemperature) {
+			this.finalTemperature = finalTemperature;
+		}
 		public double getCoolingRate() {
 			return coolingRate;
+		}
+		public void setCoolingRate(double coolingRate) {
+			this.coolingRate = coolingRate;
 		}
 
 		@Override
@@ -111,23 +144,44 @@ public class TSPPayload {
 		public int getNumberOfAnts() {
 			return numberOfAnts;
 		}
+		public void setNumberOfAnts(int numberOfAnts) {
+			this.numberOfAnts = numberOfAnts;
+		}
 		public double getPhermoneExponent() {
 			return phermoneExponent;
+		}
+		public void setPhermoneExponent(double phermoneExponent) {
+			this.phermoneExponent = phermoneExponent;
 		}
 		public double getHeuristicExponent() {
 			return heuristicExponent;
 		}
+		public void setHeuristicExponent(double heuristicExponent) {
+			this.heuristicExponent = heuristicExponent;
+		}
 		public double getPhermoneEvaporationRate() {
 			return phermoneEvaporationRate;
+		}
+		public void setPhermoneEvaporationRate(double phermoneEvaporationRate) {
+			this.phermoneEvaporationRate = phermoneEvaporationRate;
 		}
 		public double getPhermoneDepositFactor() {
 			return phermoneDepositFactor;
 		}
+		public void setPhermoneDepositFactor(double phermoneDepositFactor) {
+			this.phermoneDepositFactor = phermoneDepositFactor;
+		}
 		public int getNumberOfIterations() {
 			return numberOfIterations;
 		}
+		public void setNumberOfIterations(int numberOfIterations) {
+			this.numberOfIterations = numberOfIterations;
+		}
 		public int getMaxImprovementIterations() {
 			return maxImprovementIterations;
+		}
+		public void setMaxImprovementIterations(int maxImprovementIterations) {
+			this.maxImprovementIterations = maxImprovementIterations;
 		}
 
 		@Override
