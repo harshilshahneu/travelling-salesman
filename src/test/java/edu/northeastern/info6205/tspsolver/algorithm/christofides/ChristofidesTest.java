@@ -16,25 +16,6 @@ import java.util.List;
 
 public class ChristofidesTest {
     @Test
-    public void solvePercentageTest() {
-        CSVParserService csvService = CSVParserServiceImpl.getInstance();
-        List<Point> graph = csvService.parsePoints("src/test/resources/data/tsp-test-mumbai.csv");
-
-        // create Christofides object and solve TSP
-        Christofides christofides = new Christofides(graph);
-        List<Point> christofidesTour = christofides.solve();
-        double christofidesTourCost = PointUtil.getTotalCost(christofidesTour);
-
-        PrimsMST primsMst = new PrimsMST(graph);
-        double mstCost = primsMst.getMstCost();
-
-        double christofidesCostDiff = (christofidesTourCost - mstCost);
-        double percentage = (christofidesCostDiff/mstCost) * 100;
-
-        assertTrue(percentage < 100);
-    }
-
-    @Test
     public void solveNullTest() {
         assertThrows(NullPointerException.class, () -> {
             Christofides christofides = new Christofides(null);
@@ -63,13 +44,41 @@ public class ChristofidesTest {
 
     @Test
     public void solveDoubleNodeGraphTest() {
-
         List<Point> graph = new ArrayList<>();
         graph.add(new Point(String.valueOf(0), 35.65, 45.45));
         graph.add(new Point(String.valueOf(1), 35.65, 45.46));
         Christofides christofides = new Christofides(graph);
         List<Point> result = christofides.solve();
-        assertEquals(1, result.size());
+        assertEquals(3, result.size());
+    }
+
+    @Test
+    public void runSmallOptimizationTest() {
+        final String FILE_PATH = "src/test/resources/data/tsp-test-small.csv";
+        test(FILE_PATH);
+    }
+
+    @Test
+    public void runBigOptimizationTest() {
+        final String FILE_PATH = "src/test/resources/data/tsp-test-big.csv";
+        test(FILE_PATH);
+    }
+
+    private void test(String fileName) {
+        CSVParserService csvParserService = CSVParserServiceImpl.getInstance();
+        List<Point> points = csvParserService.parsePoints(fileName);
+
+        Christofides christofides = new Christofides(points);
+        List<Point> christofidesTour = christofides.solve();
+        double christofidesTourCost = PointUtil.getTotalCost(christofidesTour);
+
+        PrimsMST primsMst = new PrimsMST(points);
+        double mstCost = primsMst.getMstCost();
+
+        double christofidesCostDiff = (christofidesTourCost - mstCost);
+        double percentage = (christofidesCostDiff/mstCost) * 100;
+
+        assertTrue(percentage < 100);
     }
 }
 
