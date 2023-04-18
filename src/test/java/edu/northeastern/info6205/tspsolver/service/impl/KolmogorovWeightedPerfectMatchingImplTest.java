@@ -1,10 +1,10 @@
 package edu.northeastern.info6205.tspsolver.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
@@ -68,32 +68,40 @@ public class KolmogorovWeightedPerfectMatchingImplTest {
     }
 
     //TODO: change this test case to check unique node
-//    @Test
-//    public void testGetMinimumWeightPerfectMatching() {
-//        List<Point> nodes = new ArrayList<>();
-//        nodes.add(new Point("0", 0, 0));
-//        nodes.add(new Point("1", 1, 1));
-//        nodes.add(new Point("2", 1, 1));
-//        nodes.add(new Point("3", 1, 0));
-//
-//        List<Edge> result = new ArrayList<>();
-//        result = perfectMatchingSolverService.getMinimumWeightPerfectMatching(nodes);
-//
-//        HashMap hash = new HashMap();
-//        for (int i = 0; i < result.size(); i++) {
-//            Edge edge = result.get(i);
-//            Point point = edge.getTo();
-//            String id = point.getId();
-//            if(hash.get(id)
+    @Test
+    public void testGetMinimumWeightPerfectMatching() {
+        PerfectMatchingSolverService perfectMatchingSolverService = KolmogorovWeightedPerfectMatchingImpl.getInstance();
+        List<Point> nodes = new ArrayList<>();
+        nodes.add(new Point("0", 0, 1));
+        nodes.add(new Point("1", 1, 0));
+        nodes.add(new Point("2", 3, 0));
+        nodes.add(new Point("3", 0, 3));
 
-//            if (hash.get(result.get(i)))
-//        }
+        List<Edge> result;
+        result = perfectMatchingSolverService.getMinimumWeightPerfectMatching(nodes);
 
+        List<Edge> expectedResult = new ArrayList<>();
+        expectedResult.add(new Edge(new Point("0", 0, 1), new Point("3", 0, 3)));
+        expectedResult.add(new Edge(new Point("1", 3, 0), new Point("2", 1, 0)));
 
-//        assertThrows(IllegalArgumentException.class, () -> {
-//            List<Edge> result = new ArrayList<>();
-//            result = perfectMatchingSolverService.getMinimumWeightPerfectMatching(nodes);
-//        });
-//    }
+//        assertEquals(result.get(0), expectedResult.get(0));
+        assertTrue(isEqualArrayByValues(result, expectedResult));
+
+    }
+
+    private static boolean isEqualArrayByValues(List<Edge> result, List<Edge> expectedTour) {
+        boolean equal = true;
+        if (expectedTour.size() != result.size()) {
+            equal = false;
+        } else {
+            for (int i = 0; i < expectedTour.size(); i++) {
+                if (expectedTour.get(i).equals(result.get(i))) {
+                    equal = false;
+                    break;
+                }
+            }
+        }
+        return equal;
+    }
 
 }
