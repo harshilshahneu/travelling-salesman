@@ -31,9 +31,23 @@ public class EdgeUtilTest {
 	}
 	
 	@Test
+	public void emptyDataTest() {
+		calculateCostTest(Constant.TEST_DATA_FILE_EMPTY, 0);
+	}
+	
+	@Test
 	public void smallDataTest() {
+		calculateCostTest(Constant.TEST_DATA_FILE_SMALL, 71597.66003606733);
+	}
+	
+	@Test
+	public void bigDataTest() {
+		calculateCostTest(Constant.TEST_DATA_FILE_BIG, 2434177.198993038);
+	}
+	
+	private void calculateCostTest(String fileName, double expectedCost) {
 		CSVParserService csvParserService = CSVParserServiceImpl.getInstance();
-		List<Point> points = csvParserService.parsePoints(Constant.TEST_DATA_FILE_SMALL);
+		List<Point> points = csvParserService.parsePoints(fileName);
 		
 		List<Edge> edges = new ArrayList<>();
 		for (int i = 0; i < points.size() - 1; i++) {
@@ -44,7 +58,6 @@ public class EdgeUtilTest {
 		}
 		
 		double cost = EdgeUtil.getTotalCost(edges);
-		double expectedCost = 71597.66003606733;
 		assertEquals(cost, expectedCost);
 	}
 }
