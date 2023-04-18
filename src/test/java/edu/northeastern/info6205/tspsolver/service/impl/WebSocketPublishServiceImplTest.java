@@ -1,12 +1,15 @@
 package edu.northeastern.info6205.tspsolver.service.impl;
 
+import edu.northeastern.info6205.tspsolver.model.Action;
+import edu.northeastern.info6205.tspsolver.service.WebSocketPublishService;
 import org.junit.Test;
-import org.junit.jupiter.api.Disabled;
 
 public class WebSocketPublishServiceImplTest {
     @Test
-    @Disabled("This test case needs to be implemented")
-    public void test() {
-
+    public void testPublish() {
+        WebSocketPublishService webSocketPublishService = WebSocketPublishServiceImpl.getInstance();
+        Action<?> action = new Action<>();
+        // call publish() method and expect no exceptions
+        webSocketPublishService.publish(action);
     }
 }
