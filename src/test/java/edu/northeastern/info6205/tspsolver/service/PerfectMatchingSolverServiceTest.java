@@ -1,110 +1,185 @@
 package edu.northeastern.info6205.tspsolver.service;
 
-import edu.northeastern.info6205.tspsolver.model.Edge;
-import edu.northeastern.info6205.tspsolver.model.Point;
-import edu.northeastern.info6205.tspsolver.service.impl.KolmogorovWeightedPerfectMatchingImpl;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Test;
+
+import edu.northeastern.info6205.tspsolver.constant.Constant;
+import edu.northeastern.info6205.tspsolver.model.Edge;
+import edu.northeastern.info6205.tspsolver.model.Point;
+import edu.northeastern.info6205.tspsolver.service.impl.CSVParserServiceImpl;
+import edu.northeastern.info6205.tspsolver.service.impl.KolmogorovWeightedPerfectMatchingImpl;
+import edu.northeastern.info6205.tspsolver.service.impl.NearestNeighbourPerfectMatchingImpl;
+import edu.northeastern.info6205.tspsolver.util.EdgeUtil;
 
 public class PerfectMatchingSolverServiceTest {
 	
-    @Test
-    public void instanceNotNullTest() {
+	@Test
+    public void nearestNeighbourInstanceNotNullTest() {
+        PerfectMatchingSolverService perfectMatchingSolverService = NearestNeighbourPerfectMatchingImpl.getInstance();
+        assertNotNull(perfectMatchingSolverService);
+    }
+	
+	@Test
+    public void kolmogorovInstanceNotNullTest() {
         PerfectMatchingSolverService perfectMatchingSolverService = KolmogorovWeightedPerfectMatchingImpl.getInstance();
         assertNotNull(perfectMatchingSolverService);
     }
 
     @Test
-    public void singletonInstanceTest() {
-        PerfectMatchingSolverService firstInstance = KolmogorovWeightedPerfectMatchingImpl.getInstance();
-        PerfectMatchingSolverService secondInstance = KolmogorovWeightedPerfectMatchingImpl.getInstance();
+    public void nearestNeighbourSingletonInstanceTest() {
+        PerfectMatchingSolverService firstInstance = NearestNeighbourPerfectMatchingImpl.getInstance();
+        PerfectMatchingSolverService secondInstance = NearestNeighbourPerfectMatchingImpl.getInstance();
         assertEquals(firstInstance, secondInstance);
     }
 
     @Test
-    public void testGetMinimumWeightPerfectMatchingWithLoop() {
-        PerfectMatchingSolverService perfectMatchingSolverService = KolmogorovWeightedPerfectMatchingImpl.getInstance();
+    public void kolmogorovSingletonInstanceTest() {
+        PerfectMatchingSolverService firstInstance = KolmogorovWeightedPerfectMatchingImpl.getInstance();
+        PerfectMatchingSolverService secondInstance = KolmogorovWeightedPerfectMatchingImpl.getInstance();
+        assertEquals(firstInstance, secondInstance);
+    }
+    
+    @Test
+    public void nearestNeighbourEmptyListTest() {
+        PerfectMatchingSolverService perfectMatchingSolverService = NearestNeighbourPerfectMatchingImpl.getInstance();
+    	List<Point> nodes = new ArrayList<>();
+    	List<Edge> result = perfectMatchingSolverService.getMinimumWeightPerfectMatching(nodes);
+    	assertTrue(result.isEmpty());
+    }
+    
+    @Test
+    public void nearestNeighbourSingleNodeNullPointerExceptionTest() {
+        PerfectMatchingSolverService perfectMatchingSolverService = NearestNeighbourPerfectMatchingImpl.getInstance();
+
+        Point point = new Point(Constant.BLANK_STRING, 0, 0);
 
         List<Point> nodes = new ArrayList<>();
-        nodes.add(new Point("0", 0, 0));
-        nodes.add(new Point("1", 0, 1));
-        nodes.add(new Point("2", 1, 1));
-        nodes.add(new Point("3", 1, 0));
-        nodes.add(new Point("4", 0, 0));
+        nodes.add(point);
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            List<Edge> result = new ArrayList<>();
-            result = perfectMatchingSolverService.getMinimumWeightPerfectMatching(nodes);
+        assertThrows(NullPointerException.class, () -> {
+            perfectMatchingSolverService.getMinimumWeightPerfectMatching(nodes);
         });
     }
-
+    
     @Test
-    public void testGetMinimumWeightPerfectMatchingTwoNodes() {
+    public void kolmogorovSingleNodeIllegalArgumentExceptionTest() {
         PerfectMatchingSolverService perfectMatchingSolverService = KolmogorovWeightedPerfectMatchingImpl.getInstance();
 
-        List<Point> nodes = new ArrayList<>();
-        nodes.add(new Point("0", 0, 0));
-        nodes.add(new Point("1", 1, 1));
-
-        List<Edge> result = new ArrayList<>();
-        result = perfectMatchingSolverService.getMinimumWeightPerfectMatching(nodes);
-        assertEquals(1, result.size());
-    }
-
-    @Test
-    public void testGetMinimumWeightPerfectMatchingWithOddNodes() {
-        PerfectMatchingSolverService perfectMatchingSolverService = KolmogorovWeightedPerfectMatchingImpl.getInstance();
+        Point point = new Point(Constant.BLANK_STRING, 0, 0);
 
         List<Point> nodes = new ArrayList<>();
-        nodes.add(new Point("0", 0, 0));
-        nodes.add(new Point("1", 1, 1));
-        nodes.add(new Point("2", 1, 1));
+        nodes.add(point);
 
         assertThrows(IllegalArgumentException.class, () -> {
-            List<Edge> result = new ArrayList<>();
-            result = perfectMatchingSolverService.getMinimumWeightPerfectMatching(nodes);
+            perfectMatchingSolverService.getMinimumWeightPerfectMatching(nodes);
         });
     }
-
-    //TODO: change this test case to check unique node
+    
     @Test
-    public void testGetMinimumWeightPerfectMatching() {
-        PerfectMatchingSolverService perfectMatchingSolverService = KolmogorovWeightedPerfectMatchingImpl.getInstance();
+    public void nearestNeighbourTwoNodesTest() {
+        PerfectMatchingSolverService perfectMatchingSolverService = NearestNeighbourPerfectMatchingImpl.getInstance();
+
+        Point source = new Point(String.valueOf(1), 0, 0);
+        Point destination = new Point(String.valueOf(2), 1, 1);
+        
+        Edge expectedEdge = new Edge(source, destination);
+        List<Edge> expectedList = new ArrayList<>();
+        expectedList.add(expectedEdge);
+        
         List<Point> nodes = new ArrayList<>();
-        nodes.add(new Point("0", 0, 1));
-        nodes.add(new Point("1", 1, 0));
-        nodes.add(new Point("2", 3, 0));
-        nodes.add(new Point("3", 0, 3));
+        nodes.add(source);
+        nodes.add(destination);
 
-        List<Edge> result;
-        result = perfectMatchingSolverService.getMinimumWeightPerfectMatching(nodes);
+        List<Edge> result = perfectMatchingSolverService.getMinimumWeightPerfectMatching(nodes);
+        assertEquals(expectedList, result);
+    }
+    
+    @Test
+    public void kolmogorovTwoNodesTest() {
+        PerfectMatchingSolverService perfectMatchingSolverService = KolmogorovWeightedPerfectMatchingImpl.getInstance();
 
-        List<Edge> expectedResult = new ArrayList<>();
-        expectedResult.add(new Edge(new Point("0", 0, 1), new Point("3", 0, 3)));
-        expectedResult.add(new Edge(new Point("1", 1, 0), new Point("2", 3, 0)));
+        Point source = new Point(String.valueOf(1), 0, 0);
+        Point destination = new Point(String.valueOf(2), 1, 1);
+        
+        Edge expectedEdge = new Edge(source, destination);
+        List<Edge> expectedList = new ArrayList<>();
+        expectedList.add(expectedEdge);
+        
+        List<Point> nodes = new ArrayList<>();
+        nodes.add(source);
+        nodes.add(destination);
 
-        assertTrue(isEqualArrayByValues(result, expectedResult));
-
+        List<Edge> result = perfectMatchingSolverService.getMinimumWeightPerfectMatching(nodes);
+        assertEquals(expectedList, result);
+    }
+    
+    @Test
+    public void nearestNeighbourEmptyDataTest() {
+    	nearestNeighbourDataTest(Constant.TEST_DATA_FILE_EMPTY, 0);
+    }
+    
+    @Test
+    public void kolmogorovEmptyDataTest() {
+    	kolmogorovDataTest(Constant.TEST_DATA_FILE_EMPTY, 0);
+    }
+    
+    @Test
+    public void nearestNeighbourSmallDataTest() {
+    	nearestNeighbourDataTest(Constant.TEST_DATA_FILE_SMALL, 37817.4426166655);
+    }
+    
+    @Test
+    public void kolmogorovSmallDataTest() {
+    	kolmogorovDataTest(Constant.TEST_DATA_FILE_SMALL, 21248.089360342838);
+    }
+    
+    @Test
+    public void nearestNeighbourBigDataTest() {
+    	nearestNeighbourDataTest(Constant.TEST_DATA_FILE_BIG, 229734.53644178226);
     }
 
-    private static boolean isEqualArrayByValues(List<Edge> result, List<Edge> expectedTour) {
-        boolean equal = true;
-        if (expectedTour.size() != result.size()) {
-            equal = false;
-        } else {
-            for (int i = 0; i < expectedTour.size(); i++) {
-                if (!expectedTour.get(i).equals(result.get(i))) {
-                    equal = false;
-                    break;
-                }
-            }
-        }
-        return equal;
+    @Test
+    public void kolmogorovBigDataTest() {
+    	kolmogorovDataTest(Constant.TEST_DATA_FILE_BIG, 146168.36186616763);
     }
+    
+	private void nearestNeighbourDataTest(String filePath, double expectedCost) {
+		dataTest(
+				filePath, 
+				expectedCost, 
+				NearestNeighbourPerfectMatchingImpl.getInstance());
+	}
+	
+    private void kolmogorovDataTest(String filePath, double expectedCost) {
+		dataTest(
+				filePath, 
+				expectedCost, 
+				KolmogorovWeightedPerfectMatchingImpl.getInstance());
+	}
 
+    private void dataTest(
+    		String filePath, 
+    		double expectedCost,
+    		PerfectMatchingSolverService perfectMatchingSolverService) {
+    	CSVParserService csvParserService = CSVParserServiceImpl.getInstance();
+		List<Point> points = csvParserService.parsePoints(filePath);
+		
+		if (points.size() % 2 == 1) {
+			points.remove(0);
+		}
+		
+		List<Edge> result = perfectMatchingSolverService.getMinimumWeightPerfectMatching(points);
+		
+		assertEquals(points.size(), result.size() * 2);
+		
+		double actualCost = EdgeUtil.getTotalCost(result);
+		assertEquals(actualCost, expectedCost, 0);
+    }
 }
