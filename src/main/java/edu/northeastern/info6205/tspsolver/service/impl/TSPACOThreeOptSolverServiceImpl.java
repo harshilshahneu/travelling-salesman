@@ -1,31 +1,35 @@
 package edu.northeastern.info6205.tspsolver.service.impl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import edu.northeastern.info6205.tspsolver.algorithm.antcolony.AntColonyOptimization;
-import edu.northeastern.info6205.tspsolver.algorithm.opt.ThreeOpt;
-import edu.northeastern.info6205.tspsolver.util.HaversineDistanceUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.northeastern.info6205.tspsolver.algorithm.antcolony.AntColonyOptimization;
 import edu.northeastern.info6205.tspsolver.algorithm.christofides.Christofides;
+import edu.northeastern.info6205.tspsolver.algorithm.opt.ThreeOpt;
 import edu.northeastern.info6205.tspsolver.constant.Constant;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.model.TSPPayload;
 import edu.northeastern.info6205.tspsolver.service.TSPSolverService;
+import edu.northeastern.info6205.tspsolver.util.HaversineDistanceUtil;
 
-public class TSPACOThreeOpt implements TSPSolverService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TSPChristofidesSolverServiceImpl.class);
+public class TSPACOThreeOptSolverServiceImpl implements TSPSolverService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TSPACOThreeOptSolverServiceImpl.class);
 
     private static TSPSolverService instance;
 
-    private TSPACOThreeOpt() {
+    private TSPACOThreeOptSolverServiceImpl() {
         LOGGER.info("Initialising the instance");
     }
 
     public static TSPSolverService getInstance() {
         if (instance == null) {
-            instance = new TSPACOThreeOpt();
+            instance = new TSPACOThreeOptSolverServiceImpl();
         }
 
         return instance;
