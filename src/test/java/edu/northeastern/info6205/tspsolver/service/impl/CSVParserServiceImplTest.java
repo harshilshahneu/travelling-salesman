@@ -3,84 +3,38 @@ package edu.northeastern.info6205.tspsolver.service.impl;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.CSVParserService;
 import org.junit.Test;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class CSVParserServiceImplTest {
     @Test
     public void testParsePoints_ValidCSV_ReturnsCorrectNumberOfPoints() {
-        // Arrange
-        String csvData = "id,latitude,longitude\n1,42.3601,-71.0589\n2,37.7749,-122.4194\n";
-        MultipartFile multipartFile = new MockMultipartFile("test.csv", csvData.getBytes());
-        CSVParserService csvParserService = CSVParserServiceImpl.getInstance();
+        CSVParserService csvService = CSVParserServiceImpl.getInstance();
+        List<Point> graph = csvService.parsePoints("src/test/resources/data/tsp-test-small.csv");
 
-        // Act
-        List<Point> points = csvParserService.parsePoints(multipartFile);
+        List<Point> expectedGraph = new ArrayList<>();
+        expectedGraph.add(new Point(String.valueOf(0),19.167546,72.780647));
+        expectedGraph.add(new Point(String.valueOf(1),19.197053,72.773438));
+        expectedGraph.add(new Point(String.valueOf(2),19.128951,72.718849));
+        expectedGraph.add(new Point(String.valueOf(3),19.109488,72.770004));
+        expectedGraph.add(new Point(String.valueOf(4),19.125383,72.667007));
+        expectedGraph.add(new Point(String.valueOf(5),19.128951,72.748375));
+        expectedGraph.add(new Point(String.valueOf(6),19.220721,72.747345));
+        expectedGraph.add(new Point(String.valueOf(7),19.130897,72.658768));
+        expectedGraph.add(new Point(String.valueOf(8),19.107541,72.648125));
+        expectedGraph.add(new Point(String.valueOf(9),19.163006,72.622375));
 
-        // Assert
-        assertEquals(2, points.size());
+        assertEquals(expectedGraph, graph);
     }
 
     @Test
     public void testParsePoints_EmptyCSV_ReturnsEmptyList() {
-        // Arrange
-        String csvData = "id,latitude,longitude\n";
-        MultipartFile multipartFile = new MockMultipartFile("test.csv", csvData.getBytes());
-        CSVParserService csvParserService = CSVParserServiceImpl.getInstance();
-
-        // Act
-        List<Point> points = csvParserService.parsePoints(multipartFile);
-
-        // Assert
-        assertTrue(points.isEmpty());
-    }
-
-    @Test
-    public void testParsePoints_CSVWithNoLocationData_SkipsPointsWithNoLocation() {
-        // Arrange
-        String csvData = "id,latitude,longitude\n0,42.3601,-71.0589\n1,60.0,74.48\n2,37.7749,-122.4194\n";
-        MultipartFile multipartFile = new MockMultipartFile("test.csv", csvData.getBytes());
-        CSVParserService csvParserService = CSVParserServiceImpl.getInstance();
-
-        // Act
-        List<Point> points = csvParserService.parsePoints(multipartFile);
-
-        // Assert
-        assertEquals(3, points.size());
-    }
-
-    @Test
-    public void testParsePoints_ValidCSV_SetsCorrectIDForPoints() {
-        // Arrange
-        String csvData = "id,latitude,longitude\n0,42.3601,-71.0589\n1,37.7749,-122.4194\n";
-        MultipartFile multipartFile = new MockMultipartFile("test.csv", csvData.getBytes());
-        CSVParserService csvParserService = CSVParserServiceImpl.getInstance();
-
-        // Act
-        List<Point> points = csvParserService.parsePoints(multipartFile);
-
-        // Assert
-        assertEquals("0", points.get(0).getId());
-        assertEquals("1", points.get(1).getId());
-    }
-
-    @Test
-    public void testParsePoints_ValidCSV_SetsCorrectLatitudeAndLongitudeForPoints() {
-        // Arrange
-        String csvData = "id,latitude,longitude\n0,42.3601,-71.0589\n1,37.7749,-122.4194\n";
-        MultipartFile multipartFile = new MockMultipartFile("test.csv", csvData.getBytes());
-        CSVParserService csvParserService = CSVParserServiceImpl.getInstance();
-
-        // Act
-        List<Point> points = csvParserService.parsePoints(multipartFile);
-
-        // Assert
-        assertEquals(42.3601, points.get(0).getLatitude(), 0.001);
-        assertEquals(-71.0589, points.get(0).getLongitude(), 0.001);
+        CSVParserService csvService = CSVParserServiceImpl.getInstance();
+        List<Point> graph = csvService.parsePoints("src/test/resources/data/tsp-test-empty.csv");
+        List<Point> expectedGraph = new ArrayList<>();
+        assertEquals(graph, expectedGraph);
     }
 }
