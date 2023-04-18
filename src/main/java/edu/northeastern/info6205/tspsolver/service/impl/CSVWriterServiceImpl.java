@@ -16,10 +16,10 @@ import edu.northeastern.info6205.tspsolver.service.CSVWriterService;
 public class CSVWriterServiceImpl implements CSVWriterService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CSVWriterServiceImpl.class);
 
-	private static final String OUTPUT_FILE_NAME_PREFIX = "tsp-solution-out-";
 	private static final String TMP_DIRECTORY = "tmp";
 	
 	private static final int CRIME_ID_TRIM_SIZE = 5;
+	private static final String DECIMAL_FORMATTER = "%.3f";
 	
 	private static CSVWriterService instance;
 	
@@ -55,9 +55,22 @@ public class CSVWriterServiceImpl implements CSVWriterService {
 	}
 	
 	@Override
-	public TSPOutput write(List<Point> points) {
-		LOGGER.trace("writing file for points size: {} ", points.size());
-		String fileName = generateFileName();
+	public TSPOutput write(
+			List<Point> points,
+			String algorithmName,
+			double percentage,
+			double tourDistance) {
+		LOGGER.trace(
+				"writing file for points size: {}, algorithmName: {}, percentage: {}, tourDistance: {}", 
+				points.size(),
+				algorithmName,
+				percentage,
+				tourDistance);
+		String fileName = generateFileName(
+				points,
+				algorithmName,
+				percentage,
+				tourDistance);
 		return write(points, fileName);
 	}
 	
@@ -118,9 +131,18 @@ public class CSVWriterServiceImpl implements CSVWriterService {
 		return placeId.substring(placeId.length() - trimSize);
 	}
 
-	private String generateFileName() {
+	private String generateFileName(
+			List<Point> points,
+			String algorithmName,
+			double percentage,
+			double tourDistance) {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(OUTPUT_FILE_NAME_PREFIX);
+		stringBuilder.append(algorithmName);
+		stringBuilder.append(Constant.DASH);
+		stringBuilder.append(String.format(DECIMAL_FORMATTER, percentage));
+		stringBuilder.append(Constant.DASH);
+		stringBuilder.append(String.format(DECIMAL_FORMATTER, tourDistance));
+		stringBuilder.append(Constant.DASH);
 		stringBuilder.append(System.currentTimeMillis());
 		stringBuilder.append(Constant.CSV_EXTENSION);
 

@@ -25,7 +25,11 @@ public interface CSVWriterService {
 	 * @return the {@link TSPOutput} representing
 	 * the TSP Output solution
 	 * */
-	TSPOutput write(List<Point> points);
+	TSPOutput write(
+			List<Point> points,
+			String algorithmName,
+			double percentage,
+			double tourDistance);
 	
 	/**
 	 * Will write the points in a
@@ -35,6 +39,8 @@ public interface CSVWriterService {
 	 * @return the {@link TSPOutput} representing
 	 * the TSP Output solution
 	 * */
-	TSPOutput write(List<Point> points, String fileName);
+	TSPOutput write(
+			List<Point> points, 
+			String fileName);
 	
 }

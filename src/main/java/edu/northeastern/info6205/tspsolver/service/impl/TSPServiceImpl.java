@@ -122,7 +122,13 @@ public class TSPServiceImpl implements TSPService {
 		LOGGER.info(stringBuilder.toString());
 		
 		CSVWriterService csvWriterService = CSVWriterServiceImpl.getInstance();
-		TSPOutput output = csvWriterService.write(tspTour);
+		
+		TSPOutput output = csvWriterService.write(
+				tspTour,
+				keyIdentifier,
+				percentageMSTImprovement,
+				tspTourCost);
+		
 		return output;
 	}
 	
