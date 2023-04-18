@@ -3,7 +3,6 @@ package edu.northeastern.info6205.tspsolver.algorithm.annealing;
 import org.junit.Test;
 import org.junit.jupiter.api.Disabled;
 
-
 //TODO: Change the nodes with mumbai dataset created by giving path
 public class SimulatedAnnealingOptimizationTest {
     
