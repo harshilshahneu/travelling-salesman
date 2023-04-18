@@ -19,13 +19,13 @@ public interface CSVWriterService {
 	 * 
 	 * <br><br>
 	 * 
-	 * Internally calls {@link #write(List, String)}
+	 * Internally calls {@link #writeFile(List, String)}
 	 * with the newly generated file name
 	 * 
 	 * @return the {@link TSPOutput} representing
 	 * the TSP Output solution
 	 * */
-	TSPOutput write(
+	TSPOutput generateOutputFile(
 			List<Point> points,
 			String algorithmName,
 			double percentage,
@@ -39,7 +39,7 @@ public interface CSVWriterService {
 	 * @return the {@link TSPOutput} representing
 	 * the TSP Output solution
 	 * */
-	TSPOutput write(
+	TSPOutput writeFile(
 			List<Point> points, 
 			String fileName);
 	

@@ -16,10 +16,7 @@ import edu.northeastern.info6205.tspsolver.service.CSVWriterService;
 public class CSVWriterServiceImpl implements CSVWriterService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CSVWriterServiceImpl.class);
 
-	private static final String TMP_DIRECTORY = "tmp";
-	
 	private static final int CRIME_ID_TRIM_SIZE = 5;
-	private static final String DECIMAL_FORMATTER = "%.3f";
 	
 	private static CSVWriterService instance;
 	
@@ -31,7 +28,7 @@ public class CSVWriterServiceImpl implements CSVWriterService {
 	private void createTmpDirectoryIfNotExists() {
 		LOGGER.info("will create the tmp directory if it doesn't exist");
 		
-		File directory = new File(TMP_DIRECTORY);
+		File directory = new File(Constant.TMP_DIRECTORY);
 		if (directory.exists()) {
 			LOGGER.info("directory already exists no need to do anything");
 			return;
@@ -55,7 +52,7 @@ public class CSVWriterServiceImpl implements CSVWriterService {
 	}
 	
 	@Override
-	public TSPOutput write(
+	public TSPOutput generateOutputFile(
 			List<Point> points,
 			String algorithmName,
 			double percentage,
@@ -71,11 +68,11 @@ public class CSVWriterServiceImpl implements CSVWriterService {
 				algorithmName,
 				percentage,
 				tourDistance);
-		return write(points, fileName);
+		return writeFile(points, fileName);
 	}
 	
 	@Override
-	public TSPOutput write(List<Point> points, String fileName) {
+	public TSPOutput writeFile(List<Point> points, String fileName) {
 		LOGGER.trace("writing file for points size: {}, fileName: {}", points.size(), fileName);
 		
 		String completeFilePath = getCompleteFilePath(fileName);
@@ -139,9 +136,9 @@ public class CSVWriterServiceImpl implements CSVWriterService {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(algorithmName);
 		stringBuilder.append(Constant.DASH);
-		stringBuilder.append(String.format(DECIMAL_FORMATTER, percentage));
+		stringBuilder.append(String.format(Constant.DECIMAL_THREE_PLACES_FORMATTER, percentage));
 		stringBuilder.append(Constant.DASH);
-		stringBuilder.append(String.format(DECIMAL_FORMATTER, tourDistance));
+		stringBuilder.append(String.format(Constant.DECIMAL_THREE_PLACES_FORMATTER, tourDistance));
 		stringBuilder.append(Constant.DASH);
 		stringBuilder.append(System.currentTimeMillis());
 		stringBuilder.append(Constant.CSV_EXTENSION);
@@ -151,7 +148,7 @@ public class CSVWriterServiceImpl implements CSVWriterService {
 
 	private String getCompleteFilePath(String fileName) {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(TMP_DIRECTORY);
+		stringBuilder.append(Constant.TMP_DIRECTORY);
 		stringBuilder.append(Constant.SLASH);
 		stringBuilder.append(fileName);
 		return stringBuilder.toString();

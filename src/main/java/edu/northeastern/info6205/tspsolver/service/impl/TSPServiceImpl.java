@@ -134,7 +134,7 @@ public class TSPServiceImpl implements TSPService {
 		
 		CSVWriterService csvWriterService = CSVWriterServiceImpl.getInstance();
 		
-		TSPOutput output = csvWriterService.write(
+		TSPOutput output = csvWriterService.generateOutputFile(
 				tspTour,
 				keyIdentifier,
 				percentageMSTImprovement,

@@ -12,6 +12,7 @@ public class Constant {
 	public static final String COLON_SINGLE_SPACE = " : ";
 	public static final String SLASH = "/";
 	public static final String DASH = "-";
+	public static final String PERIOD = ".";
 	
 	public static final String SOMETHING_WENT_WRONG = "Something Went Wrong!!";
 	public static final String OK = "OK";
@@ -48,4 +49,11 @@ public class Constant {
 	public static final String TEST_DATA_FILE_EMPTY = "src/test/resources/data/tsp-test-empty.csv";
 	public static final String TEST_DATA_FILE_SMALL = "src/test/resources/data/tsp-test-small.csv";
 	public static final String TEST_DATA_FILE_BIG = "src/test/resources/data/tsp-test-big.csv";
+	
+	public static final String TEST = "test";
+	
+	public static final String TMP_DIRECTORY = "tmp";
+	
+	public static final String DECIMAL_THREE_PLACES_FORMATTER = "%.3f";
+
 }
