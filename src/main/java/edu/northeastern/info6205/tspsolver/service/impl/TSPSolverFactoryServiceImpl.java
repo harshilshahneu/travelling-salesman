@@ -34,7 +34,6 @@ public class TSPSolverFactoryServiceImpl implements TSPSolverFactoryService {
 		
 		serviceMap = new HashMap<>();
 		
-		addService(TSPJspritSolverServiceImpl.getInstance());
 		addService(TSPChristofidesSolverServiceImpl.getInstance());
 		addService(TSPRandomTwoOptSolverServiceImpl.getInstance());
 		addService(TSPRandomThreeOptSolverServiceImpl.getInstance());

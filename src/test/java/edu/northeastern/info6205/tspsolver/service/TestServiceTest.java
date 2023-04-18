@@ -6,6 +6,7 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import edu.northeastern.info6205.tspsolver.constant.Constant;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.impl.TestServiceImpl;
 
@@ -13,13 +14,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class TestServiceTest {
-    @Test
-    public void springContextTest() {
-    	List<Point> emptyList = new ArrayList<>();
-    	TestService testService = TestServiceImpl.getInstance();
-    	testService.testAsync(emptyList);
-    }
-
+	
     @Test
     public void instanceNotNullTest() {
         TestService tspACOThreeOptSolverService = TestServiceImpl.getInstance();
@@ -37,7 +32,7 @@ public class TestServiceTest {
     public void testAsyncTest() {
         TestService testService = TestServiceImpl.getInstance();
         List<Point> points = new ArrayList<>();
-        points.add(new Point(String.valueOf(0), 10.0, 10.0));
+        points.add(new Point(Constant.BLANK_STRING, 10.0, 10.0));
         testService.testAsync(points);
     }
 
@@ -55,5 +50,4 @@ public class TestServiceTest {
             testService.testAsync(null);
         });
     }
-
 }

@@ -1,9 +1,10 @@
 package edu.northeastern.info6205.tspsolver.service.impl;
 
+import edu.northeastern.info6205.tspsolver.constant.Constant;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.TestService;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class TestServiceImplTest {
     public void testAsyncTest() {
         TestService testService = TestServiceImpl.getInstance();
         List<Point> points = new ArrayList<>();
-        points.add(new Point(String.valueOf(0), 10.0, 10.0));
+        points.add(new Point(Constant.BLANK_STRING, 10.0, 10.0));
         testService.testAsync(points);
     }
 
