@@ -113,7 +113,6 @@ public class AntColonyOptimizationTest {
 			}
 		}
 		
-
 		AntColonyOptimazationPayload antColonyOptimazationPayload = new AntColonyOptimazationPayload();
 		antColonyOptimazationPayload.setNumberOfAnts(10);
 		antColonyOptimazationPayload.setPhermoneExponent(1);
@@ -159,6 +158,5 @@ public class AntColonyOptimizationTest {
         
         double percentage = ((tspTourCost - mstCost)/mstCost) * 100;
         assertTrue(percentage < 100);
-    
     }
 }

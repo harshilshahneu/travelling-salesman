@@ -1,40 +1,149 @@
 package edu.northeastern.info6205.tspsolver.algorithm.annealing;
 
-import org.junit.Test;
-import org.junit.jupiter.api.Disabled;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-//TODO: Change the nodes with mumbai dataset created by giving path
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.junit.jupiter.api.Test;
+
+import edu.northeastern.info6205.tspsolver.algorithm.christofides.Christofides;
+import edu.northeastern.info6205.tspsolver.algorithm.mst.PrimsMST;
+import edu.northeastern.info6205.tspsolver.model.Point;
+import edu.northeastern.info6205.tspsolver.model.TSPPayload.SimulatedAnnealingPayload;
+import edu.northeastern.info6205.tspsolver.service.CSVParserService;
+import edu.northeastern.info6205.tspsolver.service.impl.CSVParserServiceImpl;
+import edu.northeastern.info6205.tspsolver.util.HaversineDistanceUtil;
+import edu.northeastern.info6205.tspsolver.util.PointUtil;
+
 public class SimulatedAnnealingOptimizationTest {
     
 	@Test
-    @Disabled("This test case needs to be implemented")
-    public void testSolveWithEmptyTour() {
-//        List<Point> tour = new ArrayList<>();
-//        SimulatedAnnealingOptimization annealing = new SimulatedAnnealingOptimization(tour, 1000, 100, 100, 0.1, 0.95);
-//        List<Point> result = annealing.solve();
-//        assertEquals(tour, result);
+    public void christofidesTourNullTest() {
+		assertThrows(NullPointerException.class, () -> {
+			SimulatedAnnealingOptimization optimization = new SimulatedAnnealingOptimization(
+	    			null, 
+	    			new double[][] {{1}}, 
+	    			0, 
+	    			0,
+	    			0,
+	    			0);
+			
+			optimization.solve();
+		});
     }
-    
-    @Test
-    @Disabled("This test case needs to be implemented")
-    public void testSolveWithSinglePointTour() {
-
-//        SimulatedAnnealing annealing = new SimulatedAnnealing();
-//        List<Point> tour = Collections.singletonList(new Point("0", 0, 0));
-//        List<Point> result = annealing.solve(tour, 1000, 100, 0.95);
-//        assertEquals(tour, result);
+	
+	@Test
+    public void distanceMatrixNullTest() {
+    	assertThrows(NullPointerException.class, () -> {
+    		new SimulatedAnnealingOptimization(
+    				new int[] {1}, 
+        			null, 
+        			0, 
+        			0,
+        			0,
+        			0);
+    	});
     }
-
-    @Test
-    @Disabled("This test case needs to be implemented")
-    public void testSolveWithMumbaiPointsTour() {
-        //src/main/resources/data/tsp-test-mumbai.csv
-
-//        CSVParserService csvParserService = CSVParserServiceImpl.getInstance();
-////        csvParserService.parsePoints(filePath);
-//        SimulatedAnnealingOptimization annealing = new SimulatedAnnealingOptimization();
-//        List<Point> tour = Arrays.asList(new Point("0", 0, 0), new Point("1", 1, 1), new Point("2", 2, 2), new Point("3", 3, 3));
-//        List<Point> result = annealing.solve(tour, 1000, 100, 0.95);
-//        assertEquals(tour, result);
+	
+	@Test
+    public void graphAndChristofidesTourNullTest() {
+    	assertThrows(NullPointerException.class, () -> {
+    		new SimulatedAnnealingOptimization(
+    				null, 
+        			null, 
+        			0, 
+        			0,
+        			0,
+        			0);
+    	});
     }
+	
+	@Test
+	public void runSmallOptimizationTest() {
+		final String FILE_PATH = "src/test/resources/data/tsp-test-small.csv";
+		test(FILE_PATH);
+	}
+
+	@Test
+	public void runBigOptimizationTest() {
+		final String FILE_PATH = "src/test/resources/data/tsp-test-big.csv";
+		test(FILE_PATH);
+	}
+	
+	private void test(String fileName) {
+		CSVParserService csvParserService = CSVParserServiceImpl.getInstance();
+    	List<Point> points = csvParserService.parsePoints(fileName);
+    	
+    	Christofides christofides = new Christofides(points);
+		List<Point> tour = christofides.solve();
+		
+		// Last point and first point are same in Christofides tour
+		tour.remove(tour.size() - 1);
+
+		int[] christofidesTour = tour.stream()
+				.mapToInt(p -> Integer.parseInt(p.getId()))
+				.toArray();
+		
+		int n = points.size();
+		double[][] graph = new double[n][n];
+		for (int i = 0; i < n; i++) {
+			Point source = points.get(i);
+			for (int j = i + 1; j < n; j++) {
+				Point destination = points.get(j);
+				double distance = HaversineDistanceUtil.haversine(destination, source);
+				graph[i][j] = distance;
+				graph[j][i] = distance;
+			}
+		}
+		
+		SimulatedAnnealingPayload annealingPayload = new SimulatedAnnealingPayload();
+		annealingPayload.setMaxIteration(1000000);
+		annealingPayload.setStartingTemperature(1000);
+		annealingPayload.setFinalTemperature(1);
+		annealingPayload.setCoolingRate(0.9995);
+		
+		SimulatedAnnealingOptimization optimization = new SimulatedAnnealingOptimization(
+				christofidesTour, 
+				graph, 
+				annealingPayload.getMaxIteration(), 
+				annealingPayload.getStartingTemperature(), 
+				annealingPayload.getFinalTemperature(), 
+				annealingPayload.getCoolingRate());
+		
+		int[] path = optimization.solve();
+		
+		Map<Integer, Point> pointMap = new HashMap<>();
+		for (Point point : points) {
+			pointMap.put(Integer.parseInt(point.getId()), point);
+		}
+		
+		List<Point> tspTour = new ArrayList<>();
+		for (int node : path) {
+			tspTour.add(pointMap.get(node));
+		}
+		
+		int startingPointIndex = 0;
+		Point firstPoint = pointMap.get(startingPointIndex);
+		int firstPointIndex = tspTour.indexOf(firstPoint);
+		
+		if (firstPointIndex != -1) {
+			int rotations = firstPointIndex;
+			Collections.rotate(tspTour, -rotations);
+		}
+
+		tspTour.add(tspTour.get(0));
+		
+		double tspTourCost = PointUtil.getTotalCost(tspTour);
+		
+		PrimsMST primsMst = new PrimsMST(points);
+        double mstCost = primsMst.getMstCost();
+        
+        double percentage = ((tspTourCost - mstCost)/mstCost) * 100;
+        assertTrue(percentage < 100);
+	}
 }
