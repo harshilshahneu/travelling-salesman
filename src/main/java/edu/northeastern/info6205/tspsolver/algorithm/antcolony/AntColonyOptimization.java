@@ -86,9 +86,13 @@ public class AntColonyOptimization {
         stringBuilder.append(maxImprovementIterations);
         
         LOGGER.info(stringBuilder.toString());
+        
+        initialize();
     }
 	
 	public void initialize() {
+		LOGGER.info("initializing all matrix");
+		
 		// Compute heuristic information as inverse of distance
 		for (int i = 0; i < numVertices; i++) {
 			for (int j = 0; j < numVertices; j++) {
@@ -116,6 +120,8 @@ public class AntColonyOptimization {
 	
 	// ACO algorithm
 	public int[] runACO() {
+		LOGGER.info("Running the optimization");
+
 		int[] bestTour = null;
 		double bestDistance = Double.POSITIVE_INFINITY;
 		
