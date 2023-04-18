@@ -1,12 +1,22 @@
 package edu.northeastern.info6205.tspsolver.service.impl;
 
+import edu.northeastern.info6205.tspsolver.service.TSPSolverService;
 import org.junit.Test;
-import org.junit.jupiter.api.Disabled;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class TSPJspritSolverServiceImplTest {
     @Test
-    @Disabled("This test case needs to be implemented")
-    public void test() {
+    public void instanceNotNullTest() {
+        TSPSolverService tspJspritSolverService = TSPJspritSolverServiceImpl.getInstance();
+        assertNotNull(tspJspritSolverService);
+    }
 
+    @Test
+    public void singletonInstanceTest() {
+        TSPSolverService firstInstance = TSPJspritSolverServiceImpl.getInstance();
+        TSPSolverService secondInstance = TSPJspritSolverServiceImpl.getInstance();
+        assertEquals(firstInstance, secondInstance);
     }
 }

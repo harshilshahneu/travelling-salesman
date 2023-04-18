@@ -4,9 +4,9 @@ import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import edu.northeastern.info6205.tspsolver.service.MapService;
 import org.junit.Test;
 
 import edu.northeastern.info6205.tspsolver.model.Edge;
@@ -20,6 +20,13 @@ public class KolmogorovWeightedPerfectMatchingImplTest {
     public void testGetInstance() {
         PerfectMatchingSolverService perfectMatchingSolverService = KolmogorovWeightedPerfectMatchingImpl.getInstance();
         assertNotNull(perfectMatchingSolverService);
+    }
+
+    @Test
+    public void singletonInstanceTest() {
+        PerfectMatchingSolverService firstInstance = KolmogorovWeightedPerfectMatchingImpl.getInstance();
+        PerfectMatchingSolverService secondInstance = KolmogorovWeightedPerfectMatchingImpl.getInstance();
+        assertEquals(firstInstance, secondInstance);
     }
 
     @Test

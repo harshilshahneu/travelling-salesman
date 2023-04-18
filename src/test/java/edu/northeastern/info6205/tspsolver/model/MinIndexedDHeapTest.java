@@ -1,12 +1,14 @@
 package edu.northeastern.info6205.tspsolver.model;
 
+import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class MinIndexedDHeapTest {
 
-    @org.junit.Test
+    @Test
     public void testInsert() {
         MinIndexedDHeap<Integer> heap = new MinIndexedDHeap<>(2, 5);
         heap.insert(0, 10);
@@ -15,7 +17,7 @@ public class MinIndexedDHeapTest {
         assertEquals(3, heap.size());
     }
 
-    @org.junit.Test
+    @Test
     public void testContains() {
         MinIndexedDHeap<Integer> heap = new MinIndexedDHeap<>(2, 5);
         heap.insert(0, 10);
@@ -23,7 +25,7 @@ public class MinIndexedDHeapTest {
         assertFalse(heap.contains(1));
     }
 
-    @org.junit.Test
+    @Test
     public void testPeekMinValue() {
         MinIndexedDHeap<Integer> heap = new MinIndexedDHeap<>(2, 5);
         heap.insert(0, 10);
@@ -32,7 +34,7 @@ public class MinIndexedDHeapTest {
         assertEquals(Integer.valueOf(5), heap.peekMinValue());
     }
 
-    @org.junit.Test
+    @Test
     public void testPollMinValue() {
         MinIndexedDHeap<Integer> heap = new MinIndexedDHeap<>(2, 5);
         heap.insert(0, 10);
@@ -42,7 +44,7 @@ public class MinIndexedDHeapTest {
         assertEquals(Integer.valueOf(10), heap.pollMinValue());
     }
 
-    @org.junit.Test
+    @Test
     public void testDelete() {
         MinIndexedDHeap<Integer> heap = new MinIndexedDHeap<>(2, 5);
         heap.insert(0, 10);
@@ -53,7 +55,7 @@ public class MinIndexedDHeapTest {
         assertEquals(Integer.valueOf(10), heap.peekMinValue());
     }
 
-    @org.junit.Test
+    @Test
     public void testUpdate() {
         MinIndexedDHeap<Integer> heap = new MinIndexedDHeap<>(2, 5);
         heap.insert(0, 10);
@@ -64,7 +66,7 @@ public class MinIndexedDHeapTest {
         assertEquals(Integer.valueOf(5), heap.peekMinValue());
     }
 
-    @org.junit.Test
+    @Test
     public void testDecrease() {
         MinIndexedDHeap<Integer> heap = new MinIndexedDHeap<>(2, 5);
         heap.insert(0, 10);
@@ -75,7 +77,7 @@ public class MinIndexedDHeapTest {
         assertEquals(Integer.valueOf(5), heap.peekMinValue());
     }
 
-    @org.junit.Test
+    @Test
     public void testIncrease() {
         MinIndexedDHeap<Integer> heap = new MinIndexedDHeap<>(2, 5);
         heap.insert(0, 10);

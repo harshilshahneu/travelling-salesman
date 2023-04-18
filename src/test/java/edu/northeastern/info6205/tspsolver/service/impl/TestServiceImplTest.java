@@ -8,8 +8,24 @@ import org.junit.jupiter.api.Assertions;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 
 public class TestServiceImplTest {
+    @Test
+    public void instanceNotNullTest() {
+        TestService tspACOThreeOptSolverService = TestServiceImpl.getInstance();
+        assertNotNull(tspACOThreeOptSolverService);
+    }
+
+    @Test
+    public void singletonInstanceTest() {
+        TestService firstInstance = TestServiceImpl.getInstance();
+        TestService secondInstance = TestServiceImpl.getInstance();
+        assertEquals(firstInstance, secondInstance);
+    }
+
     @Test
     public void testAsyncTest() {
         TestService testService = TestServiceImpl.getInstance();
