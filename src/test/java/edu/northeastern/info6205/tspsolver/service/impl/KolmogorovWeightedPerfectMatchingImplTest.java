@@ -82,9 +82,8 @@ public class KolmogorovWeightedPerfectMatchingImplTest {
 
         List<Edge> expectedResult = new ArrayList<>();
         expectedResult.add(new Edge(new Point("0", 0, 1), new Point("3", 0, 3)));
-        expectedResult.add(new Edge(new Point("1", 3, 0), new Point("2", 1, 0)));
+        expectedResult.add(new Edge(new Point("1", 1, 0), new Point("2", 3, 0)));
 
-//        assertEquals(result.get(0), expectedResult.get(0));
         assertTrue(isEqualArrayByValues(result, expectedResult));
 
     }
@@ -95,7 +94,7 @@ public class KolmogorovWeightedPerfectMatchingImplTest {
             equal = false;
         } else {
             for (int i = 0; i < expectedTour.size(); i++) {
-                if (expectedTour.get(i).equals(result.get(i))) {
+                if (!expectedTour.get(i).equals(result.get(i))) {
                     equal = false;
                     break;
                 }
