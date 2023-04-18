@@ -1,20 +1,13 @@
 package edu.northeastern.info6205.tspsolver.algorithm.annealing;
 
-import edu.northeastern.info6205.tspsolver.model.Point;
-import edu.northeastern.info6205.tspsolver.service.CSVParserService;
-import edu.northeastern.info6205.tspsolver.service.impl.CSVParserServiceImpl;
 import org.junit.Test;
 import org.junit.jupiter.api.Disabled;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-
 
 //TODO: Change the nodes with mumbai dataset created by giving path
-public class SimulatedAnnealingTest {
-    @Test
+public class SimulatedAnnealingOptimizationTest {
+    
+	@Test
     @Disabled("This test case needs to be implemented")
     public void testSolveWithEmptyTour() {
 //        List<Point> tour = new ArrayList<>();
@@ -22,7 +15,7 @@ public class SimulatedAnnealingTest {
 //        List<Point> result = annealing.solve();
 //        assertEquals(tour, result);
     }
-
+    
     @Test
     @Disabled("This test case needs to be implemented")
     public void testSolveWithSinglePointTour() {
