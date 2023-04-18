@@ -13,8 +13,9 @@ import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.PerfectMatchingSolverService;
 
 public class KolmogorovWeightedPerfectMatchingImplTest {
+	
     @Test
-    public void testGetInstance() {
+    public void instanceNotNullTest() {
         PerfectMatchingSolverService perfectMatchingSolverService = KolmogorovWeightedPerfectMatchingImpl.getInstance();
         assertNotNull(perfectMatchingSolverService);
     }

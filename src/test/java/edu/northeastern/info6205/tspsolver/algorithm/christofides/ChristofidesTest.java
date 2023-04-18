@@ -1,6 +1,7 @@
 package edu.northeastern.info6205.tspsolver.algorithm.christofides;
 
 import edu.northeastern.info6205.tspsolver.algorithm.mst.PrimsMST;
+import edu.northeastern.info6205.tspsolver.constant.Constant;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.CSVParserService;
 import edu.northeastern.info6205.tspsolver.service.impl.CSVParserServiceImpl;
@@ -54,14 +55,12 @@ public class ChristofidesTest {
 
     @Test
     public void runSmallOptimizationTest() {
-        final String FILE_PATH = "src/test/resources/data/tsp-test-small.csv";
-        test(FILE_PATH);
+    	test(Constant.TEST_DATA_FILE_SMALL);
     }
 
     @Test
     public void runBigOptimizationTest() {
-        final String FILE_PATH = "src/test/resources/data/tsp-test-big.csv";
-        test(FILE_PATH);
+    	test(Constant.TEST_DATA_FILE_BIG);
     }
 
     private void test(String fileName) {

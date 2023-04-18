@@ -1,34 +1,20 @@
 package edu.northeastern.info6205.tspsolver.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ActionTest {
 
     @Test
-    public void getActionTypeTest() {
+    public void setGetActionTypeTest() {
         Action<String> action = new Action<>();
         action.setActionType("testAction");
         assertEquals("testAction", action.getActionType());
     }
 
     @Test
-    public void getPayloadTest() {
-        Action<Integer> action = new Action<>();
-        action.setPayload(100);
-        assertEquals(Integer.valueOf(100), action.getPayload());
-    }
-
-    @Test
-    public void setActionTypeTest() {
-        Action<String> action = new Action<>();
-        action.setActionType("testAction");
-        assertEquals("testAction", action.getActionType());
-    }
-
-    @Test
-    public void setPayloadTest() {
+    public void setGetPayloadTest() {
         Action<Integer> action = new Action<>();
         action.setPayload(100);
         assertEquals(Integer.valueOf(100), action.getPayload());

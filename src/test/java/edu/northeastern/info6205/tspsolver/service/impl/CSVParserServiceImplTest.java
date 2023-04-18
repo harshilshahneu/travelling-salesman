@@ -1,18 +1,22 @@
 package edu.northeastern.info6205.tspsolver.service.impl;
 
+import edu.northeastern.info6205.tspsolver.constant.Constant;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.CSVParserService;
-import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class CSVParserServiceImplTest {
+	
     @Test
-    public void testGetInstance() {
+    public void instanceNotNullTest() {
         CSVParserService csvService = CSVParserServiceImpl.getInstance();
         assertNotNull(csvService);
     }
@@ -27,7 +31,7 @@ public class CSVParserServiceImplTest {
     @Test
     public void testParsePoints_ValidCSV_ReturnsCorrectNumberOfPoints() {
         CSVParserService csvService = CSVParserServiceImpl.getInstance();
-        List<Point> graph = csvService.parsePoints("src/test/resources/data/tsp-test-small.csv");
+        List<Point> graph = csvService.parsePoints(Constant.TEST_DATA_FILE_SMALL);
 
         List<Point> expectedGraph = new ArrayList<>();
         expectedGraph.add(new Point(String.valueOf(0),19.167546,72.780647));
@@ -47,8 +51,8 @@ public class CSVParserServiceImplTest {
     @Test
     public void testParsePoints_EmptyCSV_ReturnsEmptyList() {
         CSVParserService csvService = CSVParserServiceImpl.getInstance();
-        List<Point> graph = csvService.parsePoints("src/test/resources/data/tsp-test-empty.csv");
-        List<Point> expectedGraph = new ArrayList<>();
+        List<Point> graph = csvService.parsePoints(Constant.TEST_DATA_FILE_EMPTY);
+        List<Point> expectedGraph = Collections.emptyList();
         assertEquals(graph, expectedGraph);
     }
 }

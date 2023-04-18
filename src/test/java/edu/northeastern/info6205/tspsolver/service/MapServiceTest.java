@@ -4,10 +4,12 @@ import edu.northeastern.info6205.tspsolver.constant.Constant;
 import edu.northeastern.info6205.tspsolver.model.Edge;
 import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.impl.MapServiceImpl;
-import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -36,7 +38,7 @@ public class MapServiceTest {
     @Test
     public void publishAddStartPointMarkerTest() {
         MapService mapServiceImpl = MapServiceImpl.getInstance();
-        Point point = new Point(String.valueOf(0), 10.15, 21.56);
+        Point point = new Point(Constant.BLANK_STRING, 10.15, 21.56);
         mapServiceImpl.publishAddStartPointMarker(point);
     }
 
@@ -50,14 +52,14 @@ public class MapServiceTest {
     public void publishAddPointsAndFitBoundTest() {
         MapService mapServiceImpl = MapServiceImpl.getInstance();
         List<Point> points = new ArrayList<>();
-        points.add(new Point(String.valueOf(0), 10.0, 10.0));
+        points.add(new Point(Constant.BLANK_STRING, 10.0, 10.0));
         mapServiceImpl.publishAddPointsAndFitBound(points);
     }
 
     @Test
     public void publishAddPointsAndFitBoundWithEmptyListTest() {
         MapService mapServiceImpl = MapServiceImpl.getInstance();
-        List<Point> points = new ArrayList<>();
+        List<Point> points = Collections.emptyList();
         mapServiceImpl.publishAddPointsAndFitBound(points);
     }
 
@@ -71,14 +73,18 @@ public class MapServiceTest {
     public void publishAddMSTPolylineAndFitBoundTest() {
         MapService mapServiceImpl = MapServiceImpl.getInstance();
         List<Edge> edges = new ArrayList<>();
-        edges.add(new Edge(new Point("0", 10.0, 10.0), new Point("1", 20.0, 20.0)));
+        edges.add(new Edge(
+        		new Point(Constant.BLANK_STRING, 10.0, 10.0), 
+        		new Point(Constant.BLANK_STRING, 20.0, 20.0))
+        );
+        
         mapServiceImpl.publishAddMSTPolylineAndFitBound(edges);
     }
 
     @Test
     public void publishAddMSTPolylineAndFitBoundWithEmptyListTest() {
         MapService mapServiceImpl = MapServiceImpl.getInstance();
-        List<Edge> edges = new ArrayList<>();
+        List<Edge> edges = Collections.emptyList();
         mapServiceImpl.publishAddMSTPolylineAndFitBound(edges);
     }
 
@@ -98,14 +104,14 @@ public class MapServiceTest {
     public void publishAddPolylineAndFitBoundTest() {
         MapService mapServiceImpl = MapServiceImpl.getInstance();
         List<Point> points = new ArrayList<>();
-        points.add(new Point(String.valueOf(0), 10.0, 10.0));
+        points.add(new Point(Constant.BLANK_STRING, 10.0, 10.0));
         mapServiceImpl.publishAddPolylineAndFitBound(points);
     }
 
     @Test
     public void publishAddPolylineAndFitBoundWithEmptyListTest() {
         MapService mapServiceImpl = MapServiceImpl.getInstance();
-        List<Point> points = new ArrayList<>();
+        List<Point> points = Collections.emptyList();
         mapServiceImpl.publishAddPolylineAndFitBound(points);
     }
 
@@ -136,7 +142,11 @@ public class MapServiceTest {
     @Test
     public void publishDrawEdgeTest() {
         MapService mapServiceImpl = MapServiceImpl.getInstance();
-        Edge edge = new Edge(new Point("0", 10.0, 10.0), new Point("1", 11.0, 11.0));
+        Edge edge = new Edge(
+        		new Point(Constant.BLANK_STRING, 10.0, 10.0), 
+        		new Point(Constant.BLANK_STRING, 11.0, 11.0)
+        );
+        
         mapServiceImpl.publishDrawEdge(edge);
     }
 
@@ -185,7 +195,11 @@ public class MapServiceTest {
     @Test
     public void publishAddGreenLineTest() {
         MapService mapServiceImpl = MapServiceImpl.getInstance();
-        Edge edge = new Edge(new Point(String.valueOf(0), 10.0, 10.0), new Point(String.valueOf(1), 11.0, 11.0));;
+        Edge edge = new Edge(
+        		new Point(Constant.BLANK_STRING, 10.0, 10.0), 
+        		new Point(Constant.BLANK_STRING, 11.0, 11.0)
+        );
+        
         mapServiceImpl.publishAddGreenLine(edge);
     }
 

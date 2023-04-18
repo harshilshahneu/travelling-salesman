@@ -1,39 +1,37 @@
 package edu.northeastern.info6205.tspsolver.algorithm.mst;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Test;
-
-import edu.northeastern.info6205.tspsolver.model.Edge;
-import edu.northeastern.info6205.tspsolver.model.Point;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
+import edu.northeastern.info6205.tspsolver.constant.Constant;
+import edu.northeastern.info6205.tspsolver.model.Edge;
+import edu.northeastern.info6205.tspsolver.model.Point;
 
 public class PrimsMSTTest {
-    private List<Point> nodes;
-    private PrimsMST mstSolver;
-
+	
     @Test
     public void getMstTest() {
-
-        nodes = new ArrayList<>();
-        nodes.add(new Point("", 0, 0));
-        nodes.add(new Point("", -1, 1));
-        nodes.add(new Point("", 1, 0));
-        nodes.add(new Point("", 1, 1));
-        nodes.add(new Point("", 2, 2));
-        mstSolver = new PrimsMST(nodes);
-
+    	List<Point> nodes = new ArrayList<>();
+        nodes.add(new Point(Constant.BLANK_STRING, 0, 0));
+        nodes.add(new Point(Constant.BLANK_STRING, -1, 1));
+        nodes.add(new Point(Constant.BLANK_STRING, 1, 0));
+        nodes.add(new Point(Constant.BLANK_STRING, 1, 1));
+        nodes.add(new Point(Constant.BLANK_STRING, 2, 2));
+        
         Edge[] expectedEdges = {
-                new Edge(new Point("", 0, 0), new Point("", -1, 1)),
-                new Edge(new Point("", 0, 0), new Point("", 1, 0)),
-                new Edge(new Point("", 1, 0), new Point("", 1, 1)),
-                new Edge(new Point("", 1, 1), new Point("", 2, 2))
+                new Edge(new Point(Constant.BLANK_STRING, 0, 0), new Point("", -1, 1)),
+                new Edge(new Point(Constant.BLANK_STRING, 0, 0), new Point("", 1, 0)),
+                new Edge(new Point(Constant.BLANK_STRING, 1, 0), new Point("", 1, 1)),
+                new Edge(new Point(Constant.BLANK_STRING, 1, 1), new Point("", 2, 2))
         };
+
+        PrimsMST mstSolver = new PrimsMST(nodes);
         Edge[] actualEdges = mstSolver.getMst();
 
         boolean atleastOneNodeNotFound = false;
@@ -51,70 +49,69 @@ public class PrimsMSTTest {
                 break;
             }
         }
-        assertTrue(!atleastOneNodeNotFound);
+        
+        assertFalse(atleastOneNodeNotFound);
     }
 
     @Test
     public void getMstCostTest() {
-
-        nodes = new ArrayList<>();
-        nodes.add(new Point("", 0, 0));
-        nodes.add(new Point("", -1, 1));
-        nodes.add(new Point("", 1, 0));
-        nodes.add(new Point("", 1, 1));
-        nodes.add(new Point("", 2, 2));
-        mstSolver = new PrimsMST(nodes);
-
+    	List<Point> nodes = new ArrayList<>();
+        nodes.add(new Point(Constant.BLANK_STRING, 0, 0));
+        nodes.add(new Point(Constant.BLANK_STRING, -1, 1));
+        nodes.add(new Point(Constant.BLANK_STRING, 1, 0));
+        nodes.add(new Point(Constant.BLANK_STRING, 1, 1));
+        nodes.add(new Point(Constant.BLANK_STRING, 2, 2));
+        
         Edge[] expectedEdges = {
-                new Edge(new Point("", 0, 0), new Point("", -1, 1)),
-                new Edge(new Point("", 0, 0), new Point("", 1, 0)),
-                new Edge(new Point("", 1, 0), new Point("", 1, 1)),
-                new Edge(new Point("", 1, 1), new Point("", 2, 2))
+                new Edge(new Point(Constant.BLANK_STRING, 0, 0), new Point(Constant.BLANK_STRING, -1, 1)),
+                new Edge(new Point(Constant.BLANK_STRING, 0, 0), new Point(Constant.BLANK_STRING, 1, 0)),
+                new Edge(new Point(Constant.BLANK_STRING, 1, 0), new Point(Constant.BLANK_STRING, 1, 1)),
+                new Edge(new Point(Constant.BLANK_STRING, 1, 1), new Point(Constant.BLANK_STRING, 2, 2))
         };
         double expectedCost = 0;
         for (Edge edge: expectedEdges) {
             expectedCost += edge.getDistance();
         }
 
+        PrimsMST mstSolver = new PrimsMST(nodes);
         double actualCost = mstSolver.getMstCost();
         assertEquals(expectedCost, actualCost, 0.000000);
     }
 
     @Test
     public void getMstCostBetweenTwoNodesTest() {
-
-        nodes = new ArrayList<>();
-        nodes.add(new Point("", 1, 0));
-        nodes.add(new Point("", 1, 1));
-        mstSolver = new PrimsMST(nodes);
+    	List<Point> nodes = new ArrayList<>();
+        nodes.add(new Point(Constant.BLANK_STRING, 1, 0));
+        nodes.add(new Point(Constant.BLANK_STRING, 1, 1));
 
         Edge[] expectedEdges = {
-                new Edge(new Point("", 1, 0), new Point("", 1, 1))
+                new Edge(new Point(Constant.BLANK_STRING, 1, 0), new Point(Constant.BLANK_STRING, 1, 1))
         };
+        
         double expectedCost = 0;
         for (Edge edge: expectedEdges) {
             expectedCost += edge.getDistance();
         }
 
+        PrimsMST mstSolver = new PrimsMST(nodes);
         double actualCost = mstSolver.getMstCost();
         assertEquals(expectedCost, actualCost, 0.000000);
     }
 
     @Test
     public void getMstCostBetweenOneNodeOnlyTest() {
+    	List<Point> nodes = new ArrayList<>();
+        nodes.add(new Point(Constant.BLANK_STRING, 1, 0));
 
-        nodes = new ArrayList<>();
-        nodes.add(new Point("0", 1, 0));
-        mstSolver = new PrimsMST(nodes);
-
+        PrimsMST mstSolver = new PrimsMST(nodes);
         double actualCost = mstSolver.getMstCost();
         assertEquals(actualCost, 0, 0);
     }
 
     @Test
     public void getMstCostWithEmptyListTest() {
-        nodes = new ArrayList<>();
-        mstSolver = new PrimsMST(nodes);
+    	List<Point> nodes = new ArrayList<>();
+    	PrimsMST mstSolver = new PrimsMST(nodes);
         assertThrows(NegativeArraySizeException.class, () -> {
             double actualCost = mstSolver.getMstCost();
             assertFalse(Double.isNaN(actualCost));

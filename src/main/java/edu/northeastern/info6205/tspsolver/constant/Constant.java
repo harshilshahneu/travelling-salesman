@@ -44,4 +44,8 @@ public class Constant {
 	public static final String NAME_SIMULATED_ANNEALING = "Simulated Annealing";
 	public static final String NAME_ANT_COLONY = "Ant Colony Optimization";
 	public static final String NAME_ANT_COLONY_THREE_OPT = "Ant Colony with three opt";
+	
+	public static final String TEST_DATA_FILE_EMPTY = "src/test/resources/data/tsp-test-empty.csv";
+	public static final String TEST_DATA_FILE_SMALL = "src/test/resources/data/tsp-test-small.csv";
+	public static final String TEST_DATA_FILE_BIG = "src/test/resources/data/tsp-test-big.csv";
 }

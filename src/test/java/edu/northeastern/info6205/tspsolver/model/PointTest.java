@@ -5,68 +5,102 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import edu.northeastern.info6205.tspsolver.constant.Constant;
 
 public class PointTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PointTest.class);
+	
+	@Test
+    public void sameCoordinatesEqualTest() {
+        Point firstPoint = new Point(Constant.APP_NAME, 1.0, 18.0);
+        Point secondPoint = new Point(Constant.APP_NAME, 1.0, 18.0);
+        assertEquals(firstPoint, secondPoint);
+    }
 
     @Test
-    public void invalidCoordinates() {
-        LOGGER.trace("invalidCoordinates()");
-
+    public void sameCoordinatesDifferentIDNotEqualTest() {
+        Point firstPoint = new Point(Constant.APP_NAME, 1.0, 18.0);
+        Point secondPoint = new Point(Constant.DASH, 1.0, 18.0);
+        assertNotEquals(firstPoint, secondPoint);
+    }
+	
+    @Test
+    public void invalidLargeLatitudeTest() {
         assertThrows(IllegalArgumentException.class, () -> {
             new Point(Constant.BLANK_STRING, 100.0, 0.0);
-            new Point(Constant.BLANK_STRING, 40.712776, 40.0);
         });
     }
-
+    
     @Test
-    public void invalidCoordinates2() {
-        LOGGER.trace("invalidCoordinates2()");
-
+    public void invalidLargeLongitudeTest() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new Point(Constant.BLANK_STRING, 0.0, 181.0);
-            new Point(Constant.BLANK_STRING, 1.0, 40.0);
+            new Point(Constant.BLANK_STRING, 45.0, 230.0);
         });
     }
-
+    
     @Test
-    public void invalidCoordinates3() {
-        LOGGER.trace("invalidCoordinates3()");
-
+    public void invalidSmallLatitudeTest() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new Point(Constant.BLANK_STRING, 0.0, 18.0);
+            new Point(Constant.BLANK_STRING, -110.0, 0.0);
+        });
+    }
+    
+    @Test
+    public void invalidSmallLongitudeTest() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Point(Constant.BLANK_STRING, 45.0, -220.0);
+        });
+    }
+    
+    @Test
+    public void invalidLatitudeLessThanBoundaryTest() {
+        assertThrows(IllegalArgumentException.class, () -> {
             new Point(Constant.BLANK_STRING, -91.0, 40.0);
         });
     }
-
+    
     @Test
-    public void invalidCoordinates4() {
-        LOGGER.trace("invalidCoordinates4()");
-
+    public void invalidLongitudeLessThanBoundaryTest() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new Point(Constant.BLANK_STRING, 0.0, 18.0);
-            new Point(Constant.BLANK_STRING, -9.0, -181.0);
+            new Point(Constant.BLANK_STRING, 45.0, -181.0);
         });
     }
-
+    
     @Test
-    public void sameCoordinates() {
-        LOGGER.trace("sameCoordinates()");
-        Point point1 = new Point(Constant.APP_NAME, 1.0, 18.0);
-        Point point2 = new Point(Constant.APP_NAME, 1.0, 18.0);
-        assertEquals(point1, point2);
+    public void invalidLatitudeMoreThanBoundaryTest() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Point(Constant.BLANK_STRING, 91.0, 40.0);
+        });
+    }
+    
+    @Test
+    public void invalidLongitudeMoreThanBoundaryTest() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Point(Constant.BLANK_STRING, 45.0, 181.0);
+        });
+    }
+    
+//  Will validate that least value for latitude is -90
+    @Test
+    public void latitudeOnNegativeBoundaryTest() {
+    	new Point(Constant.BLANK_STRING, -90.0, 0);
+    }
+    
+//  Will validate that least value for longitude is -180
+    @Test
+    public void longitudeOnNegativeBoundaryTest() {
+    	new Point(Constant.BLANK_STRING, 45.0, -180.0);
+    }
+    
+ // Will validate that max value for latitude is 90
+    @Test
+    public void latitudeOnPostiveBoundaryTest() {
+    	new Point(Constant.BLANK_STRING, 90.0, 0);
     }
 
+//    Will validate that max value for longitude is 180
     @Test
-    public void sameCoordinatesDifferentId() {
-        LOGGER.trace("sameCoordinates2()");
-        Point point1 = new Point(Constant.APP_NAME, 1.0, 18.0);
-        Point point2 = new Point(Constant.DASH, 1.0, 18.0);
-        assertNotEquals(point1, point2);
+    public void longitudeOnPositiveBoundaryTest() {
+    	new Point(Constant.BLANK_STRING, 45.0, 180.0);
     }
-
 }

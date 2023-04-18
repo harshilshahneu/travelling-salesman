@@ -1,22 +1,22 @@
 package edu.northeastern.info6205.tspsolver.service.impl;
 
-import edu.northeastern.info6205.tspsolver.constant.Constant;
-import edu.northeastern.info6205.tspsolver.model.Point;
-import edu.northeastern.info6205.tspsolver.service.CSVParserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
+
+import edu.northeastern.info6205.tspsolver.constant.Constant;
+import edu.northeastern.info6205.tspsolver.model.Point;
+import edu.northeastern.info6205.tspsolver.service.CSVParserService;
 
 public class CSVParserServiceImpl implements CSVParserService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CSVParserServiceImpl.class);

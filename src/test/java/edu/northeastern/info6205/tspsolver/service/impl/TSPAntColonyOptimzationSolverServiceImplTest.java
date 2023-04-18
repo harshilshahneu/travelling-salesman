@@ -7,6 +7,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class TSPAntColonyOptimzationSolverServiceImplTest {
+	
     @Test
     public void instanceNotNullTest() {
         TSPSolverService tspAntColonyOptimzationSolverService = TSPAntColonyOptimzationSolverServiceImpl.getInstance();

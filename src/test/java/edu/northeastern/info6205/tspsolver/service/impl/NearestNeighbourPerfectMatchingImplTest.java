@@ -12,8 +12,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class NearestNeighbourPerfectMatchingImplTest {
+	
     @Test
-    public void testGetInstance() {
+    public void instanceNotNullTest() {
         PerfectMatchingSolverService perfectMatchingSolverService = NearestNeighbourPerfectMatchingImpl.getInstance();
         assertNotNull(perfectMatchingSolverService);
     }

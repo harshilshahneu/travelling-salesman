@@ -1,14 +1,15 @@
 package edu.northeastern.info6205.tspsolver.service.impl;
 
-import edu.northeastern.info6205.tspsolver.service.TSPSolverService;
-import org.junit.Test;
-import org.junit.jupiter.api.Disabled;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import org.junit.Test;
+
+import edu.northeastern.info6205.tspsolver.service.TSPSolverService;
+
 public class TSPACOThreeOptSolverServiceImplTest {
-    @Test
+    
+	@Test
     public void instanceNotNullTest() {
         TSPSolverService tspACOThreeOptSolverService = TSPACOThreeOptSolverServiceImpl.getInstance();
         assertNotNull(tspACOThreeOptSolverService);

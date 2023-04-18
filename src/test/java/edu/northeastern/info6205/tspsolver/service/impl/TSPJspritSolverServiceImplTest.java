@@ -7,6 +7,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class TSPJspritSolverServiceImplTest {
+	
     @Test
     public void instanceNotNullTest() {
         TSPSolverService tspJspritSolverService = TSPJspritSolverServiceImpl.getInstance();

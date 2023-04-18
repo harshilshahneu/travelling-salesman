@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
-<Configuration status="DEBUG" strict="true" monitorInterval="1">
+<Configuration status="INFO" strict="true" monitorInterval="1">
 	<Properties>
 		<Property name="logDir" value="./logs" />
 		<Property name="logFilename" value="info-6205-final-project" />

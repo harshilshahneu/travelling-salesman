@@ -7,6 +7,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class TSPSolverFactoryServiceImplTest {
+	
     @Test
     public void instanceNotNullTest() {
         TSPSolverFactoryService tspSolverFactoryService = TSPSolverFactoryServiceImpl.getInstance();
