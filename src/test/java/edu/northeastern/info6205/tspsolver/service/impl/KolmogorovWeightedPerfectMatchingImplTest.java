@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.northeastern.info6205.tspsolver.service.MapService;
 import org.junit.Test;
 
 import edu.northeastern.info6205.tspsolver.model.Edge;
@@ -14,8 +13,6 @@ import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.PerfectMatchingSolverService;
 
 public class KolmogorovWeightedPerfectMatchingImplTest {
-
-
     @Test
     public void testGetInstance() {
         PerfectMatchingSolverService perfectMatchingSolverService = KolmogorovWeightedPerfectMatchingImpl.getInstance();

@@ -8,8 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class CSVParserServiceImplTest {
+    @Test
+    public void testGetInstance() {
+        CSVParserService csvService = CSVParserServiceImpl.getInstance();
+        assertNotNull(csvService);
+    }
+
+    @Test
+    public void singletonInstanceTest() {
+        CSVParserService firstInstance = CSVParserServiceImpl.getInstance();
+        CSVParserService secondInstance = CSVParserServiceImpl.getInstance();
+        assertEquals(firstInstance, secondInstance);
+    }
+
     @Test
     public void testParsePoints_ValidCSV_ReturnsCorrectNumberOfPoints() {
         CSVParserService csvService = CSVParserServiceImpl.getInstance();
