@@ -52,7 +52,6 @@ public class TSPRandomThreeOptSolverServiceImpl implements TSPSolverService {
 				payload);
 		
 		Christofides christofides = new Christofides(points);
-		christofides.solve();
 		List<Point> tour = christofides.solve();
 		
 		ThreeOptPayload threeOptPayload = payload.getThreeOptPayload();

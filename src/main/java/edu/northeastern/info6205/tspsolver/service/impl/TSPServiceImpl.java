@@ -3,7 +3,6 @@ package edu.northeastern.info6205.tspsolver.service.impl;
 import java.util.Arrays;
 import java.util.List;
 
-import edu.northeastern.info6205.tspsolver.algorithm.onetree.OneTree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

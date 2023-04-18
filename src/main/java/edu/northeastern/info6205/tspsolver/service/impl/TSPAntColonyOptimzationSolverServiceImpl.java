@@ -62,7 +62,6 @@ public class TSPAntColonyOptimzationSolverServiceImpl implements TSPSolverServic
 		}
 		
 		Christofides christofides = new Christofides(points);
-		christofides.solve();
 		List<Point> tour = christofides.solve();
 		
 		// Last point and first point are same in Christofides tour

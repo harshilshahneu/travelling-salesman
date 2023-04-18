@@ -40,7 +40,7 @@ public class TSPSolverFactoryServiceImpl implements TSPSolverFactoryService {
 		addService(TSPRandomThreeOptSolverServiceImpl.getInstance());
 		addService(TSPSimulatedAnnealingSolverServiceImpl.getInstance());
 		addService(TSPAntColonyOptimzationSolverServiceImpl.getInstance());
-		addService(TSPACOThreeOpt.getInstance());
+		addService(TSPACOThreeOptSolverServiceImpl.getInstance());
 	}
 	
 	private void addService(TSPSolverService service) {

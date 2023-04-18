@@ -52,7 +52,6 @@ public class TSPRandomTwoOptSolverServiceImpl implements TSPSolverService {
 				payload);
 		
 		Christofides christofides = new Christofides(points);
-		christofides.solve();
 		List<Point> tour = christofides.solve();
 		
 		TwoOptPayload twoOptPayload = payload.getTwoOptPayload();

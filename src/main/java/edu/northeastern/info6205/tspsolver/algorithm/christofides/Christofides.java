@@ -18,6 +18,7 @@ import edu.northeastern.info6205.tspsolver.model.Point;
 import edu.northeastern.info6205.tspsolver.service.PerfectMatchingSolverService;
 import edu.northeastern.info6205.tspsolver.service.impl.KolmogorovWeightedPerfectMatchingImpl;
 import edu.northeastern.info6205.tspsolver.service.impl.TSPChristofidesSolverServiceImpl;
+import edu.northeastern.info6205.tspsolver.util.EdgeUtil;
 
 public class Christofides {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TSPChristofidesSolverServiceImpl.class);
@@ -72,10 +73,12 @@ public class Christofides {
     	LOGGER.info("Computing the minimum weight perfect matching for nodes size: {}", nodes.size());
     	PerfectMatchingSolverService service = KolmogorovWeightedPerfectMatchingImpl.getInstance();
     	List<Edge> matchingEdges = service.getMinimumWeightPerfectMatching(nodes);
+    	double perfectMatchingCost = EdgeUtil.getTotalCost(matchingEdges);
     	LOGGER.info(
-    			"Generated minimum weight perfect matching of size: {} for nodes size: {}", 
+    			"Generated minimum weight perfect matching of size: {} for nodes size: {}, perfectMatchingCost: {}", 
     			matchingEdges.size(),
-    			nodes.size());
+    			nodes.size(),
+    			perfectMatchingCost);
     	return matchingEdges;
     }
 

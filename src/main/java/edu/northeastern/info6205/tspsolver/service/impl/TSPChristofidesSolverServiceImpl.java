@@ -50,7 +50,6 @@ public class TSPChristofidesSolverServiceImpl implements TSPSolverService {
 				payload);
 		
 		Christofides christofides = new Christofides(points);
-		christofides.solve();
 		List<Point> tour = christofides.solve();
 		return tour;
 	}

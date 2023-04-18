@@ -5,13 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.northeastern.info6205.tspsolver.service.impl.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.northeastern.info6205.tspsolver.service.TSPSolverService;
+import edu.northeastern.info6205.tspsolver.service.impl.TSPACOThreeOptSolverServiceImpl;
+import edu.northeastern.info6205.tspsolver.service.impl.TSPAntColonyOptimzationSolverServiceImpl;
+import edu.northeastern.info6205.tspsolver.service.impl.TSPChristofidesSolverServiceImpl;
+import edu.northeastern.info6205.tspsolver.service.impl.TSPRandomThreeOptSolverServiceImpl;
+import edu.northeastern.info6205.tspsolver.service.impl.TSPRandomTwoOptSolverServiceImpl;
+import edu.northeastern.info6205.tspsolver.service.impl.TSPSimulatedAnnealingSolverServiceImpl;
 
 @RestController
 public class TSPAlgorithmController {
@@ -33,7 +38,7 @@ public class TSPAlgorithmController {
 		result.add(getServiceDetails(TSPRandomThreeOptSolverServiceImpl.getInstance()));
 		result.add(getServiceDetails(TSPSimulatedAnnealingSolverServiceImpl.getInstance()));
 		result.add(getServiceDetails(TSPAntColonyOptimzationSolverServiceImpl.getInstance()));
-		result.add(getServiceDetails(TSPACOThreeOpt.getInstance()));
+		result.add(getServiceDetails(TSPACOThreeOptSolverServiceImpl.getInstance()));
 
 		return result;
 	}
