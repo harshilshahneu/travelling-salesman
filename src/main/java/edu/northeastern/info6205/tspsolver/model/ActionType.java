@@ -9,6 +9,7 @@ public class ActionType {
 	public static final String ADD_POLYLINE_AND_FIT_BOUND = "add-polyline-and-fit-bound";
 	public static final String POINT_RELAXED = "point-relaxed";
 	public static final String DRAW_EDGE = "draw-edge";
+	public static final String SHOW_OUTPUT_INFORMATION = "show-output-information";
 	
 	public static final String CHANGE_POINT_COLOR_RED = "change-point-color-red";
 	public static final String CHANGE_POINT_COLOR_GREEN = "change-point-color-green";

@@ -116,6 +116,18 @@ public class TSPServiceImpl implements TSPService {
 //		addMetric(stringBuilder, "percentage (compared to One Tree)", percentageOneTreeImprovement);
 		addMetric(stringBuilder, "Millseconds Taken", millsecondsTaken);
 		
+		StringBuilder information = new StringBuilder();
+		information.append("MST Cost: ");
+		information.append(String.format("%.3f", mstCost));
+		information.append(", TSP Cost: ");
+		information.append(String.format("%.3f", tspTourCost));
+		information.append(", Percentage: ");
+		information.append(String.format("%.3f", percentageMSTImprovement));
+		information.append(", Millseconds: ");
+		information.append(millsecondsTaken);
+		
+		mapService.publishOutput(information.toString());
+		
 		stringBuilder.append(Constant.LINE_SEPERATOR);
 		stringBuilder.append("[PERFORMANCE METRIC --- END  -----]");
 		

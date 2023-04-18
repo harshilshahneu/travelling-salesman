@@ -146,6 +146,15 @@ public class MapServiceImpl implements MapService {
 		webSocketPublishService.publish(action);
 	}
 
-	
+	@Override
+	public void publishOutput(String information) {
+//		LOGGER.trace("publishing output information: {}", information);
+		
+		Action<String> action = new Action<>();
+		action.setActionType(ActionType.SHOW_OUTPUT_INFORMATION);
+		action.setPayload(information);
+		
+		webSocketPublishService.publish(action);
+	}
 
 }

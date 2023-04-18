@@ -89,4 +89,10 @@ public interface MapService {
 	 * a color Green
 	 * */
 	void publishAddGreenLine(Edge edge);
+	
+	/**
+	 * Will publish a message in the web socket
+	 * channel show output information in the UI
+	 * */
+	void publishOutput(String information);
 }

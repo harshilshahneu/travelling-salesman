@@ -15,6 +15,7 @@ const DRAW_EDGE = "draw-edge"
 const CHANGE_POINT_COLOR_RED = "change-point-color-red";
 const CHANGE_POINT_COLOR_GREEN = "change-point-color-green";
 const DRAW_EDGE_COLOR_GREEN = "draw-edge-color-green";
+const SHOW_OUTPUT_INFORMATION = "show-output-information";
 
 // const Z_INDEX_MARKER = 9000;
 // const Z_INDEX_POINTS = 8000;
@@ -161,6 +162,8 @@ uploadButtonClicked = () => {
 }
 
 callUploadCsvApi = () => {
+    clearOutputSpan();
+
     const xhttp = new XMLHttpRequest();
     xhttp.onload = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -292,6 +295,8 @@ handleWebsocketMessage = (message) => {
         handleChangePointColorGreen(payload);
     } else if (action === DRAW_EDGE_COLOR_GREEN) {
         handleDrawEdgeColorGreen(payload);
+    } else if (action === SHOW_OUTPUT_INFORMATION) {
+        handleShowOutputInformation(payload);
     }
 }
 
@@ -437,4 +442,12 @@ handleDrawEdgeColorGreen = (payload) => {
     polyline.id = id;
 
     linesGroup.addLayer(polyline);
+}
+
+handleShowOutputInformation = (payload) => {
+    document.getElementById('output-span').innerHTML = payload;
+}
+
+clearOutputSpan = () => {
+    document.getElementById('output-span').innerHTML = '';
 }
