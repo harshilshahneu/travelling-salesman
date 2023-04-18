@@ -19,6 +19,8 @@ public class CSVWriterServiceImpl implements CSVWriterService {
 	private static final String OUTPUT_FILE_NAME_PREFIX = "tsp-solution-out-";
 	private static final String TMP_DIRECTORY = "tmp";
 	
+	private static final int CRIME_ID_TRIM_SIZE = 5;
+	
 	private static CSVWriterService instance;
 	
 	private CSVWriterServiceImpl() {
@@ -68,27 +70,32 @@ public class CSVWriterServiceImpl implements CSVWriterService {
 		
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(completeFilePath))) {
 			// Header row
-			writer.write(Constant.INDEX);
+//			writer.write(Constant.ID);
+//			writer.write(Constant.COMMA);
+			
+			writer.write(Constant.CSV_COLUMN_CRIME_ID);
 			writer.write(Constant.COMMA);
-			writer.write(Constant.ID);
+			writer.write(Constant.CSV_COLUMN_LONGITUDE);
 			writer.write(Constant.COMMA);
-			writer.write(Constant.LATITUDE);
-			writer.write(Constant.COMMA);
-			writer.write(Constant.LONGITUDE);
-			writer.write(Constant.COMMA);
+			writer.write(Constant.CSV_COLUMN_LATITUDE);
+			
 			writer.newLine();
 			
 			for (Point point : points) {
 				LOGGER.trace("writing data for point: {}", point);
 
-				writer.write(point.getId());
-				writer.write(Constant.COMMA);
-				writer.write(point.getPlaceId());
-				writer.write(Constant.COMMA);
-				writer.write(String.valueOf(point.getLatitude()));
+				String trimmedCrimeID = trimCrimeID(point.getPlaceId(), CRIME_ID_TRIM_SIZE);
+
+//				writer.write(point.getId());
+//				writer.write(Constant.COMMA);
+				
+				writer.write(Constant.SINGLE_QUOTE);
+				writer.write(trimmedCrimeID);
+				writer.write(Constant.SINGLE_QUOTE);
 				writer.write(Constant.COMMA);
 				writer.write(String.valueOf(point.getLongitude()));
 				writer.write(Constant.COMMA);
+				writer.write(String.valueOf(point.getLatitude()));
 				
 				writer.newLine();
 			}
@@ -103,6 +110,14 @@ public class CSVWriterServiceImpl implements CSVWriterService {
 		return output;
 	}
 	
+	private String trimCrimeID(String placeId, int trimSize) {
+		if (placeId == null || placeId.length() <= trimSize) {
+			return placeId;
+		}
+
+		return placeId.substring(placeId.length() - trimSize);
+	}
+
 	private String generateFileName() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(OUTPUT_FILE_NAME_PREFIX);

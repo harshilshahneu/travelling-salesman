@@ -6,7 +6,9 @@ public class Constant {
 	public static final String LINE_SEPERATOR = System.lineSeparator();
 	
 	public static final String BLANK_STRING = "";
+	public static final String SINGLE_SPACE = " ";
 	public static final String COMMA = ",";
+	public static final String SINGLE_QUOTE = "'";
 	public static final String COLON_SINGLE_SPACE = " : ";
 	public static final String SLASH = "/";
 	public static final String DASH = "-";
@@ -21,6 +23,10 @@ public class Constant {
 	
 	public static final String CSV_EXTENSION = ".csv";
 
+	public static final String CSV_COLUMN_CRIME_ID = "crimeID";
+	public static final String CSV_COLUMN_LONGITUDE = "longitude";
+	public static final String CSV_COLUMN_LATITUDE = "latitude";
+	
 	public static final String NO_LOCATION = "No Location";
 	
 	public static final String KEY_IDENTIFIER_JSPRIT = "tsp-jsprit";

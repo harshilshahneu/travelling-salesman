@@ -63,10 +63,22 @@ public class TSPServiceImpl implements TSPService {
 		
 		PrimsMST primsMST = new PrimsMST(points);
         primsMST.solve();
-		OneTree.getMaxOneTree(points);
-		double oneTreeCost = OneTree.getMaxOneTreeCost();
         List<Edge> mstTour = Arrays.asList(primsMST.getMst());
 		double mstCost = EdgeUtil.getTotalCost(mstTour);
+
+		/*
+		
+		Avoiding this calculation as it takes too much time
+		and we are only concerned with how much difference
+		there is between the cost of the TSP and MST.
+		
+		For Reference:
+		file: info6205.spring2023.teamproject.csv
+		oneTreeCost : 522584.0867991227
+		
+		OneTree.getMaxOneTree(points);
+		double oneTreeCost = OneTree.getMaxOneTreeCost();
+		*/
 		
 		mapService.publishAddMSTPolylineAndFitBound(mstTour);
         
@@ -83,8 +95,8 @@ public class TSPServiceImpl implements TSPService {
 		
 		double tspTourCost = PointUtil.getTotalCost(tspTour);
 		double percentageMSTImprovement = ( (tspTourCost - mstCost) / mstCost ) * 100;
-		double percentageOneTreeImprovement = ( (tspTourCost - oneTreeCost) / oneTreeCost ) * 100;
-		
+//		double percentageOneTreeImprovement = ( (tspTourCost - oneTreeCost) / oneTreeCost ) * 100;
+
 		long endTimestamp = System.currentTimeMillis();
 		long millsecondsTaken = (endTimestamp - startTimestamp);
 		
@@ -98,10 +110,10 @@ public class TSPServiceImpl implements TSPService {
 		addMetric(stringBuilder, "payload", payload);
 		addMetric(stringBuilder, "TSP Tour Size", tspTour.size());
 		addMetric(stringBuilder, "mstCost", mstCost);
-		addMetric(stringBuilder, "oneTreeCost", oneTreeCost);
+//		addMetric(stringBuilder, "oneTreeCost", oneTreeCost);
 		addMetric(stringBuilder, "tspTourCost", tspTourCost);
 		addMetric(stringBuilder, "percentage (compared to MST)", percentageMSTImprovement);
-		addMetric(stringBuilder, "percentage (compared to One Tree)", percentageOneTreeImprovement);
+//		addMetric(stringBuilder, "percentage (compared to One Tree)", percentageOneTreeImprovement);
 		addMetric(stringBuilder, "Millseconds Taken", millsecondsTaken);
 		
 		stringBuilder.append(Constant.LINE_SEPERATOR);
