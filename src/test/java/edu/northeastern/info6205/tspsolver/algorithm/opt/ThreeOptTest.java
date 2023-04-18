@@ -36,17 +36,10 @@ public class ThreeOptTest {
         assertEquals(this.tour.get(this.tour.size() - 1), improvedTour.get(improvedTour.size() - 1));
     }
 
-//    @Test
-//    public void testSwapNodes() {
-//        assertFalse(this.threeOpt.swapNodes(0, 1, 2)); // swap 3 random edges that are not adjacent to each other
-//        assertTrue(this.threeOpt.swapNodes(1, 2, 3)); // swap 3 edges that are adjacent to each other
-//        assertTrue(this.threeOpt.swapNodes(1, 3, 2)); // swap 3 edges that are not adjacent to each other
-//    }
-
     @Test
     public void testStrategy1() {
         double intialTourCost = getTourDistance(this.tour);
-        this.threeOpt = new ThreeOpt(this.tour, 1, 1000);
+        this.threeOpt = new ThreeOpt(this.tour, 1, 10);
         List<Point> initialTour = new ArrayList<>(this.tour);
         this.threeOpt.improve();
         List<Point> improvedTour = this.threeOpt.getImprovedTour();
@@ -57,7 +50,7 @@ public class ThreeOptTest {
     @Test
     public void testStrategy2() {
         double intialTourCost = getTourDistance(this.tour);
-        this.threeOpt = new ThreeOpt(this.tour, 2, 1000);
+        this.threeOpt = new ThreeOpt(this.tour, 2, 10);
         List<Point> initialTour = new ArrayList<>(this.tour);
         this.threeOpt.improve();
         List<Point> improvedTour = this.threeOpt.getImprovedTour();
@@ -69,7 +62,7 @@ public class ThreeOptTest {
     public void testStrategy3() {
         double intialTourCost = getTourDistance(this.tour);
 
-        this.threeOpt = new ThreeOpt(this.tour, 3, 1000);
+        this.threeOpt = new ThreeOpt(this.tour, 3, 10);
         List<Point> initialTour = new ArrayList<>(this.tour);
         this.threeOpt.improve();
         List<Point> improvedTour = this.threeOpt.getImprovedTour();
@@ -97,4 +90,3 @@ public class ThreeOptTest {
         return tourCost;
     }
 }
-

@@ -15,15 +15,17 @@ import edu.northeastern.info6205.tspsolver.service.PerfectMatchingSolverService;
 
 public class KolmogorovWeightedPerfectMatchingImplTest {
 
-    PerfectMatchingSolverService perfectMatchingSolverService = KolmogorovWeightedPerfectMatchingImpl.getInstance();
 
     @Test
     public void testGetInstance() {
+        PerfectMatchingSolverService perfectMatchingSolverService = KolmogorovWeightedPerfectMatchingImpl.getInstance();
         assertNotNull(perfectMatchingSolverService);
     }
 
     @Test
     public void testGetMinimumWeightPerfectMatchingWithLoop() {
+        PerfectMatchingSolverService perfectMatchingSolverService = KolmogorovWeightedPerfectMatchingImpl.getInstance();
+
         List<Point> nodes = new ArrayList<>();
         nodes.add(new Point("0", 0, 0));
         nodes.add(new Point("1", 0, 1));
@@ -39,6 +41,8 @@ public class KolmogorovWeightedPerfectMatchingImplTest {
 
     @Test
     public void testGetMinimumWeightPerfectMatchingTwoNodes() {
+        PerfectMatchingSolverService perfectMatchingSolverService = KolmogorovWeightedPerfectMatchingImpl.getInstance();
+
         List<Point> nodes = new ArrayList<>();
         nodes.add(new Point("0", 0, 0));
         nodes.add(new Point("1", 1, 1));
@@ -50,6 +54,8 @@ public class KolmogorovWeightedPerfectMatchingImplTest {
 
     @Test
     public void testGetMinimumWeightPerfectMatchingWithOddNodes() {
+        PerfectMatchingSolverService perfectMatchingSolverService = KolmogorovWeightedPerfectMatchingImpl.getInstance();
+
         List<Point> nodes = new ArrayList<>();
         nodes.add(new Point("0", 0, 0));
         nodes.add(new Point("1", 1, 1));

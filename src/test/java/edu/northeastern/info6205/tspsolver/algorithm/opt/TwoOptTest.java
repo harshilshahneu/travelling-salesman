@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import edu.northeastern.info6205.tspsolver.model.Edge;
+import edu.northeastern.info6205.tspsolver.service.CSVParserService;
+import edu.northeastern.info6205.tspsolver.service.impl.CSVParserServiceImpl;
+import edu.northeastern.info6205.tspsolver.util.PointUtil;
 import org.junit.Test;
 
 import edu.northeastern.info6205.tspsolver.model.Point;
@@ -22,53 +24,41 @@ public class TwoOptTest {
         tour.add(new Point("",0, 1));
         tour.add(new Point("",1, 1));
 
-        double initialTourCost = 0;
-        for (int i=0; i<tour.size() - 1; i++) {
-            Edge edge = new Edge(tour.get(i), tour.get(i+1));
-            initialTourCost += edge.getDistance();
-        }
-
         TwoOpt twoOpt = new TwoOpt(tour, 1, 10);
         twoOpt.improve();
         List<Point> improvedTour = twoOpt.getImprovedTour();
 
-        double improvedTourCost = 0;
-        for (int i=0; i<improvedTour.size() - 1; i++) {
-            Edge edge = new Edge(improvedTour.get(i), improvedTour.get(i+1));
-            improvedTourCost += edge.getDistance();
-        }
-        assertTrue(improvedTourCost < initialTourCost);
+        assertTrue(PointUtil.getTotalCost(improvedTour) < PointUtil.getTotalCost(tour));
     }
 
     @Test
     public void testStrategy1WithBudget1() {
-        List<Point> tour = new ArrayList<>();
-        tour.add(new Point("",0, 0));
-        tour.add(new Point("",1, 0));
-        tour.add(new Point("",2, 2));
-        tour.add(new Point("",0, 1));
-        tour.add(new Point("",1, 1));
-
-        double initialTourCost = 0;
-        for (int i=0; i<tour.size() - 1; i++) {
-            Edge edge = new Edge(tour.get(i), tour.get(i+1));
-            initialTourCost += edge.getDistance();
-        }
+        CSVParserService csvService = CSVParserServiceImpl.getInstance();
+        List<Point> tour = csvService.parsePoints("src/test/resources/data/tsp-test-mumbai.csv");
 
         TwoOpt twoOpt = new TwoOpt(tour, 1, 1);
         twoOpt.improve();
         List<Point> improvedTour = twoOpt.getImprovedTour();
 
-        double improvedTourCost = 0;
-        for (int i=0; i<improvedTour.size() - 1; i++) {
-            Edge edge = new Edge(improvedTour.get(i), improvedTour.get(i+1));
-            improvedTourCost += edge.getDistance();
-        }
-        assertTrue(improvedTourCost <= initialTourCost);
+        assertTrue(PointUtil.getTotalCost(improvedTour) <= PointUtil.getTotalCost(tour));
     }
 
     @Test
-    public void testStrategy2() {
+    public void strategy2OptimalInputTest() {
+
+        List<Point> tour = new ArrayList<>();
+        tour.add(new Point("",0, 0));
+        tour.add(new Point("",1, 0));
+        tour.add(new Point("",2, 2));
+        TwoOpt twoOpt = new TwoOpt(tour, 2, 0);
+        twoOpt.improve();
+        List<Point> improvedTour = twoOpt.getImprovedTour();
+
+        assertTrue(PointUtil.getTotalCost(improvedTour) == PointUtil.getTotalCost(tour));
+    }
+
+    @Test
+    public void strategy2NonOptimalInputTest() {
 
         List<Point> tour = new ArrayList<>();
         tour.add(new Point("",0, 0));
@@ -80,19 +70,7 @@ public class TwoOptTest {
         twoOpt.improve();
         List<Point> improvedTour = twoOpt.getImprovedTour();
 
-        double intitalTourCost = 0;
-        for (int i=0; i<tour.size() - 1; i++) {
-            Edge edge = new Edge(tour.get(i), tour.get(i+1));
-            intitalTourCost += edge.getDistance();
-        }
-
-        double improvedTourCost = 0;
-        for (int i=0; i<improvedTour.size() - 1; i++) {
-            Edge edge = new Edge(improvedTour.get(i), improvedTour.get(i+1));
-            improvedTourCost += edge.getDistance();
-        }
-
-        assertTrue(intitalTourCost > improvedTourCost);
+        assertTrue(PointUtil.getTotalCost(improvedTour) < PointUtil.getTotalCost(tour));
     }
 
     @Test
@@ -104,4 +82,3 @@ public class TwoOptTest {
         assertEquals(4, improvedTour.size());
     }
 }
-

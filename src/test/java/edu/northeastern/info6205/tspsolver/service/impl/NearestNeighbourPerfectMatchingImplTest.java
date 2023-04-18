@@ -7,6 +7,5 @@ public class NearestNeighbourPerfectMatchingImplTest {
     @Test
     @Disabled("This test case needs to be implemented")
     public void test() {
-
     }
 }

@@ -8,7 +8,10 @@ import org.junit.Test;
 import edu.northeastern.info6205.tspsolver.model.Edge;
 import edu.northeastern.info6205.tspsolver.model.Point;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 public class PrimsMSTTest {
     private List<Point> nodes;
@@ -118,4 +121,3 @@ public class PrimsMSTTest {
         });
     }
 }
-

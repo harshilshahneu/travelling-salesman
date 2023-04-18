@@ -14,7 +14,7 @@ import static org.junit.Assert.assertNotNull;
 public class OneTreeTest {
 
     @Test
-    public void testBuildOneTree() {
+    public void buildOneTreeTest() {
         List<Point> nodes = new ArrayList<>();
         nodes.add(new Point("", 0, 0));
         nodes.add(new Point("", 0, 1));
@@ -30,7 +30,7 @@ public class OneTreeTest {
     }
 
     @Test
-    public void testGetMaxOneTree() {
+    public void getMaxOneTreeTest() {
         List<Point> nodes = new ArrayList<>();
         nodes.add(new Point("", 0, 0));
         nodes.add(new Point("", 0, 1));
@@ -41,7 +41,4 @@ public class OneTreeTest {
         assertEquals(expectedMaxOneTreeCost, OneTree.getMaxOneTreeCost(), 0.0001);
         assertNotNull(maxOneTree);
     }
-
-
-
 }

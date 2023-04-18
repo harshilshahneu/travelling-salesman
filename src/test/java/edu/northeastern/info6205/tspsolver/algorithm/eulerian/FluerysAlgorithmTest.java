@@ -2,14 +2,14 @@ package edu.northeastern.info6205.tspsolver.algorithm.eulerian;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FluerysAlgorithmTest {
-
 
     @Test
     public void testAddEdge() {
