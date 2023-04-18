@@ -1,3 +1,6 @@
+High Priority:
+Merge code into Main branch
+
 Low priority:
 Progress Bar to show progress of algorithms
 Show output metrics in UI after API call finishes
