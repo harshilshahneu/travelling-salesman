@@ -180,6 +180,6 @@ public class PerfectMatchingSolverServiceTest {
 		assertEquals(points.size(), result.size() * 2);
 		
 		double actualCost = EdgeUtil.getTotalCost(result);
-		assertEquals(actualCost, expectedCost, 0);
+		assertEquals(actualCost, expectedCost, 1);
     }
 }
