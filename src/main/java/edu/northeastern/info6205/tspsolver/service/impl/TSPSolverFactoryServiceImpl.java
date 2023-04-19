@@ -54,7 +54,7 @@ public class TSPSolverFactoryServiceImpl implements TSPSolverFactoryService {
 		
 		// This condition should never happen but still keeping for safety
 		if (service == null) {
-			LOGGER.error("no suitable tsp service found for identifier: {}", identifier);
+			LOGGER.warn("no suitable tsp service found for identifier: {}", identifier);
 		}
 		
 		return service;

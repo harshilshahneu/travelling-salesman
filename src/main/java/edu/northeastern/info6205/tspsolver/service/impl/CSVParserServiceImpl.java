@@ -86,7 +86,7 @@ public class CSVParserServiceImpl implements CSVParserService {
 					.map(headerList::indexOf)
 					.orElse(-1);
 			if (placeIdIndex == -1) {
-				LOGGER.error("Header list does not contain single column matching: {}", Constant.ID);
+				LOGGER.warn("Header list does not contain single column matching: {}", Constant.ID);
 			}
 
 			LOGGER.trace(

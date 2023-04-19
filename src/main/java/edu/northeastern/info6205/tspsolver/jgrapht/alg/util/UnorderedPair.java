@@ -15,6 +15,7 @@ public class UnorderedPair<A, B> extends Pair<A, B> implements Serializable {
 		return "{" + first + "," + second + "}";
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

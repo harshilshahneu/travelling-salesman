@@ -359,78 +359,9 @@ public class TSPSolverServiceTest {
     }
     
     @Test
-    public void ACOThreeOpt_bigDataTest() {
-    	ACOThreeOpt_dataTest(Constant.TEST_DATA_FILE_BIG);
-    }
-
-	private void ACOThreeOpt_dataTest(String dataFileName) {
-		CSVParserService csvParserService = CSVParserServiceImpl.getInstance();
-    	List<Point> points = csvParserService.parsePoints(dataFileName);
-		
-    	TSPPayload payload = new TSPPayload();
-    	
-    	ThreeOptPayload threeOptPayload = new ThreeOptPayload();
-    	threeOptPayload.setStrategy(1);
-    	threeOptPayload.setBudget(10000);
-    	payload.setThreeOptPayload(threeOptPayload);
-    	
-    	AntColonyOptimazationPayload antColonyOptimazationPayload = new AntColonyOptimazationPayload();
-    	antColonyOptimazationPayload.setNumberOfAnts(10);
-		antColonyOptimazationPayload.setPhermoneExponent(1);
-		antColonyOptimazationPayload.setHeuristicExponent(2);
-		antColonyOptimazationPayload.setPhermoneEvaporationRate(0.1);
-		antColonyOptimazationPayload.setPhermoneDepositFactor(1);
-		antColonyOptimazationPayload.setNumberOfIterations(20);
-		antColonyOptimazationPayload.setMaxImprovementIterations(1000);
-    	payload.setAntColonyOptimazationPayload(antColonyOptimazationPayload);
-    	
-    	TSPSolverService instance = TSPACOThreeOptSolverServiceImpl.getInstance();
-    	List<Point> tspTour = instance.solve(points, 0, payload);
-        double tspTourCost = PointUtil.getTotalCost(tspTour);
-
-    	PrimsMST primsMst = new PrimsMST(points);
-        double mstCost = primsMst.getMstCost();
-        
-        double percentage = ((tspTourCost - mstCost)/mstCost) * 100;
-        assertTrue(percentage < 100);
-	}
-    
-    @Test
     public void AntColonyOptimzation_smallDataTest() {
     	AntColonyOptimzation_dataTest(Constant.TEST_DATA_FILE_SMALL);
     }
-    
-    @Test
-    public void AntColonyOptimzation_bigDataTest() {
-    	AntColonyOptimzation_dataTest(Constant.TEST_DATA_FILE_BIG);
-    }
-
-	private void AntColonyOptimzation_dataTest(String dataFileName) {
-		CSVParserService csvParserService = CSVParserServiceImpl.getInstance();
-    	List<Point> points = csvParserService.parsePoints(dataFileName);
-		
-    	TSPPayload payload = new TSPPayload();
-    	
-    	AntColonyOptimazationPayload antColonyOptimazationPayload = new AntColonyOptimazationPayload();
-    	antColonyOptimazationPayload.setNumberOfAnts(10);
-		antColonyOptimazationPayload.setPhermoneExponent(1);
-		antColonyOptimazationPayload.setHeuristicExponent(2);
-		antColonyOptimazationPayload.setPhermoneEvaporationRate(0.1);
-		antColonyOptimazationPayload.setPhermoneDepositFactor(1);
-		antColonyOptimazationPayload.setNumberOfIterations(20);
-		antColonyOptimazationPayload.setMaxImprovementIterations(1000);
-    	payload.setAntColonyOptimazationPayload(antColonyOptimazationPayload);
-    	
-    	TSPSolverService instance = TSPAntColonyOptimzationSolverServiceImpl.getInstance();
-    	List<Point> tspTour = instance.solve(points, 0, payload);
-        double tspTourCost = PointUtil.getTotalCost(tspTour);
-
-    	PrimsMST primsMst = new PrimsMST(points);
-        double mstCost = primsMst.getMstCost();
-        
-        double percentage = ((tspTourCost - mstCost)/mstCost) * 100;
-        assertTrue(percentage < 100);
-	}
     
     @Test
     public void Christofides_smallDataTest() {
@@ -438,60 +369,9 @@ public class TSPSolverServiceTest {
     }
     
     @Test
-    public void Christofides_bigDataTest() {
-    	Christofides_dataTest(Constant.TEST_DATA_FILE_BIG);
-    }
-
-	private void Christofides_dataTest(String dataFileName) {
-		CSVParserService csvParserService = CSVParserServiceImpl.getInstance();
-    	List<Point> points = csvParserService.parsePoints(dataFileName);
-		
-    	TSPPayload payload = new TSPPayload();
-    	
-    	TSPSolverService instance = TSPChristofidesSolverServiceImpl.getInstance();
-    	List<Point> tspTour = instance.solve(points, 0, payload);
-        double tspTourCost = PointUtil.getTotalCost(tspTour);
-
-    	PrimsMST primsMst = new PrimsMST(points);
-        double mstCost = primsMst.getMstCost();
-        
-        double percentage = ((tspTourCost - mstCost)/mstCost) * 100;
-        assertTrue(percentage < 100);
-	}
-	
-    @Test
     public void SimulatedAnnealing_smallDataTest() {
     	SimulatedAnnealing_dataTest(Constant.TEST_DATA_FILE_SMALL);
     }
-    
-    @Test
-    public void SimulatedAnnealing_bigDataTest() {
-    	SimulatedAnnealing_dataTest(Constant.TEST_DATA_FILE_BIG);
-    }
-
-	private void SimulatedAnnealing_dataTest(String dataFileName) {
-		CSVParserService csvParserService = CSVParserServiceImpl.getInstance();
-    	List<Point> points = csvParserService.parsePoints(dataFileName);
-		
-    	TSPPayload payload = new TSPPayload();
-    	
-    	SimulatedAnnealingPayload annealingPayload = new SimulatedAnnealingPayload();
-    	annealingPayload.setMaxIteration(1000000);
-    	annealingPayload.setStartingTemperature(1000);
-    	annealingPayload.setFinalTemperature(1);
-    	annealingPayload.setCoolingRate(0.9995);
-    	payload.setSimulatedAnnealingPayload(annealingPayload);
-    	
-    	TSPSolverService instance = TSPSimulatedAnnealingSolverServiceImpl.getInstance();
-    	List<Point> tspTour = instance.solve(points, 0, payload);
-        double tspTourCost = PointUtil.getTotalCost(tspTour);
-
-    	PrimsMST primsMst = new PrimsMST(points);
-        double mstCost = primsMst.getMstCost();
-        
-        double percentage = ((tspTourCost - mstCost)/mstCost) * 100;
-        assertTrue(percentage < 100);
-	}
     
     @Test
     public void ThreeOpt_smallDataStrategy1Test() {
@@ -514,6 +394,41 @@ public class TSPSolverServiceTest {
     }
     
     @Test
+    public void TwoOpt_smallDataStrategy1Test() {
+    	TwoOpt_dataTest(Constant.TEST_DATA_FILE_SMALL, 1);
+    }
+    
+    @Test
+    public void TwoOpt_smallDataStrategy2Test() {
+    	TwoOpt_dataTest(Constant.TEST_DATA_FILE_SMALL, 2);
+    }
+    
+    @Test
+    public void TwoOpt_smallDataStrategy3Test() {
+    	TwoOpt_dataTest(Constant.TEST_DATA_FILE_SMALL, 3);
+    }
+    
+    @Test
+    public void ACOThreeOpt_bigDataTest() {
+    	ACOThreeOpt_dataTest(Constant.TEST_DATA_FILE_BIG);
+    }
+    
+    @Test
+    public void AntColonyOptimzation_bigDataTest() {
+    	AntColonyOptimzation_dataTest(Constant.TEST_DATA_FILE_BIG);
+    }
+    
+    @Test
+    public void Christofides_bigDataTest() {
+    	Christofides_dataTest(Constant.TEST_DATA_FILE_BIG);
+    }
+    
+    @Test
+    public void SimulatedAnnealing_bigDataTest() {
+    	SimulatedAnnealing_dataTest(Constant.TEST_DATA_FILE_BIG);
+    }
+    
+    @Test
     public void ThreeOpt_bigDataTestStrategy1Test() {
     	ThreeOpt_dataTest(Constant.TEST_DATA_FILE_BIG, 1);
     }
@@ -533,43 +448,6 @@ public class TSPSolverServiceTest {
     	ThreeOpt_dataTest(Constant.TEST_DATA_FILE_BIG, 4);
     }
     
-    private void ThreeOpt_dataTest(String dataFileName, int strategy) {
-		CSVParserService csvParserService = CSVParserServiceImpl.getInstance();
-    	List<Point> points = csvParserService.parsePoints(dataFileName);
-		
-    	TSPPayload payload = new TSPPayload();
-    	
-    	ThreeOptPayload threeOptPayload = new ThreeOptPayload();
-    	threeOptPayload.setStrategy(strategy);
-    	threeOptPayload.setBudget(10000);
-    	payload.setThreeOptPayload(threeOptPayload);
-    	
-    	TSPSolverService instance = TSPRandomThreeOptSolverServiceImpl.getInstance();
-    	List<Point> tspTour = instance.solve(points, 0, payload);
-        double tspTourCost = PointUtil.getTotalCost(tspTour);
-
-    	PrimsMST primsMst = new PrimsMST(points);
-        double mstCost = primsMst.getMstCost();
-        
-        double percentage = ((tspTourCost - mstCost)/mstCost) * 100;
-        assertTrue(percentage < 100);
-	}
-    
-    @Test
-    public void TwoOpt_smallDataStrategy1Test() {
-    	TwoOpt_dataTest(Constant.TEST_DATA_FILE_SMALL, 1);
-    }
-    
-    @Test
-    public void TwoOpt_smallDataStrategy2Test() {
-    	TwoOpt_dataTest(Constant.TEST_DATA_FILE_SMALL, 2);
-    }
-    
-    @Test
-    public void TwoOpt_smallDataStrategy3Test() {
-    	TwoOpt_dataTest(Constant.TEST_DATA_FILE_SMALL, 3);
-    }
-    
     @Test
     public void TwoOpt_bigDataTestStrategy1Test() {
     	TwoOpt_dataTest(Constant.TEST_DATA_FILE_BIG, 1);
@@ -584,11 +462,88 @@ public class TSPSolverServiceTest {
     public void TwoOpt_bigDataTestStrategy3Test() {
     	TwoOpt_dataTest(Constant.TEST_DATA_FILE_BIG, 3);
     }
+
+	private void ACOThreeOpt_dataTest(String dataFileName) {
+    	TSPPayload payload = new TSPPayload();
+    	
+    	ThreeOptPayload threeOptPayload = new ThreeOptPayload();
+    	threeOptPayload.setStrategy(1);
+    	threeOptPayload.setBudget(10000);
+    	payload.setThreeOptPayload(threeOptPayload);
+    	
+    	AntColonyOptimazationPayload antColonyOptimazationPayload = new AntColonyOptimazationPayload();
+    	antColonyOptimazationPayload.setNumberOfAnts(10);
+		antColonyOptimazationPayload.setPhermoneExponent(1);
+		antColonyOptimazationPayload.setHeuristicExponent(2);
+		antColonyOptimazationPayload.setPhermoneEvaporationRate(0.1);
+		antColonyOptimazationPayload.setPhermoneDepositFactor(1);
+		antColonyOptimazationPayload.setNumberOfIterations(20);
+		antColonyOptimazationPayload.setMaxImprovementIterations(1000);
+    	payload.setAntColonyOptimazationPayload(antColonyOptimazationPayload);
+    	
+    	dataTest(
+    			dataFileName, 
+    			payload, 
+    			TSPACOThreeOptSolverServiceImpl.getInstance());
+	}
+    
+	private void AntColonyOptimzation_dataTest(String dataFileName) {
+    	TSPPayload payload = new TSPPayload();
+    	
+    	AntColonyOptimazationPayload antColonyOptimazationPayload = new AntColonyOptimazationPayload();
+    	antColonyOptimazationPayload.setNumberOfAnts(10);
+		antColonyOptimazationPayload.setPhermoneExponent(1);
+		antColonyOptimazationPayload.setHeuristicExponent(2);
+		antColonyOptimazationPayload.setPhermoneEvaporationRate(0.1);
+		antColonyOptimazationPayload.setPhermoneDepositFactor(1);
+		antColonyOptimazationPayload.setNumberOfIterations(20);
+		antColonyOptimazationPayload.setMaxImprovementIterations(1000);
+    	payload.setAntColonyOptimazationPayload(antColonyOptimazationPayload);
+    	
+    	dataTest(
+    			dataFileName, 
+    			payload, 
+    			TSPAntColonyOptimzationSolverServiceImpl.getInstance());
+	}
+
+	private void Christofides_dataTest(String dataFileName) {
+    	dataTest(
+    			dataFileName, 
+    			null, 
+    			TSPChristofidesSolverServiceImpl.getInstance());
+	}
+
+	private void SimulatedAnnealing_dataTest(String dataFileName) {
+    	TSPPayload payload = new TSPPayload();
+    	
+    	SimulatedAnnealingPayload annealingPayload = new SimulatedAnnealingPayload();
+    	annealingPayload.setMaxIteration(1000000);
+    	annealingPayload.setStartingTemperature(1000);
+    	annealingPayload.setFinalTemperature(1);
+    	annealingPayload.setCoolingRate(0.9995);
+    	payload.setSimulatedAnnealingPayload(annealingPayload);
+    	
+    	dataTest(
+    			dataFileName, 
+    			payload, 
+    			TSPSimulatedAnnealingSolverServiceImpl.getInstance());
+	}
+    
+    private void ThreeOpt_dataTest(String dataFileName, int strategy) {
+    	TSPPayload payload = new TSPPayload();
+    	
+    	ThreeOptPayload threeOptPayload = new ThreeOptPayload();
+    	threeOptPayload.setStrategy(strategy);
+    	threeOptPayload.setBudget(10000);
+    	payload.setThreeOptPayload(threeOptPayload);
+    	
+        dataTest(
+    			dataFileName, 
+    			payload, 
+    			TSPRandomThreeOptSolverServiceImpl.getInstance());
+	}
     
     private void TwoOpt_dataTest(String dataFileName, int strategy) {
-		CSVParserService csvParserService = CSVParserServiceImpl.getInstance();
-    	List<Point> points = csvParserService.parsePoints(dataFileName);
-		
     	TSPPayload payload = new TSPPayload();
     	
     	TwoOptPayload twoOptPayload = new TwoOptPayload();
@@ -596,7 +551,19 @@ public class TSPSolverServiceTest {
     	twoOptPayload.setBudget(10000);
     	payload.setTwoOptPayload(twoOptPayload);
     	
-    	TSPSolverService instance = TSPRandomTwoOptSolverServiceImpl.getInstance();
+    	dataTest(
+    			dataFileName, 
+    			payload, 
+    			TSPRandomTwoOptSolverServiceImpl.getInstance());
+	}
+    
+    private void dataTest(
+    		String dataFileName,
+    		TSPPayload payload,
+    		TSPSolverService instance) {
+    	CSVParserService csvParserService = CSVParserServiceImpl.getInstance();
+    	List<Point> points = csvParserService.parsePoints(dataFileName);
+    	
     	List<Point> tspTour = instance.solve(points, 0, payload);
         double tspTourCost = PointUtil.getTotalCost(tspTour);
 
@@ -605,7 +572,7 @@ public class TSPSolverServiceTest {
         
         double percentage = ((tspTourCost - mstCost)/mstCost) * 100;
         assertTrue(percentage < 100);
-	}
+    }
 
 
 	

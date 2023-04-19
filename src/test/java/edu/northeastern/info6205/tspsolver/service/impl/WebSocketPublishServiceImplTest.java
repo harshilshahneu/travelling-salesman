@@ -2,10 +2,11 @@ package edu.northeastern.info6205.tspsolver.service.impl;
 
 import edu.northeastern.info6205.tspsolver.model.Action;
 import edu.northeastern.info6205.tspsolver.service.WebSocketPublishService;
-import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
+import org.junit.jupiter.api.Test;
 
 public class WebSocketPublishServiceImplTest {
 	
