@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Configuration status="DEBUG" strict="true" monitorInterval="1">
+	<Properties>
+		<Property name="logDir" value="./logs" />
+		<Property name="logFilename" value="info-6205-final-project" />
+		<Property name="logFilenameExtension" value=".log" />
+		
+		<Property name="logLevel" value="INFO" />
+	</Properties>
+	
+	<Appenders>
+		<Appender type="RollingFile" name="RollingFile"
+			fileName="${logDir}/${logFilename}${logFilenameExtension}"
+			filePattern="${logDir}/${logFilename}-%d{yyyy.MM.dd}-%i${logFilenameExtension}">
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+			</Policies>
+			<DefaultRolloverStrategy max="200000" />
+			<Layout type="PatternLayout" pattern="%d [%thread] [%level] [%C{1}.%M()-%L] %message%n" />
+		</Appender>
+
+		<Appender type="Console" name="Console" target="SYSTEM_OUT">
+			<Layout type="PatternLayout" pattern="%d [%thread] [%level] [%C{1}.%M()-%L] %message%n" />
+		</Appender>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="edu.northeastern.info6205" level="${logLevel}" additivity="false" >
+			<AppenderRef ref="RollingFile" />
+			<AppenderRef ref="Console" />
+		</Logger>
+
+		<Root level="ERROR">
+			<AppenderRef ref="RollingFile" />
+			<AppenderRef ref="Console" />
+		</Root>
+	</Loggers>
+</Configuration>

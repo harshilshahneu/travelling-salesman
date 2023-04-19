@@ -1,0 +1,11 @@
+[PERFORMANCE METRIC --- START -----]
+keyIdentifier : ant-colony-three-opt
+points size : 585
+startingPointIndex : 0
+payload : TSPPayload [twoOptPayload=TwoOptPayload [strategy=1, budget=10000], threeOptPayload=ThreeOptPayload [strategy=3, budget=100000], simulatedAnnealingPayload=SimulatedAnnealingPayload [maxIteration=1000000, startingTemperature=1000.0, finalTemperature=1.0, coolingRate=0.9995], antColonyOptimazationPayload=AntColonyOptimazationPayload [numberOfAnts=10, phermoneExponent=1.0, heuristicExponent=2.0, phermoneEvaporationRate=0.1, phermoneDepositFactor=1.0, numberOfIterations=20, maxImprovementIterations=1000]]
+TSP Tour Size : 586
+mstCost : 513326.0953990727
+tspTourCost : 609944.6779660139
+percentage (compared to MST) : 18.822067187491704
+Millseconds Taken : 54009
+[PERFORMANCE METRIC --- END  -----]

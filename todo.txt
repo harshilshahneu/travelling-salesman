@@ -1,0 +1,14 @@
+High Priority:
+Merge code into Main branch
+
+Low priority:
+Progress Bar to show progress of algorithms
+Show output metrics in UI after API call finishes
+Show intermediate states of algorithms
+Graphical data of all algorithms with decreasing cost
+re-establish socket connection on failure (Reconnect button + connection active logo)
+draw tsp tour with animation when calling the animate button
+
+
+Lowest priority:
+Change username and email in all commits according to Northeastern credentials
